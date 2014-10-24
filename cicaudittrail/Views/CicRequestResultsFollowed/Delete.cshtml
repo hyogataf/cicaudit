@@ -1,0 +1,35 @@
+@model cicaudittrail.Models.CicRequestResultsFollowed
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>CicRequestResultsFollowed</legend>
+
+    <div class="display-label">CicRequest</div>
+    <div class="display-field">@(Model.CicRequest == null ? "None" : Model.CicRequest.Libelle)</div>
+
+    <div class="display-label">RowContent</div>
+    <div class="display-field">@Model.RowContent</div>
+
+    <div class="display-label">DateCreated</div>
+    <div class="display-field">@String.Format("{0:g}", Model.DateCreated)</div>
+
+    <div class="display-label">UserCreated</div>
+    <div class="display-field">@Model.UserCreated</div>
+
+    <div class="display-label">Comments</div>
+    <div class="display-field">@Model.Comments</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

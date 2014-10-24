@@ -1,0 +1,23 @@
+@model cicaudittrail.Models.CicRequestResults
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>CicRequestResults</legend>
+
+    <div class="display-label">row</div>
+    <div class="display-field">@Model.row</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

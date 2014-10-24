@@ -1,0 +1,20 @@
+@model cicaudittrail.Models.CicRequestResults
+
+@{
+    ViewBag.Title = "Consultation CicRequestResults";
+}
+
+<h2>Consultation CicRequestResults</h2>
+
+<fieldset>
+   
+
+    <div class="display-label">row</div>
+    <div class="display-field">@Model.row</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.CicRequestResultsId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

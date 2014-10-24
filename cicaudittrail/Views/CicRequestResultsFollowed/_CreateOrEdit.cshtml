@@ -1,0 +1,59 @@
+@model cicaudittrail.Models.CicRequestResultsFollowed
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.RowContent)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.RowContent, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.RowContent, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.DateCreated)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.DateCreated, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.DateCreated, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.UserCreated)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.UserCreated, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.UserCreated, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.Comments)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.Comments, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Comments, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="editor-label">
+    CicRequest
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.CicRequestId, ((IEnumerable<cicaudittrail.Models.CicRequest>)ViewBag.PossibleCicRequest).Select(option => new SelectListItem {
+        Text = (option == null ? "None" : option.Libelle), 
+        Value = option.CicRequestId.ToString(),
+        Selected = (Model != null) && (option.CicRequestId == Model.CicRequestId)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.CicRequestId)
+</div>

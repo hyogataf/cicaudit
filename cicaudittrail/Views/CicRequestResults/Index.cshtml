@@ -1,0 +1,39 @@
+@model IEnumerable<cicaudittrail.Models.CicRequestResults>
+
+@{
+    ViewBag.Title = "Liste CicRequestResultss";
+}
+
+<h2>Liste CicRequestResultss</h2>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"> @Html.ActionLink("Nouveau CicRequestResults", "Create")</div>
+
+  <!-- Table -->
+  <table class="table">
+  <tr>
+  <th></th>
+          <th>  
+            @Html.DisplayNameFor(model => model.row)
+        </th>
+ 
+   </tr>
+
+   @foreach (var item in Model) {
+   <tr>
+           <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CicRequestResultsId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CicRequestResultsId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CicRequestResultsId })
+        </td>
+        <td>
+			@item.row
+        </td>
+
+
+    </tr>
+   }
+  </table>
+</div>
+ 

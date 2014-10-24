@@ -1,0 +1,75 @@
+@model cicaudittrail.Models.CicRequestExecution
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.CicRequestUserUpdated)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.CicRequestUserUpdated)
+    @Html.ValidationMessageFor(model => model.CicRequestUserUpdated)
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.CicRequestDateUpdated)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.CicRequestDateUpdated)
+    @Html.ValidationMessageFor(model => model.CicRequestDateUpdated)
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.CicRequestUserExecuted)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.CicRequestUserExecuted)
+    @Html.ValidationMessageFor(model => model.CicRequestUserExecuted)
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.CicRequestDateExecuted)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.CicRequestDateExecuted)
+    @Html.ValidationMessageFor(model => model.CicRequestDateExecuted)
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.CicRequestUserDeleted)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.CicRequestUserDeleted)
+    @Html.ValidationMessageFor(model => model.CicRequestUserDeleted)
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.CicRequestDateDeleted)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.CicRequestDateDeleted)
+    @Html.ValidationMessageFor(model => model.CicRequestDateDeleted)
+</div>
+</div>
+
+<div class="editor-label">
+    CicRequest
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.CicRequestId, ((IEnumerable<cicaudittrail.Models.CicRequest>)ViewBag.PossibleCicRequest).Select(option => new SelectListItem {
+        Text = (option == null ? "None" : option.Libelle), 
+        Value = option.CicRequestId.ToString(),
+        Selected = (Model != null) && (option.CicRequestId == Model.CicRequestId)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.CicRequestId)
+</div>

@@ -1,0 +1,29 @@
+@model cicaudittrail.Models.CicRequest
+@* This partial view defines form fields that will appear when creating and editing entities *@
+<div class="form-group">
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Code)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Code, null, new { @class = "has-error" })
+    </div>
+</div>
+<div class="form-group">
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Libelle)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.Libelle, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Libelle, null, new { @class = "has-error" })
+    </div>
+</div>
+<div class="form-group">
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Request)
+    </div>
+    <div class="editor-field">
+        @Html.TextAreaFor(model => model.Request, new { @rows = 8, @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Request, null, new { @class = "has-error" })
+    </div>
+</div>

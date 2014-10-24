@@ -1,0 +1,55 @@
+@model IEnumerable<object[]>
+@{
+    ViewBag.Title = "Listes requêtes";
+}
+<h2>
+    Liste requêtes</h2>
+
+@if (TempData["error"] != null) {
+    <div class="alert alert-danger" role="alert">
+        @TempData["error"]
+    </div>
+}
+@if (TempData["message"] != null) {
+    <div class="alert alert-success" role="alert">
+        @TempData["message"]
+    </div>
+}
+@if (TempData["warning"] != null) {
+    <div class="alert alert-warning" role="alert">
+        @TempData["warning"]
+    </div>
+}
+
+<div class="createLink">
+    <span class="label label-info">@Html.ActionLink("Nouvelle requête", "Create")</span>
+</div>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <!-- Table -->
+    <table class="table"> 
+            @{ var count = 0; }
+            @foreach (var row in Model)
+            {
+                <tr>
+                    @if (count == 0)
+                    {
+                        foreach (var column in row)
+                        {
+                            <th>@column
+                        </th>
+                        }
+                    }
+                    else
+                    { 
+                        foreach (var column in row)
+                        {
+                            <td>@column
+                        </td>
+                        }
+                    }
+                </tr>
+                    count++;
+            } 
+    </table>
+</div>

@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CicRequest" xml:space="preserve">
+    <value>Requête</value>
+  </data>
+  <data name="CicRequestCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="CicRequestCodeRequired" xml:space="preserve">
+    <value>Veuillez saisir le code</value>
+  </data>
+  <data name="CicRequestDateCreated" xml:space="preserve">
+    <value>Date création</value>
+  </data>
+  <data name="CicRequestDateUpdated" xml:space="preserve">
+    <value>Date modification</value>
+  </data>
+  <data name="CicRequestExecutionCicRequest" xml:space="preserve">
+    <value>Requête</value>
+  </data>
+  <data name="CicRequestExecutionCicRequestId" xml:space="preserve">
+    <value>Requête</value>
+  </data>
+  <data name="CicRequestExecutionCicRequestResultsFollowed" xml:space="preserve">
+    <value>Element suivi</value>
+  </data>
+  <data name="CicRequestExecutionCicRequestResultsFollowedId" xml:space="preserve">
+    <value>Element suivi</value>
+  </data>
+  <data name="CicRequestExecutionDateDeleted" xml:space="preserve">
+    <value>Date suppression</value>
+  </data>
+  <data name="CicRequestExecutionDateExecuted" xml:space="preserve">
+    <value>Exécutée le</value>
+  </data>
+  <data name="CicRequestExecutionDateFollowed" xml:space="preserve">
+    <value>Date suivi</value>
+  </data>
+  <data name="CicRequestExecutionDateUpdated" xml:space="preserve">
+    <value>Modifiée le</value>
+  </data>
+  <data name="CicRequestExecutionUserDeleted" xml:space="preserve">
+    <value>Supprimée par</value>
+  </data>
+  <data name="CicRequestExecutionUserExecuted" xml:space="preserve">
+    <value>Exécutée par</value>
+  </data>
+  <data name="CicRequestExecutionUserFollowed" xml:space="preserve">
+    <value>Suivie par</value>
+  </data>
+  <data name="CicRequestExecutionUserUpdated" xml:space="preserve">
+    <value>Modifée par</value>
+  </data>
+  <data name="CicRequestLibelle" xml:space="preserve">
+    <value>Intitulé</value>
+  </data>
+  <data name="CicRequestLibelleRequired" xml:space="preserve">
+    <value>Veuillez saisir le libellé</value>
+  </data>
+  <data name="CicRequestRequest" xml:space="preserve">
+    <value>Requête</value>
+  </data>
+  <data name="CicRequestRequestRequired" xml:space="preserve">
+    <value>Veuillez saisir la requête à exécuter</value>
+  </data>
+  <data name="CicRequestResultsFollowedCicRequest" xml:space="preserve">
+    <value>Requête concernée</value>
+  </data>
+  <data name="CicRequestResultsFollowedComments" xml:space="preserve">
+    <value>Commentaires</value>
+  </data>
+  <data name="CicRequestResultsFollowedDateCreated" xml:space="preserve">
+    <value>Effectué le</value>
+  </data>
+  <data name="CicRequestResultsFollowedRowCCicRequestResultsFollowedRowContent" xml:space="preserve">
+    <value>Contenu</value>
+  </data>
+  <data name="CicRequestResultsFollowedSearchTitle" xml:space="preserve">
+    <value>Recherche de suivis effectués</value>
+  </data>
+  <data name="CicRequestResultsFollowedUserCreated" xml:space="preserve">
+    <value>Effectué par</value>
+  </data>
+  <data name="CicRequestUserCreated" xml:space="preserve">
+    <value>Créé par</value>
+  </data>
+  <data name="CicRequestUserUpdated" xml:space="preserve">
+    <value>Modifié par</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Rôle</value>
+  </data>
+  <data name="RoleNameRequired" xml:space="preserve">
+    <value>Veuillez saisir l'intitulé du rôle</value>
+  </data>
+  <data name="UserMatricule" xml:space="preserve">
+    <value>Matricule</value>
+  </data>
+  <data name="UserMatriculeRequired" xml:space="preserve">
+    <value>Veuillez saisir le matricule de l'agent</value>
+  </data>
+  <data name="UserNom" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="UserPrenom" xml:space="preserve">
+    <value>Prénom</value>
+  </data>
+</root>

@@ -1,0 +1,68 @@
+﻿.panel-heading
+{
+    text-align: right;
+}
+
+.has-error 
+{
+    color: Red;
+    }
+
+
+.btn-primary a {
+	color: White;
+	text-decoration: none;
+}
+
+.btn-default a {
+	color: Black;
+	text-decoration: none;
+}
+
+.btn-success a {
+	color: White;
+	text-decoration: none;
+}
+
+.btn-warning a {
+	color: White;
+	text-decoration: none;
+}
+
+.createLink {
+	margin: 10px;
+	text-align: right;
+	font-size: 18px
+}
+
+.createLink .label {
+
+}
+
+.createLink a {
+	color: White;
+	text-decoration: none;
+}
+
+
+.form-control {
+	cursor: auto !important;
+}
+
+
+.upButton {
+text-align: right;
+margin: 20px 0px 25px 0px;
+}
+
+table th { 
+	text-align: center;
+}
+
+fieldset {
+margin-top: 15px;
+}
+
+h3.subtitle {
+	text-align: right
+}

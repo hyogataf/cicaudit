@@ -1,0 +1,25 @@
+@model cicaudittrail.Models.CicRequestExecution
+
+@{
+    ViewBag.Title = "Modification CicRequestExecution";
+}
+
+<h2>Modification CicRequestExecution</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>CicRequestExecution</legend>
+
+        @Html.HiddenFor(model => model.CicRequestExecutionId)
+		@Html.Partial("_CreateOrEdit", Model)
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

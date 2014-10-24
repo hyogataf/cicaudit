@@ -1,0 +1,26 @@
+@model cicaudittrail.Models.CicRequestResults
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.row)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.row, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.row, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="editor-label">
+    CicRequest
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.CicRequestId, ((IEnumerable<cicaudittrail.Models.CicRequest>)ViewBag.PossibleCicRequest).Select(option => new SelectListItem {
+        Text = (option == null ? "None" : option.Libelle), 
+        Value = option.CicRequestId.ToString(),
+        Selected = (Model != null) && (option.CicRequestId == Model.CicRequestId)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.CicRequestId)
+</div>

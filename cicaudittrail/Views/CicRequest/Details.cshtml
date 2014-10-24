@@ -1,0 +1,148 @@
+@model cicaudittrail.Models.CicRequest
+@{
+    ViewBag.Title = "Consultation Requête";
+} 
+@Scripts.Render("~/bundles/jqueryuijs")@*
+@Styles.Render("~/Content/jqueryuicss")*@
+ 
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Consultation requête
+        </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["error"]
+    </div>
+}
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["message"]
+    </div>
+}
+@if (TempData["warning"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @TempData["warning"]
+    </div>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Détails requête
+            </div>
+            <div class="panel-body">
+                <div class="row" style="margin-left: -15px">
+                    <div class="col-lg-12">
+                        <fieldset disabled>
+                            <div class="form-group">
+                                <label for="Code">
+                                    Code
+                                </label>
+                                <input class="form-control" id="Code" type="text" placeholder="@Model.Code"
+            readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="Code">
+                                    Intitulé
+                                </label>
+                                <input class="form-control" id="Libelle" type="text" placeholder="@Model.Libelle"
+            readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="Code">
+                                    Requête
+                                </label>
+                                <textarea class="form-control" id="Request" placeholder="@Model.Request" rows="10"
+            readonly></textarea>
+                            </div>
+                        </fieldset>
+                        <p>
+                            <button type="button" class="btn btn-primary">
+                                @Html.ActionLink("Modifier", "Edit", new { id = Model.CicRequestId })
+                            </button>
+                            <button type="button" class="btn btn-success">
+                                @Html.ActionLink("Exécuter", "DetailsByRequest", "CicRequestResults", new { id = Model.CicRequestId }, null)
+                            </button>
+                            <button type="button" class="btn btn-default">
+                                @Html.ActionLink("Retour", "Index")
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Les accés à la requête
+            </div>
+            <div class="panel-body">
+                <div class="row" style="margin-left: -15px">
+                    <div class="col-lg-12"> 
+                            <table class="table table-striped table-bordered table-hover" id="accesTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Modifié par
+                                    </th>
+                                    <th>
+                                        Date modification
+                                    </th>
+                                    <th>
+                                        Executé par
+                                    </th>
+                                    <th>
+                                        Date exécution
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ var i = 0; }
+                                @foreach (var item in Model.CicRequestExecution)
+        {  
+                                    <tr class="@((i % 2) == 0 ? "" : "warning")">
+                                        <td>
+                                            @item.CicRequestUserUpdated
+                                        </td>
+                                        <td>
+                                            @if (item.CicRequestDateUpdated.HasValue)
+                    { 
+                                                @item.CicRequestDateUpdated.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                    }
+                                        </td>
+                                        <td>
+                                            @item.CicRequestUserExecuted
+                                        </td>
+                                        <td>
+                                            @if (item.CicRequestDateExecuted.HasValue)
+                    { 
+                                                @item.CicRequestDateExecuted.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                    }
+                                        </td>
+                                    </tr>
+                    i++;
+        }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ *@
+

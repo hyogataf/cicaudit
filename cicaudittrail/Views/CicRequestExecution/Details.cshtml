@@ -1,0 +1,138 @@
+@model cicaudittrail.Models.CicRequestExecution
+@{
+    ViewBag.Title = "Piste d'audit";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Piste d'audit
+        </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["error"]
+    </div>
+}
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["message"]
+    </div>
+}
+@if (TempData["warning"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @TempData["warning"]
+    </div>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+             
+            <div class="panel-body">
+                <div class="row" style="margin-left: -15px">
+                    <div class="col-lg-12">
+                        <fieldset disabled>
+                            <div class="form-group">
+                                <label for="CicRequest">
+                                    Requête
+                                </label>
+                                <input class="form-control" id="CicRequest" type="text" placeholder="@(Model.CicRequest == null ? "None" : Model.CicRequest.Libelle)"
+            readonly>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="CicRequestUserUpdated">
+                                        Modifié par
+                                    </label>
+                                    <input class="form-control" id="CicRequestUserUpdated" type="text" placeholder="@Model.CicRequestUserUpdated"
+            readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="CicRequestDateUpdated">
+                                        Le
+                                    </label>
+                                    <input class="form-control" id="CicRequestDateUpdated" type="text" placeholder="@String.Format("{0:g}", Model.CicRequestDateUpdated)"
+            readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="CicRequestUserExecuted">
+                                        Executé par
+                                    </label>
+                                    <input class="form-control" id="CicRequestUserExecuted" type="text" placeholder="@Model.CicRequestUserExecuted"
+            readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="CicRequestDateExecuted">
+                                        Le
+                                    </label>
+                                    <input class="form-control" id="CicRequestDateExecuted" type="text" placeholder="@String.Format("{0:g}", Model.CicRequestDateExecuted)"
+            readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                <label for="CicRequestUserDeleted">
+                                    Supprimé par
+                                </label>
+                                <input class="form-control" id="CicRequestUserDeleted" type="text" placeholder="@Model.CicRequestUserDeleted"
+            readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                <label for="CicRequestDateDeleted">
+                                    Le
+                                </label>
+                                <input class="form-control" id="CicRequestDateDeleted" type="text" placeholder="@String.Format("{0:g}", Model.CicRequestDateDeleted)"
+            readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                <label for="CicRequestResultsUserFollowed">
+                                    Suivi effectué par
+                                </label>
+                                <input class="form-control" id="CicRequestResultsUserFollowed" type="text" placeholder="@Model.CicRequestResultsUserFollowed"
+            readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                <label for="CicRequestResultsDateFollowed">
+                                    Le
+                                </label>
+                                <input class="form-control" id="CicRequestResultsDateFollowed" type="text" placeholder="@String.Format("{0:g}", Model.CicRequestResultsDateFollowed)"
+            readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                <label for="CicRequestResultsFollowed">
+                                    Commentaire suivi
+                                </label>
+                                <input class="form-control" id="CicRequestResultsFollowed" type="text" placeholder="@Html.DisplayTextFor(_ => Model.CicRequestResultsFollowed.Comments).ToString()"
+            readonly>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <p>
+                            <button type="button" class="btn btn-default">
+                                @Html.ActionLink("Retour", "Index")
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

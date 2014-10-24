@@ -1,0 +1,39 @@
+@model cicaudittrail.Models.CicRequestResultsFollowed
+@{
+    ViewBag.Title = "Modification CicRequestResultsFollowed";
+}
+<h2>
+    Modification CicRequestResultsFollowed</h2>
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["error"]
+    </div>
+}
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["message"]
+    </div>
+}
+@if (TempData["warning"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @TempData["warning"]
+    </div>
+}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>CicRequestResultsFollowed</legend>
+        @Html.HiddenFor(model => model.CicRequestResultsFollowedId)
+        @Html.Partial("_CreateOrEdit", Model)
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

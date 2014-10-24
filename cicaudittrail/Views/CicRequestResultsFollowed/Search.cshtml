@@ -1,0 +1,135 @@
+@model cicaudittrail.Models.CicRequestResultsFollowed
+
+@{
+    ViewBag.Title = HttpUtility.HtmlDecode(cicaudittrail.Resources.Properties.CicRequestResultsFollowedSearchTitle);
+    }
+@Scripts.Render("~/bundles/jqueryuijs")
+@Styles.Render("~/Content/jqueryuicss")
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        $.datepicker.setDefaults($.datepicker.regional['fr']);
+        $("#datepicker").datepicker();
+        $('#datepicker').datepicker('option', 'dateFormat', 'dd-mm-yy');
+        
+        $('input[type=submit]').click(function (e) {
+          
+            var CicRequestId = $('#CicRequestId').val();
+            var datepicker = $('#datepicker').val();
+            var UserCreated = $('#UserCreated').val();
+            var content = $('#content').val();
+
+            e.preventDefault();
+            $.ajax({ type: 'GET',
+                processData: true,
+                url: '@Url.Action("Executesearch", "CicRequestResultsFollowed")',
+                //data: $('form').serialize(),
+                data: { "CicRequestId": CicRequestId, "DateCreated": datepicker, "UserCreated": UserCreated, "content": content },
+                dataType: 'html',
+                success: function (data) {
+                    $('#resultsContent').html(data);
+                } //fin success
+            }); // fin $.ajax
+
+        }); //fin click
+
+    });
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header"> 
+            @Html.Raw(cicaudittrail.Resources.Properties.CicRequestResultsFollowedSearchTitle)
+        </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["error"]
+    </div>
+}
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["message"]
+    </div>
+}
+@if (TempData["warning"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @TempData["warning"]
+    </div>
+}
+@using (Html.BeginForm(/*"Executesearch", "CicRequestResultsFollowed", FormMethod.Post*/))
+{ 
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Basic Form Elements
+                </div>
+                <div class="panel-body">
+                    <div class="row" style="margin-left: -15px">
+                        <div class="col-lg-12">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="editor-label">
+                                        @Html.LabelFor(model => model.CicRequest)
+                                    </div>
+                                    <div class="editor-field">
+                                        @Html.DropDownListFor(model => model.CicRequestId, ((IEnumerable<cicaudittrail.Models.CicRequest>)ViewBag.PossibleCicRequest).Select(option => new SelectListItem
+       {
+           Text = (option == null ? "None" : option.Libelle),
+           Value = option.CicRequestId.ToString(),
+           Selected = (Model != null) && (option.CicRequestId == Model.CicRequestId)
+       }), " ", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="editor-label">
+                                        @Html.LabelFor(model => model.DateCreated)
+                                    </div>
+                                    <div class="editor-field">
+                                        @*@Html.TextBoxFor(model => model.DateCreated, new { @class = "" })*@
+                                        <input type="text" id="datepicker" name="DateCreated" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="editor-label">
+                                        @Html.LabelFor(model => model.UserCreated)
+                                    </div>
+                                    <div class="editor-field">
+                                        @Html.TextBoxFor(model => model.UserCreated, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="editor-label">
+                                        @Html.Label("Contenu suivi")
+                                    </div>
+                                    <div class="editor-field">
+                                        @Html.TextBox("content", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <p>
+        <input class="btn btn-primary" type="submit" value="Rechercher" id="searchButton">
+    </p> 
+}
+<div id="resultsContent">
+</div>
+<div id="followedContent">
+</div>

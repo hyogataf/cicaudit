@@ -1,0 +1,47 @@
+@model IEnumerable<cicaudittrail.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Matricule
+        </th>
+        <th>
+            Nom
+        </th>
+        <th>
+            Prenom
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserId })
+        </td>
+        <td>
+			@item.Matricule
+        </td>
+        <td>
+			@item.Nom
+        </td>
+        <td>
+			@item.Prenom
+        </td>
+    </tr>
+}
+
+</table>
+
+

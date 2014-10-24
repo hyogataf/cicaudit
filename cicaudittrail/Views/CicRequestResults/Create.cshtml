@@ -1,0 +1,25 @@
+@model cicaudittrail.Models.CicRequestResults
+
+@{
+    ViewBag.Title = "Création CicRequestResults";
+}
+
+<h2>Création CicRequestResults</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        
+		@Html.Partial("_CreateOrEdit", Model)
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+

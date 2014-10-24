@@ -1,0 +1,39 @@
+@model IEnumerable<cicaudittrail.Models.Role>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"> @Html.ActionLink("Ajoutez un Role", "Create")</div>
+
+  <!-- Table -->
+  <table class="table">
+  <tr>
+  <th></th>
+          <th>
+            Name
+        </th>
+ 
+   </tr>
+
+   @foreach (var item in Model) {
+   <tr>
+           <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RoleId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RoleId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RoleId })
+        </td>
+        <td>
+			@item.Name
+        </td>
+
+
+    </tr>
+   }
+  </table>
+</div>
+ 
