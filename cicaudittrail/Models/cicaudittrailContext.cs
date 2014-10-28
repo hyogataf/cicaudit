@@ -28,12 +28,14 @@ namespace cicaudittrail.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Role>().ToTable("ROLE", "BANK");
-            modelBuilder.Entity<User>().ToTable("USER", "BANK");
-            modelBuilder.Entity<CicRequest>().ToTable("CICREQUEST", "BANK");
-            modelBuilder.Entity<CicRequestExecution>().ToTable("CICREQUESTEXECUTION", "BANK");
-            modelBuilder.Entity<CicRequestResults>().ToTable("CICREQUESTRESULTS", "BANK");
-            modelBuilder.Entity<CicRequestResultsFollowed>().ToTable("CICREQUESTRESULTSFOLLOWED", "BANK");
+            var schemaName = ConfigurationManager.AppSettings["schemaName"];
+
+            modelBuilder.Entity<Role>().ToTable("ROLE", schemaName);
+            modelBuilder.Entity<User>().ToTable("USER", schemaName);
+            modelBuilder.Entity<CicRequest>().ToTable("CICREQUEST", schemaName);
+            modelBuilder.Entity<CicRequestExecution>().ToTable("CICREQUESTEXECUTION", schemaName);
+            modelBuilder.Entity<CicRequestResults>().ToTable("CICREQUESTRESULTS", schemaName);
+            modelBuilder.Entity<CicRequestResultsFollowed>().ToTable("CICREQUESTRESULTSFOLLOWED", schemaName);
            // modelBuilder.Conventions.Remove<ColumnTypeCasingConvention>();
 
         }
