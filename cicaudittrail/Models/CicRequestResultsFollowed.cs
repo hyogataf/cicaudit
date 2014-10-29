@@ -30,12 +30,20 @@ namespace cicaudittrail.Models
         [Display(Name = "CicRequestResultsFollowedUserCreated", ResourceType = typeof(Properties))]
         public string UserCreated { get; set; }
 
+        [Column("STATUT")]
+        [Display(Name = "CicRequestResultsFollowedStatut", ResourceType = typeof(Properties))]
+        //public Statut? Statut { get; set; } // Ne sait pas binder sous Oracle. So, utilise un string en attendant
+        public string Statut { get; set; }
+
         [Column("COMMENTS")]
         [Display(Name = "CicRequestResultsFollowedComments", ResourceType = typeof(Properties))]
         public string Comments { get; set; }
 
+    }
 
-
-
+    public enum Statut
+    {
+        E, A, ME, MR, S, C
+        //En attente, Annulé, Suspect, Centif tiré, Mail envoyé au gestionnaire, Mail repondu (par le gestionnaire)
     }
 }

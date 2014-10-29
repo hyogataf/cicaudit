@@ -30,12 +30,13 @@ namespace cicaudittrail.Models
         [Display(Name = "CicRequestRequest", ResourceType = typeof(Properties))] //label affiché [géré par le fichier Properties.resx]
         [Column("REQUEST")]
         [DataType(DataType.MultilineText)] // longtext
+        [CheckSql]
         public String Request { get; set; }
 
         public virtual ICollection<CicRequestExecution> CicRequestExecution { get; set; }
 
         public virtual ICollection<CicRequestResultsFollowed> CicRequestResultsFollowed { get; set; }
-         
+
         [ScaffoldColumn(false)] // champ pas affiché dans les vues
         [Column("ISDELETED")]
         //[NotMapped]

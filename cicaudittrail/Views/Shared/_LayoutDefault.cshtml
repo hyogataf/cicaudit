@@ -248,12 +248,33 @@
                             <!-- /input-group -->
                         </li>
                         <li> 
-                            <a href='@(Url.Action("Index", "CicRequest"))'> <i class="fa fa-dashboard fa-fw"></i>Requ�tes</a> 
+                            <a href='@(Url.Action("Index", "CicRequest"))'> <i class="fa fa-dashboard fa-fw"></i>Requêtes</a> 
                         </li>
                          <li> 
                            <a href='@(Url.Action("Index", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
-                          Suivis effectu�s </a>
+                          Suivis effectués </a>
                         </li>
+                          <li> 
+                          <a href='@(Url.Action("Index", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
+                          Traitement des suivis<span class="fa arrow"> </span></a> 
+                        
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href='@(Url.Action("Index", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
+                          Contacter gestionnaires </a>
+                                </li>
+                                <li>
+                                    <a href='@(Url.Action("Search", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
+                          Traitement des réponses </a> 
+                                </li>
+                                <li>
+                                    <a href='@(Url.Action("Search", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
+                          Génerer etats Centif </a> 
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+
                         <li> 
                            <a href='@(Url.Action("Search", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
                           Recherche de suivis </a> 
@@ -262,14 +283,14 @@
                            <a href='@(Url.Action("Index", "CicRequestExecution"))'> <i class="fa fa-dashboard fa-fw"></i>
                           Audit </a> 
                         </li>
-                     @*   <li> 
+                        <li> 
                           <a href='@(Url.Action("Index", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
-                          Suivis effectu�s<span class="fa arrow"> </span></a> 
+                          Paramétrage<span class="fa arrow"> </span></a> 
                         
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href='@(Url.Action("Index", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
-                          Suivis effectu�s </a> 
+                                    <a href='@(Url.Action("Index", "CicMessageTemplate"))'> <i class="fa fa-dashboard fa-fw"></i>
+                          Modèle messages </a> 
                                 </li>
                                 <li>
                                     <a href='@(Url.Action("Search", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
@@ -277,7 +298,7 @@
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
-                        </li>*@
+                        </li>
                           
                     </ul>
                 </div>
@@ -286,19 +307,11 @@
             <!-- /.navbar-static-side -->
 
           </nav>
-
-
         <div id="page-wrapper">
             <div>@RenderSection("featured", required: false)</div>
             <div>@RenderBody()</div>
-
         </div>
-
-
-
-         
     </div>
-   
     @Scripts.Render("~/bundles/bootstrapjs")
 </body>
 </html>

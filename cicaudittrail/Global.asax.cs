@@ -29,12 +29,14 @@ namespace cicaudittrail
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
+            ModelMetadataProviders.Current = new DataAnnotationsModelMetadataProvider();
+
             //jobs
             JobScheduler.Start();
 
             //  performance improvement
             ViewEngines.Engines.Clear();
-            ViewEngines.Engines.Add(new RazorViewEngine()); 
+            ViewEngines.Engines.Add(new RazorViewEngine());
         }
     }
 }

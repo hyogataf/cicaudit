@@ -36,11 +36,17 @@ namespace cicaudittrail
             bundles.Add(new StyleBundle("~/Content/jqueryuicss").Include(
                         "~/Content/themes/base/jquery-ui.css"));
 
+            bundles.Add(new StyleBundle("~/Content/wysiwygcss").Include(
+                        "~/Content/summernote-bs3.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryuijs").Include(
                         "~/Scripts/jquery-ui.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryunobtrusive").Include(
                         "~/Scripts/jquery.unobtrusive-ajax.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/wysiwygjs").Include(
+                        "~/Scripts/summernote.min.js"));
         }
     }
 }

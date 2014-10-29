@@ -193,6 +193,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CicMessageTemplateController.cs" />
     <Compile Include="Controllers\CicRequestController.cs" />
     <Compile Include="Controllers\CicRequestExecutionController.cs" />
     <Compile Include="Controllers\CicRequestResultsController.cs" />
@@ -211,6 +212,10 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\CheckSqlAttribute.cs" />
+    <Compile Include="Models\CicMessageMail.cs" />
+    <Compile Include="Models\CicMessageTemplate.cs" />
+    <Compile Include="Models\CicMessageTemplateRepository.cs" />
     <Compile Include="Models\CicRequest.cs" />
     <Compile Include="Models\CicRequestExecution.cs" />
     <Compile Include="Models\CicRequestExecutionRepository.cs" />
@@ -237,6 +242,7 @@
       <DependentUpon>Properties.resx</DependentUpon>
     </Compile>
     <Compile Include="Src\ExcelData.cs" />
+    <Compile Include="Src\ToolsClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-responsive.css" />
@@ -318,6 +324,7 @@
     <Content Include="Content\jquery.dataTables_themeroller.css" />
     <Content Include="Content\main.css" />
     <Content Include="Content\metisMenu.css" />
+    <Content Include="Content\summernote-bs3.css" />
     <Content Include="Content\themes\base\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Content\themes\base\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_10_000000_40x100.png" />
@@ -460,6 +467,7 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Content\social-buttons.css" />
     <Content Include="Content\timeline.css" />
+    <Content Include="Scripts\summernote.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -572,6 +580,13 @@
     <Content Include="Views\CicRequestResultsFollowed\_ResultSearch.cshtml" />
     <Content Include="Views\CicRequestResultsFollowed\_DetailsFollowed.cshtml" />
     <None Include="Scripts\jquery-2.1.1.min.map" />
+    <Content Include="Views\CicMessageTemplate\Create.cshtml" />
+    <Content Include="Views\CicMessageTemplate\Edit.cshtml" />
+    <Content Include="Views\CicMessageTemplate\Delete.cshtml" />
+    <Content Include="Views\CicMessageTemplate\Details.cshtml" />
+    <Content Include="Views\CicMessageTemplate\Index.cshtml" />
+    <Content Include="Views\CicMessageTemplate\_CreateOrEdit.cshtml" />
+    <Content Include="Views\CicRequestResultsFollowed\SendMailGestionnaire.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

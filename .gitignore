@@ -29,3 +29,5 @@ _ReSharper*/
 $tf*/
 *.dll
 *.txt
+*.sql
+*.docx

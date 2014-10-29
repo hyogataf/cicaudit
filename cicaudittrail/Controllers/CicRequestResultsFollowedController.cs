@@ -33,6 +33,14 @@ namespace cicaudittrail.Controllers
         {
             return View(CicrequestresultsfollowedRepository.AllIncluding(Cicrequestresultsfollowed => Cicrequestresultsfollowed.CicRequest));
         }
+        
+        //
+        // GET: /CicRequestResultsFollowed/
+
+        public ViewResult SendMailGestionnaire()
+        {
+            return View(CicrequestresultsfollowedRepository.AllIncluding(Cicrequestresultsfollowed => Cicrequestresultsfollowed.CicRequest));
+        }
 
         //
         // GET: /CicRequestResultsFollowed/IndexByRequest/5
@@ -64,14 +72,14 @@ namespace cicaudittrail.Controllers
             var CicrequestresultsfollowedInstance = CicrequestresultsfollowedRepository.Find(id);
             if (CicrequestresultsfollowedInstance == null)
             {
-                Debug.WriteLine("CicrequestresultsfollowedInstance null");
+                // Debug.WriteLine("CicrequestresultsfollowedInstance null");
                 TempData["error"] = "Veuillez vérifier vos suivis. Aucun enregistrement avec l'id " + id + " n'a été trouvée.";
                 return RedirectToAction("Index");
             }
 
             if (string.IsNullOrEmpty(CicrequestresultsfollowedInstance.RowContent))
             {
-                Debug.WriteLine("CicrequestresultsfollowedInstance RowContent empty");
+                //  Debug.WriteLine("CicrequestresultsfollowedInstance RowContent empty");
                 TempData["error"] = "Veuillez vérifier la requête à exécuter. Aucune requête avec l'id " + id + " n'a été trouvée.";
                 return View(CicrequestresultsfollowedInstance);
             }
@@ -96,7 +104,7 @@ namespace cicaudittrail.Controllers
             var CicrequestresultsfollowedInstance = CicrequestresultsfollowedRepository.Find(id);
             if (CicrequestresultsfollowedInstance == null)
             {
-                Debug.WriteLine("CicrequestresultsfollowedInstance null");
+                //  Debug.WriteLine("CicrequestresultsfollowedInstance null");
                 TempData["error"] = "Veuillez vérifier vos suivis. Aucun enregistrement avec l'id " + id + " n'a été trouvée.";
                 //return RedirectToAction("Index");
                 return PartialView("_DetailsFollowed", model);
@@ -104,7 +112,7 @@ namespace cicaudittrail.Controllers
 
             if (string.IsNullOrEmpty(CicrequestresultsfollowedInstance.RowContent))
             {
-                Debug.WriteLine("CicrequestresultsfollowedInstance RowContent empty");
+                //  Debug.WriteLine("CicrequestresultsfollowedInstance RowContent empty");
                 TempData["error"] = "Veuillez vérifier la requête à exécuter. Aucune requête avec l'id " + id + " n'a été trouvée.";
                 //return View(CicrequestresultsfollowedInstance);
                 return PartialView("_DetailsFollowed", model);
@@ -176,7 +184,7 @@ namespace cicaudittrail.Controllers
 
                         JToken outer = JToken.Parse(line.RowContent);
                         JObject inner = outer.Value<JObject>();
-                        List<string> keys = inner.Properties().Select(p => p.Name).ToList(); 
+                        List<string> keys = inner.Properties().Select(p => p.Name).ToList();
                         foreach (string k in keys)
                         {
                             values.Add(inner.GetValue(k));
@@ -184,7 +192,7 @@ namespace cicaudittrail.Controllers
                         yield return values.ToArray();
                     }
                 }
-            } 
+            }
         }
 
         //
@@ -210,24 +218,24 @@ namespace cicaudittrail.Controllers
         //
         // Get: /CicRequestResultsFollowed/Executesearch
 
-       // [HttpPost]
+        // [HttpPost]
         public ActionResult Executesearch(string CicRequestId, string DateCreated, string UserCreated, string content)
         {
-            Debug.WriteLine("requests = " + DateCreated);
-           
+            //  Debug.WriteLine("requests = " + DateCreated);
+
             //var results = CicrequestresultsfollowedRepository.ExecuteSearch(Request.Form["CicRequestId"], Request.Form["DateCreated"], Request.Form["UserCreated"], Request.Form["content"], Request.Form["content"]);
 
             var results = CicrequestresultsfollowedRepository.ExecuteSearch(CicRequestId, DateCreated, UserCreated, content, content);
 
-            Debug.WriteLine("results Count = " + results.Count());
-            if(results.Count()>0)
-            Debug.WriteLine("results First = " + results.First().CicRequestResultsFollowedId);
-         
-            ViewBag.resultList = results;
+            // Debug.WriteLine("results Count = " + results.Count());
+            if (results.Count() > 0)
+                //  Debug.WriteLine("results First = " + results.First().CicRequestResultsFollowedId);
+
+                ViewBag.resultList = results;
             return PartialView("_ResultSearch", results);
 
         }
-        
+
         //
         // POST: /CicRequestResultsFollowed/Create
 

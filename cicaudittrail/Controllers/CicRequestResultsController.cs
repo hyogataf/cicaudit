@@ -206,6 +206,7 @@ namespace cicaudittrail.Controllers
                             CicRequestResultsFollowed.CicRequestId = CicRequestResultsInstance.CicRequestId;
                             CicRequestResultsFollowed.RowContent = CicRequestResultsInstance.RowContent;
                             CicRequestResultsFollowed.DateCreated = DateTime.Now;
+                            CicRequestResultsFollowed.Statut = Statut.E.ToString();
                             CicRequestResultsFollowed.UserCreated = "admin"; //TODO remplacer admin par le userEnCours
                             CicRequestResultsFollowed.Comments = Request.Form["Comments" + resultId];
                             CicrequestResultsFollowedRepository.InsertOrUpdate(CicRequestResultsFollowed);
@@ -467,6 +468,7 @@ namespace cicaudittrail.Controllers
                             CicRequestResultsFollowed.CicRequestId = CicRequestResultsInstance.CicRequestId;
                             CicRequestResultsFollowed.RowContent = CicRequestResultsInstance.RowContent;
                             CicRequestResultsFollowed.DateCreated = DateTime.Now;
+                            CicRequestResultsFollowed.Statut = Statut.E.ToString();
                             CicRequestResultsFollowed.UserCreated = "admin"; //TODO remplacer admin par le userEnCours
                             CicRequestResultsFollowed.Comments = line.Comments;
                             CicrequestResultsFollowedRepository.InsertOrUpdate(CicRequestResultsFollowed);

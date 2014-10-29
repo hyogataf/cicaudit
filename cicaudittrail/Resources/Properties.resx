@@ -117,6 +117,60 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CicMessageMail_CicRequestResultsFollowed" xml:space="preserve">
+    <value>Suivi</value>
+  </data>
+  <data name="CicMessageMail_DateMessageReceived" xml:space="preserve">
+    <value>Message reçu le</value>
+  </data>
+  <data name="CicMessageMail_DateMessageSent" xml:space="preserve">
+    <value>Message envoyé le</value>
+  </data>
+  <data name="CicMessageMail_MessageReceived" xml:space="preserve">
+    <value>Message reçu</value>
+  </data>
+  <data name="CicMessageMail_MessageSent" xml:space="preserve">
+    <value>Message envoyé</value>
+  </data>
+  <data name="CicMessageMail_UserMessageSent" xml:space="preserve">
+    <value>Message envoyé par</value>
+  </data>
+  <data name="CicMessageMail_UserResponseSent" xml:space="preserve">
+    <value>Réponse de</value>
+  </data>
+  <data name="CicMessageTemplateCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="CicMessageTemplateCodeRequired" xml:space="preserve">
+    <value>Veuillez saisir le code</value>
+  </data>
+  <data name="CicMessageTemplateContenuMail" xml:space="preserve">
+    <value>Contenu mail</value>
+  </data>
+  <data name="CicMessageTemplateContenuMailRequired" xml:space="preserve">
+    <value>Veuillez saisir le contenu du mail</value>
+  </data>
+  <data name="CicMessageTemplateCreateTitle" xml:space="preserve">
+    <value>Création modèle de message</value>
+  </data>
+  <data name="CicMessageTemplateDateCreated" xml:space="preserve">
+    <value>Créé le</value>
+  </data>
+  <data name="CicMessageTemplateLibelle" xml:space="preserve">
+    <value>Intitulé</value>
+  </data>
+  <data name="CicMessageTemplateLibelleRequired" xml:space="preserve">
+    <value>Veuillez saisir l'intitulé </value>
+  </data>
+  <data name="CicMessageTemplateObjetMail" xml:space="preserve">
+    <value>Objet mail</value>
+  </data>
+  <data name="CicMessageTemplateObjetMailRequired" xml:space="preserve">
+    <value>Veuillez saisir l'objet du mail</value>
+  </data>
+  <data name="CicMessageTemplateUserCreated" xml:space="preserve">
+    <value>Créé par</value>
+  </data>
   <data name="CicRequest" xml:space="preserve">
     <value>Requête</value>
   </data>
@@ -195,8 +249,29 @@
   <data name="CicRequestResultsFollowedSearchTitle" xml:space="preserve">
     <value>Recherche de suivis effectués</value>
   </data>
+  <data name="CicRequestResultsFollowedStatut" xml:space="preserve">
+    <value>Statut</value>
+  </data>
   <data name="CicRequestResultsFollowedUserCreated" xml:space="preserve">
     <value>Effectué par</value>
+  </data>
+  <data name="CicRequestResultsFollowed_A" xml:space="preserve">
+    <value>Annulé</value>
+  </data>
+  <data name="CicRequestResultsFollowed_C" xml:space="preserve">
+    <value>Etat Centif tiré</value>
+  </data>
+  <data name="CicRequestResultsFollowed_E" xml:space="preserve">
+    <value>En attente</value>
+  </data>
+  <data name="CicRequestResultsFollowed_ME" xml:space="preserve">
+    <value>Justificatifs demandés</value>
+  </data>
+  <data name="CicRequestResultsFollowed_MR" xml:space="preserve">
+    <value>Justificatifs reçus</value>
+  </data>
+  <data name="CicRequestResultsFollowed_S" xml:space="preserve">
+    <value>Suspect</value>
   </data>
   <data name="CicRequestUserCreated" xml:space="preserve">
     <value>Créé par</value>

@@ -61,6 +61,168 @@ namespace cicaudittrail.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Suivi.
+        /// </summary>
+        public static string CicMessageMail_CicRequestResultsFollowed {
+            get {
+                return ResourceManager.GetString("CicMessageMail_CicRequestResultsFollowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Message reçu le.
+        /// </summary>
+        public static string CicMessageMail_DateMessageReceived {
+            get {
+                return ResourceManager.GetString("CicMessageMail_DateMessageReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Message envoyé le.
+        /// </summary>
+        public static string CicMessageMail_DateMessageSent {
+            get {
+                return ResourceManager.GetString("CicMessageMail_DateMessageSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Message reçu.
+        /// </summary>
+        public static string CicMessageMail_MessageReceived {
+            get {
+                return ResourceManager.GetString("CicMessageMail_MessageReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Message envoyé.
+        /// </summary>
+        public static string CicMessageMail_MessageSent {
+            get {
+                return ResourceManager.GetString("CicMessageMail_MessageSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Message envoyé par.
+        /// </summary>
+        public static string CicMessageMail_UserMessageSent {
+            get {
+                return ResourceManager.GetString("CicMessageMail_UserMessageSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Réponse de.
+        /// </summary>
+        public static string CicMessageMail_UserResponseSent {
+            get {
+                return ResourceManager.GetString("CicMessageMail_UserResponseSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Code.
+        /// </summary>
+        public static string CicMessageTemplateCode {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Veuillez saisir le code.
+        /// </summary>
+        public static string CicMessageTemplateCodeRequired {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateCodeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Contenu mail.
+        /// </summary>
+        public static string CicMessageTemplateContenuMail {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateContenuMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Veuillez saisir le contenu du mail.
+        /// </summary>
+        public static string CicMessageTemplateContenuMailRequired {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateContenuMailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Création modèle de message.
+        /// </summary>
+        public static string CicMessageTemplateCreateTitle {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateCreateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Créé le.
+        /// </summary>
+        public static string CicMessageTemplateDateCreated {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateDateCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Intitulé.
+        /// </summary>
+        public static string CicMessageTemplateLibelle {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateLibelle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Veuillez saisir l&apos;intitulé .
+        /// </summary>
+        public static string CicMessageTemplateLibelleRequired {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateLibelleRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Objet mail.
+        /// </summary>
+        public static string CicMessageTemplateObjetMail {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateObjetMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Veuillez saisir l&apos;objet du mail.
+        /// </summary>
+        public static string CicMessageTemplateObjetMailRequired {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateObjetMailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Créé par.
+        /// </summary>
+        public static string CicMessageTemplateUserCreated {
+            get {
+                return ResourceManager.GetString("CicMessageTemplateUserCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Requête.
         /// </summary>
         public static string CicRequest {
@@ -250,6 +412,60 @@ namespace cicaudittrail.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Annulé.
+        /// </summary>
+        public static string CicRequestResultsFollowed_A {
+            get {
+                return ResourceManager.GetString("CicRequestResultsFollowed_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Etat Centif tiré.
+        /// </summary>
+        public static string CicRequestResultsFollowed_C {
+            get {
+                return ResourceManager.GetString("CicRequestResultsFollowed_C", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à En attente.
+        /// </summary>
+        public static string CicRequestResultsFollowed_E {
+            get {
+                return ResourceManager.GetString("CicRequestResultsFollowed_E", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Justificatifs demandés.
+        /// </summary>
+        public static string CicRequestResultsFollowed_ME {
+            get {
+                return ResourceManager.GetString("CicRequestResultsFollowed_ME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Justificatifs reçus.
+        /// </summary>
+        public static string CicRequestResultsFollowed_MR {
+            get {
+                return ResourceManager.GetString("CicRequestResultsFollowed_MR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Suspect.
+        /// </summary>
+        public static string CicRequestResultsFollowed_S {
+            get {
+                return ResourceManager.GetString("CicRequestResultsFollowed_S", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Requête concernée.
         /// </summary>
         public static string CicRequestResultsFollowedCicRequest {
@@ -291,6 +507,15 @@ namespace cicaudittrail.Resources {
         public static string CicRequestResultsFollowedSearchTitle {
             get {
                 return ResourceManager.GetString("CicRequestResultsFollowedSearchTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Statut.
+        /// </summary>
+        public static string CicRequestResultsFollowedStatut {
+            get {
+                return ResourceManager.GetString("CicRequestResultsFollowedStatut", resourceCulture);
             }
         }
         

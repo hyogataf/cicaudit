@@ -9,6 +9,7 @@ using System.Data.Common;
 using System.Text;
 using System.IO;
 using Newtonsoft.Json;
+using cicaudittrail.Src;
 
 namespace cicaudittrail.Jobs
 {
@@ -77,8 +78,9 @@ namespace cicaudittrail.Jobs
                 var listRequests = CicrequestRepository.All;
                 foreach (var requestInstance in listRequests)
                 {
-                    if (string.IsNullOrEmpty(requestInstance.Request) == false)
-                    {
+                    ToolsClass tools = new ToolsClass();
+                    if (string.IsNullOrEmpty(requestInstance.Request) == false && tools.CheckSql(requestInstance.Request)==false)
+                    { 
                         using (var ctx = CicrequestRepository.GetContext)
                         using (var cmd = ctx.Database.Connection.CreateCommand())
                         {

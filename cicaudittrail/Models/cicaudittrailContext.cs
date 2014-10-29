@@ -21,7 +21,7 @@ namespace cicaudittrail.Models
         // System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<cicaudittrail.Models.cicaudittrailContext>());
 
         public cicaudittrailContext()
-            : base(new OracleConnection(ConfigurationManager.ConnectionStrings["cicaudittrailContext"].ConnectionString), true) 
+            : base(new OracleConnection(ConfigurationManager.ConnectionStrings["cicaudittrailContext"].ConnectionString), true)
         {
 
         }
@@ -36,7 +36,9 @@ namespace cicaudittrail.Models
             modelBuilder.Entity<CicRequestExecution>().ToTable("CICREQUESTEXECUTION", schemaName);
             modelBuilder.Entity<CicRequestResults>().ToTable("CICREQUESTRESULTS", schemaName);
             modelBuilder.Entity<CicRequestResultsFollowed>().ToTable("CICREQUESTRESULTSFOLLOWED", schemaName);
-           // modelBuilder.Conventions.Remove<ColumnTypeCasingConvention>();
+            modelBuilder.Entity<CicMessageTemplate>().ToTable("CICMESSAGETEMPLATE", schemaName);
+            modelBuilder.Entity<CicMessageMail>().ToTable("CICMESSAGEMAIL", schemaName);
+            // modelBuilder.Conventions.Remove<ColumnTypeCasingConvention>();
 
         }
 
@@ -51,5 +53,9 @@ namespace cicaudittrail.Models
         public DbSet<cicaudittrail.Models.CicRequestResults> CicRequestResults { get; set; }
 
         public DbSet<cicaudittrail.Models.CicRequestResultsFollowed> CicRequestResultsFollowed { get; set; }
+
+        public DbSet<cicaudittrail.Models.CicMessageTemplate> CicMessageTemplate { get; set; }
+
+        public DbSet<cicaudittrail.Models.CicMessageMail> CicMessageMail { get; set; }
     }
 }

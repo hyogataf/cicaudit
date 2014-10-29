@@ -67,17 +67,14 @@ if (!String.IsNullOrEmpty(Model.Layout)) {
     <fieldset>
         
 		@Html.Partial("_CreateOrEdit", Model)
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
+         
+         <p>
+            <input class="btn btn-primary" type="submit" value="Enregistrer">
+            <button type="button" class="btn btn-default">
+                @Html.ActionLink("Retour", "Index")</button>
+        </p> 
     </fieldset>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
+} 
 
 <#+
 // Describes the information about a property on the model
