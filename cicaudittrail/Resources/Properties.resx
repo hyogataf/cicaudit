@@ -222,6 +222,39 @@
   <data name="CicRequestExecutionUserUpdated" xml:space="preserve">
     <value>Modifée par</value>
   </data>
+  <data name="CicRequestExecution_Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="CicRequestExecution_CicMessageMail" xml:space="preserve">
+    <value>Message envoyé</value>
+  </data>
+  <data name="CicRequestExecution_D" xml:space="preserve">
+    <value>Suppression</value>
+  </data>
+  <data name="CicRequestExecution_DateAction" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="CicRequestExecution_E" xml:space="preserve">
+    <value>Exécution</value>
+  </data>
+  <data name="CicRequestExecution_F" xml:space="preserve">
+    <value>Suivi</value>
+  </data>
+  <data name="CicRequestExecution_FA" xml:space="preserve">
+    <value>Suivi annulé</value>
+  </data>
+  <data name="CicRequestExecution_FC" xml:space="preserve">
+    <value>Suivi confirmé</value>
+  </data>
+  <data name="CicRequestExecution_MS" xml:space="preserve">
+    <value>Justificatifs demandés</value>
+  </data>
+  <data name="CicRequestExecution_U" xml:space="preserve">
+    <value>Modification</value>
+  </data>
+  <data name="CicRequestExecution_UserAction" xml:space="preserve">
+    <value>Utilisateur</value>
+  </data>
   <data name="CicRequestLibelle" xml:space="preserve">
     <value>Intitulé</value>
   </data>
@@ -244,6 +277,9 @@
     <value>Effectué le</value>
   </data>
   <data name="CicRequestResultsFollowedRowCCicRequestResultsFollowedRowContent" xml:space="preserve">
+    <value>Contenu</value>
+  </data>
+  <data name="CicRequestResultsFollowedRowContent" xml:space="preserve">
     <value>Contenu</value>
   </data>
   <data name="CicRequestResultsFollowedSearchTitle" xml:space="preserve">

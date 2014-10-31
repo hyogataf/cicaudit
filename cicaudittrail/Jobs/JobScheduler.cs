@@ -27,7 +27,7 @@ namespace cicaudittrail.Jobs
         .WithRepeatCount(0))
     .Build();
 
-            //scheduler.ScheduleJob(requestjob, requestExecutiontrigger);
+            scheduler.ScheduleJob(requestjob, requestExecutiontrigger);
         }
     }
 }

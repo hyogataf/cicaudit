@@ -31,7 +31,6 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-             
             <div class="panel-body">
                 <div class="row" style="margin-left: -15px">
                     <div class="col-lg-12">
@@ -43,87 +42,47 @@
                                 <input class="form-control" id="CicRequest" type="text" placeholder="@(Model.CicRequest == null ? "None" : Model.CicRequest.Libelle)"
             readonly>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="CicRequestUserUpdated">
-                                        Modifié par
+                                        Action
                                     </label>
-                                    <input class="form-control" id="CicRequestUserUpdated" type="text" placeholder="@Model.CicRequestUserUpdated"
+                                    @{var action = "CicRequestExecution_" + @Model.Action;}
+                                    <input class="form-control" id="CicRequestUserUpdated" type="text" placeholder="@Html.Raw(cicaudittrail.Src.ToolsClass.GetResourceValueForVariable(action))"
             readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="CicRequestDateUpdated">
-                                        Le
+                                        Date
                                     </label>
-                                    <input class="form-control" id="CicRequestDateUpdated" type="text" placeholder="@String.Format("{0:g}", Model.CicRequestDateUpdated)"
+                                    <input class="form-control" id="CicRequestDateUpdated" type="text" placeholder="@String.Format("{0:g}", Model.DateAction)"
             readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="CicRequestUserExecuted">
-                                        Executé par
+                                        Effectuée par
                                     </label>
-                                    <input class="form-control" id="CicRequestUserExecuted" type="text" placeholder="@Model.CicRequestUserExecuted"
+                                    <input class="form-control" id="CicRequestUserExecuted" type="text" placeholder="@Model.UserAction"
             readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="CicRequestDateExecuted">
-                                        Le
-                                    </label>
-                                    <input class="form-control" id="CicRequestDateExecuted" type="text" placeholder="@String.Format("{0:g}", Model.CicRequestDateExecuted)"
+                            @if (Model.Action == "F")
+                            {
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="CicRequestResultsFollowed">
+                                            Commentaire suivi
+                                        </label>
+                                        <input class="form-control" id="CicRequestResultsFollowed" type="text" placeholder="@Html.DisplayTextFor(_ => Model.CicRequestResultsFollowed.Comments).ToString()"
             readonly>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                <label for="CicRequestUserDeleted">
-                                    Supprimé par
-                                </label>
-                                <input class="form-control" id="CicRequestUserDeleted" type="text" placeholder="@Model.CicRequestUserDeleted"
-            readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                <label for="CicRequestDateDeleted">
-                                    Le
-                                </label>
-                                <input class="form-control" id="CicRequestDateDeleted" type="text" placeholder="@String.Format("{0:g}", Model.CicRequestDateDeleted)"
-            readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                <label for="CicRequestResultsUserFollowed">
-                                    Suivi effectué par
-                                </label>
-                                <input class="form-control" id="CicRequestResultsUserFollowed" type="text" placeholder="@Model.CicRequestResultsUserFollowed"
-            readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                <label for="CicRequestResultsDateFollowed">
-                                    Le
-                                </label>
-                                <input class="form-control" id="CicRequestResultsDateFollowed" type="text" placeholder="@String.Format("{0:g}", Model.CicRequestResultsDateFollowed)"
-            readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                <label for="CicRequestResultsFollowed">
-                                    Commentaire suivi
-                                </label>
-                                <input class="form-control" id="CicRequestResultsFollowed" type="text" placeholder="@Html.DisplayTextFor(_ => Model.CicRequestResultsFollowed.Comments).ToString()"
-            readonly>
-                                </div>
-                            </div>
+
+                            }
                         </fieldset>
                         <p>
                             <button type="button" class="btn btn-default">

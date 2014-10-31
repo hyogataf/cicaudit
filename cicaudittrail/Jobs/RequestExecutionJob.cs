@@ -10,6 +10,8 @@ using System.Text;
 using System.IO;
 using Newtonsoft.Json;
 using cicaudittrail.Src;
+using Oracle.ManagedDataAccess.Client;
+using System.Configuration;
 
 namespace cicaudittrail.Jobs
 {
@@ -75,50 +77,69 @@ namespace cicaudittrail.Jobs
                 ICicRequestRepository CicrequestRepository = new CicRequestRepository();
                 Debug.WriteLine("job executed at= " + DateTime.Now);
 
+                OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings["cicaudittrailContext"].ConnectionString);
+                var cmd = conn.CreateCommand();
+                conn.Open(); 
+
+
                 var listRequests = CicrequestRepository.All;
+             //   var ctx = CicrequestRepository.GetContext;
+             //   var cmd = ctx.Database.Connection.CreateCommand();
+
+                //on ouvre une chaine de connexion avec le contexte
+             //   ctx.Database.Connection.Open();
+
                 foreach (var requestInstance in listRequests)
                 {
                     ToolsClass tools = new ToolsClass();
-                    if (string.IsNullOrEmpty(requestInstance.Request) == false && tools.CheckSql(requestInstance.Request)==false)
-                    { 
-                        using (var ctx = CicrequestRepository.GetContext)
-                        using (var cmd = ctx.Database.Connection.CreateCommand())
+                    if (string.IsNullOrEmpty(requestInstance.Request) == false && tools.CheckSql(requestInstance.Request) == false)
+                    {
+                       
+                        //  using (var ctx = CicrequestRepository.GetContext)
+                        /*    using (var cmd = ctx.Database.Connection.CreateCommand())
+                            {*/
+                       
+                        //on supprime d'abord les précédents résultats de la requete
+                        //   var del = truncateTable(requestInstance.CicRequestId);
+                        //  Debug.WriteLine("truncate result  = " + del);
+
+                        cmd.CommandText = requestInstance.Request;
+                           using (var reader = cmd.ExecuteReader())
+                           {
+                     //   var reader = cmd.ExecuteReader();
+                        //on récupere les resultats de la requete, puis on la garde dans une liste
+                        var model = ReadToJSON(reader).ToList();
+                        Debug.WriteLine("model result  = " + model.Count);
+                        //Debug.WriteLine("model result 1 = " + model[0]);
+                        //on boucle sur la liste, et chaque element de la liste est enregistrée dans la table CicRequestResults
+                        foreach (var line in model)
                         {
-                            //on supprime d'abord les précédents résultats de la requete
-                           var del = truncateTable(requestInstance.CicRequestId);
-                           Debug.WriteLine("truncate result  = " + del);
+                            //chaque element de la liste (qui est une ligne de l'ensemble des resultats de la requete executée) est transformée en string, avec ',' comme séparateur, puis stockée dans la table CicRequestResults 
+                            //Debug.WriteLine("actual line = " + line);
 
-                            //on ouvre une chaine de connexion avec le contexte
-                            ctx.Database.Connection.Open();
-                            cmd.CommandText = requestInstance.Request;
-                            using (var reader = cmd.ExecuteReader())
-                            {
-                                //on récupere les resultats de la requete, puis on la garde dans une liste
-                                var model = ReadToJSON(reader).ToList();
-                                Debug.WriteLine("model result  = " + model.Count);
-                                //Debug.WriteLine("model result 1 = " + model[0]);
-                                //on boucle sur la liste, et chaque element de la liste est enregistrée dans la table CicRequestResults
-                                foreach (var line in model)
-                                {
-                                    //chaque element de la liste (qui est une ligne de l'ensemble des resultats de la requete executée) est transformée en string, avec ',' comme séparateur, puis stockée dans la table CicRequestResults 
-                                    //Debug.WriteLine("actual line = " + line);
+                            //Insert command
+                            string insertsql = "insert into CicRequestResults(CicRequestId, RowContent, DateCreated) values(:P0,:P1,:P2)";
+                            List<object> parameterList = new List<object>();
+                            parameterList.Add(requestInstance.CicRequestId);
+                            parameterList.Add(line);
+                            parameterList.Add(DateTime.Now);
+                            object[] parameters = parameterList.ToArray();
 
-                                    //Insert command
-                                    string insertsql = "insert into CicRequestResults(CicRequestId, RowContent, DateCreated) values(:P0,:P1,:P2)";
-                                    List<object> parameterList = new List<object>();
-                                    parameterList.Add(requestInstance.CicRequestId);
-                                    parameterList.Add(line);
-                                    parameterList.Add(DateTime.Now);
-                                    object[] parameters = parameterList.ToArray();
+                            int result = CicrequestRepository.GetContext.Database.ExecuteSqlCommand(insertsql, parameters);
+                           // int result = conn.Database.ExecuteSqlCommand(insertsql, parameters);
+                            
 
-                                    int result = ctx.Database.ExecuteSqlCommand(insertsql, parameters);
-
-                                }
-
-                            }
                         }
+                        Debug.WriteLine("before closing = " );
+                        //reader.Close();
+                        
+
+                        } //end using (var reader = cmd.ExecuteReader())
+                        //}//end using (var cmd = ctx.Database.Connection.CreateCommand())
                     }
-                }
+                }// end foreach (var requestInstance in listRequests)
+                cmd.Dispose();
+                conn.Close();
             }
             catch (Exception ex)
             {
@@ -212,3 +233,10 @@ namespace cicaudittrail.Jobs
         }
     }
 }
+
+
+/*
+SELECT  * FROM ( select ROWNUM AS rn, CicRequestResultsId,CicRequestId, DateCreated, DBMS_LOB.substr(RowContent) from 
+ CicRequestResults) WHERE   rn BETWEEN 20 and 30
+*/
+//TODO methode qui modifie la rquete à executer, lui ajoute la pagination et l'execute dans un while. Les valeurs du between sont des variables, et while on a des resultats, on rentre dans le while

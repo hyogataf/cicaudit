@@ -81,8 +81,9 @@ namespace cicaudittrail.Controllers
             //Enregistrement de CicRequestExecution
             var CicRequestExecutionInstance = new CicRequestExecution();
             CicRequestExecutionInstance.CicRequestId = id;
-            CicRequestExecutionInstance.CicRequestUserExecuted = "admin"; // TODO mettre le user connecté
-            CicRequestExecutionInstance.CicRequestDateExecuted = DateTime.Now;
+            CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+            CicRequestExecutionInstance.DateAction = DateTime.Now;
+            CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.E.ToString();
             CicRequestExecutionInstance.DateCreated = DateTime.Now;
             CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);
             CicrequestExecutionRepository.Save();
@@ -216,8 +217,9 @@ namespace cicaudittrail.Controllers
                             //Enregistrement de CicRequestExecution
                             var CicRequestExecutionInstance = new CicRequestExecution();
                             CicRequestExecutionInstance.CicRequestId = CicRequestResultsInstance.CicRequestId;
-                            CicRequestExecutionInstance.CicRequestResultsUserFollowed = "admin"; //TODO mettre le user connecté
-                            CicRequestExecutionInstance.CicRequestResultsDateFollowed = DateTime.Now;
+                            CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+                            CicRequestExecutionInstance.DateAction = DateTime.Now;
+                            CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.F.ToString();
                             CicRequestExecutionInstance.DateCreated = DateTime.Now;
                             CicRequestExecutionInstance.CicRequestResultsFollowedId = CicRequestResultsFollowed.CicRequestResultsFollowedId;
                             CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);
@@ -449,7 +451,7 @@ namespace cicaudittrail.Controllers
 
                 // store the file inside ~/App_Data/uploads folder
                 //string webCurrentDirectory = HttpRunTime.AppDomainAppPath; 
-                var path = Path.Combine(Server.MapPath("~/Content/uploads"), fileName); 
+                var path = Path.Combine(Server.MapPath("~/Content/uploads"), fileName);
                 file.SaveAs(path);
 
                 //Recuperation des données renseignées sous forme de list
@@ -477,8 +479,9 @@ namespace cicaudittrail.Controllers
                             //Enregistrement de CicRequestExecution
                             var CicRequestExecutionInstance = new CicRequestExecution();
                             CicRequestExecutionInstance.CicRequestId = CicRequestResultsInstance.CicRequestId;
-                            CicRequestExecutionInstance.CicRequestResultsUserFollowed = "admin"; //TODO mettre le user connecté
-                            CicRequestExecutionInstance.CicRequestResultsDateFollowed = DateTime.Now;
+                            CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+                            CicRequestExecutionInstance.DateAction = DateTime.Now;
+                            CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.F.ToString();
                             CicRequestExecutionInstance.DateCreated = DateTime.Now;
                             CicRequestExecutionInstance.CicRequestResultsFollowedId = CicRequestResultsFollowed.CicRequestResultsFollowedId;
                             CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);
@@ -495,7 +498,7 @@ namespace cicaudittrail.Controllers
             // redirect back to the index action to show the form once again 
             TempData["message"] = count + " élements a (ont) été marqués. Leur suivi a été enregistré avec succés";
 
-            return RedirectToAction("IndexByRequest", "CicRequestResultsFollowed", new { id = Request.Form["CicRequestId"] }); 
+            return RedirectToAction("IndexByRequest", "CicRequestResultsFollowed", new { id = Request.Form["CicRequestId"] });
         }
 
 
@@ -511,7 +514,7 @@ namespace cicaudittrail.Controllers
                 var suivi = new ExcelSuiviMapping()
                 {
                     Id = row["Id"].ToString(),
-                    Comments = row["Comments"].ToString()
+                    Comments = row["Commentaires"].ToString()
                 };
                 suiviMappingList.Add(suivi);
             }

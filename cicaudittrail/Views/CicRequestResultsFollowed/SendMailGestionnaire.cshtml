@@ -6,7 +6,18 @@
 @Styles.Render("~/Content/datatablecss")
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
-        $("#suiviTable").dataTable({ bJQueryUI: false, sPaginationType: "full_numbers" });
+        $("#suiviTable").dataTable({
+            bJQueryUI: false,
+            sPaginationType: "full_numbers",
+            aLengthMenu: [
+        [5, 10, 20, 50, -1],
+        [5, 10, 20, 50, "Tout"]
+    ],
+            iDisplayLength: 5,
+            "oLanguage": {
+                "sUrl": "/Scripts/dataTables.french.txt"
+            }
+        });
     });
   
 </script>
@@ -42,7 +53,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Basic Form Elements
+                Envoi de mail aux gestionnaires
             </div>
             <div class="panel-body">
                 <div class="row" style="margin-left: -15px">
@@ -76,9 +87,12 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.ActionLink("Details", "Details", new { id = item.CicRequestResultsFollowedId })
+                                          @Ajax.ActionLink("Details", "AjaxDetails", new { id = item.CicRequestResultsFollowedId }, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "followedContent1" })
                                         </td>
-                                        @Html.CheckBox("coche." + item.CicRequestResultsFollowedId)
+                                        <td>
+                                            @Html.CheckBox("coche." + item.CicRequestResultsFollowedId)
+                                        </td>
+                                      
                                         <td>
                                             @(item.CicRequest == null ? "None" : item.CicRequest.Libelle)
                                         </td>
@@ -99,6 +113,9 @@
                                 }
                             </tbody>
                         </table>
+                        <p class="upButton">
+                            <input class="btn btn-primary" type="submit" value="Envoyer mail">
+                        </p>
                     </div>
                 </div>
             </div>
@@ -106,4 +123,8 @@
     </div>
 </div>
 
+    @Scripts.Render("~/bundles/jqueryunobtrusive")
+    
+    <div id="followedContent1">
+    </div>
 }

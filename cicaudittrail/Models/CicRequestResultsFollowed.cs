@@ -32,7 +32,7 @@ namespace cicaudittrail.Models
 
         [Column("STATUT")]
         [Display(Name = "CicRequestResultsFollowedStatut", ResourceType = typeof(Properties))]
-        //public Statut? Statut { get; set; } // Ne sait pas binder sous Oracle. So, utilise un string en attendant
+        //public Statut? Statut { get; set; } // Ne sait pas binder le type Statut sous Oracle. So, utilise un string en attendant
         public string Statut { get; set; }
 
         [Column("COMMENTS")]

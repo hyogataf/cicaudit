@@ -92,8 +92,9 @@ namespace cicaudittrail.Controllers
                 //Enregistrement de CicRequestExecution
                 var CicRequestExecutionInstance = new CicRequestExecution();
                 CicRequestExecutionInstance.CicRequestId = Cicrequest.CicRequestId;
-                CicRequestExecutionInstance.CicRequestUserUpdated = "admin"; // TODO mettre le user connecté
-                CicRequestExecutionInstance.CicRequestDateUpdated = DateTime.Now;
+                CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+                CicRequestExecutionInstance.DateAction = DateTime.Now;
+                CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.U.ToString();
                 CicRequestExecutionInstance.DateCreated = DateTime.Now;
                 CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);
                 CicrequestExecutionRepository.Save();
@@ -126,8 +127,9 @@ namespace cicaudittrail.Controllers
             //Enregistrement de CicRequestExecution
             var CicRequestExecutionInstance = new CicRequestExecution();
             CicRequestExecutionInstance.CicRequestId = id;
-            CicRequestExecutionInstance.CicRequestUserDeleted = "admin"; // TODO mettre le user connecté
-            CicRequestExecutionInstance.CicRequestDateDeleted = DateTime.Now;
+            CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+            CicRequestExecutionInstance.DateAction = DateTime.Now;
+            CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.D.ToString();
             CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);
             CicrequestExecutionRepository.Save();
 

@@ -6,6 +6,7 @@ using System.Web;
 using Oracle.ManagedDataAccess.Client;
 using System.Configuration;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.SqlClient;
 
 namespace cicaudittrail.Models
 {
@@ -25,6 +26,7 @@ namespace cicaudittrail.Models
         {
 
         }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -14,7 +14,7 @@ namespace cicaudittrail.Src
         public bool CheckSql(string sqlRequest)
         {
             List<string> sqlToString = sqlRequest.Split(' ').ToList();
-            Debug.WriteLine("sqlToString = " + sqlToString);
+           // Debug.WriteLine("sqlToString = " + sqlToString);
             var check = sqlToString.Any(v => forbiddenSql.Contains(v));
             return check;
         }

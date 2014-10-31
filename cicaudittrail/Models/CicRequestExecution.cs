@@ -15,48 +15,14 @@ namespace cicaudittrail.Models
         [Column("CICREQUESTEXECUTIONID")] // Syntaxe du champ utilisé lors des requetes SQL. Obligatoire dans le cas d'une base Oracle
         public long CicRequestExecutionId { get; set; }
 
+
         [Display(Name = "CicRequestExecutionCicRequestId", ResourceType = typeof(Properties))]
-        [Column("CICREQUESTID")] 
+        [Column("CICREQUESTID")]
         public long CicRequestId { get; set; }
         [Display(Name = "CicRequestExecutionCicRequest", ResourceType = typeof(Properties))]
-        public virtual CicRequest CicRequest { get; set; } 
-         
-        [Display(Name = "CicRequestExecutionUserUpdated", ResourceType = typeof(Properties))] 
-        [Column("CICREQUESTUSERUPDATED")]
-        public string CicRequestUserUpdated { get; set; }
-         
-        [Display(Name = "CicRequestExecutionDateUpdated", ResourceType = typeof(Properties))]
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
-        [Column("CICREQUESTDATEUPDATED")]
-        public DateTime? CicRequestDateUpdated { get; set; }
-
-        [Display(Name = "CicRequestExecutionUserExecuted", ResourceType = typeof(Properties))] 
-        [Column("CICREQUESTUSEREXECUTED")]
-        public string CicRequestUserExecuted { get; set; }
-
-        [Display(Name = "CicRequestExecutionDateExecuted", ResourceType = typeof(Properties))]
-        [Column("CICREQUESTDATEEXECUTED")]
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
-        public DateTime? CicRequestDateExecuted { get; set; }
-
-        [Display(Name = "CicRequestExecutionUserDeleted", ResourceType = typeof(Properties))]
-        [Column("CICREQUESTUSERDELETED")]
-        public string CicRequestUserDeleted { get; set; }
-
-        [Display(Name = "CicRequestExecutionDateDeleted", ResourceType = typeof(Properties))]
-        [Column("CICREQUESTDATEDELETED")]
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
-        public DateTime? CicRequestDateDeleted { get; set; }
+        public virtual CicRequest CicRequest { get; set; }
 
 
-        [Display(Name = "CicRequestExecutionUserFollowed", ResourceType = typeof(Properties))]
-        [Column("CICREQUESTRESULTSUSERFOLLOWED")]
-        public string CicRequestResultsUserFollowed { get; set; }
-
-        [Display(Name = "CicRequestExecutionDateFollowed", ResourceType = typeof(Properties))]
-        [Column("CICREQUESTRESULTSDATEFOLLOWED")]
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
-        public DateTime? CicRequestResultsDateFollowed { get; set; }
 
         [Display(Name = "CicRequestExecutionCicRequestResultsFollowedId", ResourceType = typeof(Properties))]
         [Column("CICREQUESTRESULTSFOLLOWEDID")]
@@ -64,8 +30,38 @@ namespace cicaudittrail.Models
         [Display(Name = "CicRequestExecutionCicRequestResultsFollowed", ResourceType = typeof(Properties))]
         public virtual CicRequestResultsFollowed CicRequestResultsFollowed { get; set; }
 
+
+
+        [Column("CICMESSAGEMAILID")]
+        public long? CicMessageMailId { get; set; }
+        [Display(Name = "CicRequestExecution_CicMessageMail", ResourceType = typeof(Properties))]
+        public virtual CicMessageMail CicMessageMail { get; set; }
+
+
         [Column("DATECREATED")]
         public DateTime? DateCreated { get; set; }
 
+
+        [Display(Name = "CicRequestExecution_Action", ResourceType = typeof(Properties))]
+        [Column("ACTION")]
+        public string Action { get; set; }
+
+
+        [Display(Name = "CicRequestExecution_UserAction", ResourceType = typeof(Properties))]
+        [Column("USERACTION")]
+        public string UserAction { get; set; }
+
+
+        [Display(Name = "CicRequestExecution_DateAction", ResourceType = typeof(Properties))]
+        [Column("DATEACTION")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        public DateTime? DateAction { get; set; }
+
+    }
+
+    public enum Action
+    {
+        U, E, D, F, FC, FA, MS
+        //U: UPDATE, EXECUTION, D:DELETE, F:FOLLOW (suivi), FC: FOLLOW CONFIRMATION (suivi confirmé), FA: FOLLOW ABORTED (suivi annulé), MS: MAIL SENT (justificatis demandés)
     }
 }

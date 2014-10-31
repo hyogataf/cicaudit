@@ -21,6 +21,7 @@ namespace cicaudittrail.Models
             }
         }
 
+
         public IQueryable<CicRequest> All
         {
             get

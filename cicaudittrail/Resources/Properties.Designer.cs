@@ -268,6 +268,105 @@ namespace cicaudittrail.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Action.
+        /// </summary>
+        public static string CicRequestExecution_Action {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Message envoyé.
+        /// </summary>
+        public static string CicRequestExecution_CicMessageMail {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_CicMessageMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Suppression.
+        /// </summary>
+        public static string CicRequestExecution_D {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_D", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Date.
+        /// </summary>
+        public static string CicRequestExecution_DateAction {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_DateAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Exécution.
+        /// </summary>
+        public static string CicRequestExecution_E {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_E", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Suivi.
+        /// </summary>
+        public static string CicRequestExecution_F {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_F", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Suivi annulé.
+        /// </summary>
+        public static string CicRequestExecution_FA {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_FA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Suivi confirmé.
+        /// </summary>
+        public static string CicRequestExecution_FC {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_FC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Justificatifs demandés.
+        /// </summary>
+        public static string CicRequestExecution_MS {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_MS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Modification.
+        /// </summary>
+        public static string CicRequestExecution_U {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_U", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Utilisateur.
+        /// </summary>
+        public static string CicRequestExecution_UserAction {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_UserAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Requête.
         /// </summary>
         public static string CicRequestExecutionCicRequest {
@@ -498,6 +597,15 @@ namespace cicaudittrail.Resources {
         public static string CicRequestResultsFollowedRowCCicRequestResultsFollowedRowContent {
             get {
                 return ResourceManager.GetString("CicRequestResultsFollowedRowCCicRequestResultsFollowedRowContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Contenu.
+        /// </summary>
+        public static string CicRequestResultsFollowedRowContent {
+            get {
+                return ResourceManager.GetString("CicRequestResultsFollowedRowContent", resourceCulture);
             }
         }
         
