@@ -1,6 +1,12 @@
 @model IEnumerable<object[]>
 @Scripts.Render("~/bundles/datatablejs")
+@Scripts.Render("~/bundles/colvisjs")
+@*@Scripts.Render("~/bundles/datatablebootstrapjs")
+@Scripts.Render("~/bundles/datatableresponsivejs")*@
 @Styles.Render("~/Content/datatablecss")
+@Styles.Render("~/Content/colviscss")
+@*@Styles.Render("~/Content/datatablebootstrapcss")
+@Styles.Render("~/Content/datatableresponsivecss")*@
 @{
     ViewBag.Title = "Exécution requête";
     var print = false;
@@ -10,18 +16,23 @@
     } 
 }
 <script type="text/javascript" charset="utf-8">
-    $(document).ready(function () {
+    $(document).ready(function () { 
         $("#resultsTable").dataTable({
+            "sDom": '<"H"TClfr>t<"F"ip>',
             bJQueryUI: false,
             sPaginationType: "full_numbers",
             aLengthMenu: [
         [25, 50, 100, 200, -1],
         [25, 50, 100, 200, "Tout"]
     ],
+            "aoColumnDefs": [
+          { 'bSortable': false, 'aTargets': [0, 1] }
+       ],
             iDisplayLength: -1,
             "oLanguage": {
                 "sUrl": "/Scripts/dataTables.french.txt"
             },
+
             "oColVis": {
                 "bRestore": true,
                 "sAlign": "left",
@@ -122,7 +133,7 @@
                             </p>
                             @if (print)
                             {
-                                <table class="table table-striped table-bordered table-hover" id="resultsTable">
+                                <table class="table table-striped table-bordered table-hover display dataTable" id="resultsTable">
                                     @*Gestion des titres*@
                                     @{ var count = 0;
                                        var titles = Model.First();
@@ -328,7 +339,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
-                        Fermer</button> 
+                        Fermer</button>
                     <input class="btn btn-primary" type="submit" value="Enregistrer">
                 </div>
             }

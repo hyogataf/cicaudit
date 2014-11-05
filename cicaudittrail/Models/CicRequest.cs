@@ -33,6 +33,12 @@ namespace cicaudittrail.Models
         [CheckSql]
         public String Request { get; set; }
 
+        [Column("CICMESSAGETEMPLATEID")]
+        public long CicMessageTemplateId { get; set; }
+        [Display(Name = "CicRequest_CicMessageTemplate", ResourceType = typeof(Properties))]
+        public virtual CicMessageTemplate CicMessageTemplate { get; set; }
+
+
         public virtual ICollection<CicRequestExecution> CicRequestExecution { get; set; }
 
         public virtual ICollection<CicRequestResultsFollowed> CicRequestResultsFollowed { get; set; }

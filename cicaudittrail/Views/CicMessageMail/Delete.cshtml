@@ -1,0 +1,63 @@
+@model cicaudittrail.Models.CicMessageMail
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+
+@if (TempData["error"] != null) {
+<div class="alert alert-danger" role="alert">
+    @TempData["error"]
+</div>
+}
+
+@if (TempData["message"] != null) {
+<div class="alert alert-success" role="alert">
+    @TempData["message"]
+</div>
+}
+
+@if (TempData["warning"] != null) {
+<div class="alert alert-warning" role="alert">
+    @TempData["warning"]
+</div>
+}
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>CicMessageMail</legend>
+
+    <div class="display-label">CicRequestResultsFollowed</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.CicRequestResultsFollowed).ToString()</div>
+
+    <div class="display-label">MessageSent</div>
+    <div class="display-field">@Model.MessageSent</div>
+
+    <div class="display-label">ObjetMessage</div>
+    <div class="display-field">@Model.ObjetMessage</div>
+
+    <div class="display-label">DateMessageSent</div>
+    <div class="display-field">@String.Format("{0:g}", Model.DateMessageSent)</div>
+
+    <div class="display-label">UserMessageSent</div>
+    <div class="display-field">@Model.UserMessageSent</div>
+
+    <div class="display-label">MessageReceived</div>
+    <div class="display-field">@Model.MessageReceived</div>
+
+    <div class="display-label">DateMessageReceived</div>
+    <div class="display-field">@String.Format("{0:g}", Model.DateMessageReceived)</div>
+
+    <div class="display-label">UserResponseSent</div>
+    <div class="display-field">@Model.UserResponseSent</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

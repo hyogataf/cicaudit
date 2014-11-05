@@ -412,4 +412,17 @@ namespace cicaudittrail.Jobs
         }
     }
 }
+
+//TODO creer une table de supervision de l'execution des jobs
+/*
+Table CicRequestsJob (CicRequestId, dateStartExecution, statut [pending, ok, error], dateEndExecution, message)
+Quand le job est lancé (à 5h par ex), un enregistrement de CicRequestsJob est créé (statut='pending').
+S'il plante, new CicRequestsJob (statut='error', message='error message', dateEndExecution='new date')
+S'il finit correctement, new CicRequestsJob (statut='ok', dateEndExecution='new date')
+
+A 7h (ex), le job se relance. Il verifie la table CicRequestsJob avec un enregistrement du jour.
+	- Si statut='pending', il fait rien
+	- Si statut='ok', il fait rien
+	- Si statut='error', il supprime les enregistrements de CicRequestResults du jour et se relance
+*/
  

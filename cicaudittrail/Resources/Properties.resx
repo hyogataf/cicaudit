@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CicMessageMail_CicMessageTemplate" xml:space="preserve">
+    <value>Modéle de message envoyé</value>
+  </data>
   <data name="CicMessageMail_CicRequestResultsFollowed" xml:space="preserve">
     <value>Suivi</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="CicMessageMail_MessageSent" xml:space="preserve">
     <value>Message envoyé</value>
+  </data>
+  <data name="CicMessageMail_ObjetMessage" xml:space="preserve">
+    <value>Objet</value>
   </data>
   <data name="CicMessageMail_UserMessageSent" xml:space="preserve">
     <value>Message envoyé par</value>
@@ -314,6 +320,9 @@
   </data>
   <data name="CicRequestUserUpdated" xml:space="preserve">
     <value>Modifié par</value>
+  </data>
+  <data name="CicRequest_CicMessageTemplate" xml:space="preserve">
+    <value>Modéle de message envoyé</value>
   </data>
   <data name="RoleName" xml:space="preserve">
     <value>Rôle</value>

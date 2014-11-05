@@ -27,5 +27,26 @@ namespace cicaudittrail.Src
             return cicaudittrail.Resources.Properties.ResourceManager.GetString(key) ?? value.ToString();
         }
 
+        /*
+         * Methode utilisée pour generer les contenus des messages.
+         * Reçoit un contenu en template (avec des variables), et un map contenant des paires; chaque paire etant une variable du template et sa valeur.
+         * La méthode boucle sur le map et remplace les variables par leur valeur.
+         * */
+        public string generateBodyMessage(Dictionary<string, string> mapValues, string BodyMessageTemplate)
+        {
+            try
+            {
+                string msg = BodyMessageTemplate;
+                foreach (KeyValuePair<string, string> element in mapValues) {
+                    msg = msg.Replace(element.Key, element.Value);   
+                }
+                return msg;
+            }
+            catch (Exception ex) {
+                Debug.WriteLine("ToolsClass generateBodyMessage error = "+ex.StackTrace);
+                return BodyMessageTemplate;
+            } 
+        }
+
     }
 }

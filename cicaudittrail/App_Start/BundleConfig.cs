@@ -47,6 +47,26 @@ namespace cicaudittrail
 
             bundles.Add(new ScriptBundle("~/bundles/wysiwygjs").Include(
                         "~/Scripts/summernote.min.js"));
+             
+            bundles.Add(new ScriptBundle("~/bundles/datatablebootstrapjs").Include( //datatable bootstrap style
+                         "~/Scripts/DataTables-1.10.2/dataTables.bootstrap.js"));
+
+            bundles.Add(new StyleBundle("~/Content/datatablebootstrapcss").Include(//datatable bootstrap style
+                        "~/Content/DataTables-1.10.2/css/dataTables.bootstrap.css"));
+             
+            bundles.Add(new ScriptBundle("~/bundles/datatableresponsivejs").Include( //datatable responsive style
+                         "~/Scripts/DataTables-1.10.2/dataTables.responsive.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/datatableresponsivecss").Include(//datatable responsive style
+                        "~/Content/DataTables-1.10.2/css/dataTables.responsive.css"));
+
+             
+            bundles.Add(new ScriptBundle("~/bundles/colvisjs").Include( //datatable property
+                         "~/Scripts/DataTables-1.10.2/dataTables.colVis.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/colviscss").Include(//datatable property
+                        "~/Content/DataTables-1.10.2/css/dataTables.colVis.min.css",
+                        "~/Content/DataTables-1.10.2/css/dataTables.colvis.jqueryui.css"));
         }
     }
 }

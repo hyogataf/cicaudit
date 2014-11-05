@@ -6,6 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using Oracle.ManagedDataAccess.Client;
 
 namespace cicaudittrail.Models
 {
@@ -41,6 +44,18 @@ namespace cicaudittrail.Models
                 ).AsQueryable();
              */
             return context.CicRequestResults.SqlQuery("select * from CicRequestResults where CicRequestId=:P0 order by CicRequestResultsId", Cicrequestid);
+        }
+
+        public DbSqlQuery<CicRequestResults> FindAllByRequestAndDate(long Cicrequestid, DateTime date)
+        {
+            /*
+             *  return context.CicRequest.ToList().Where(
+                r => r.IsDeleted == 0
+                ).AsQueryable();
+             */
+            return context.CicRequestResults.SqlQuery("select * from CicRequestResults where CicRequestId=:P0 and DateCreated>=:P1 order by DateCreated",
+                new OracleParameter("P0", Cicrequestid),
+                new OracleParameter("P1", date));
         }
 
         public void InsertOrUpdate(CicRequestResults Cicrequestresults)
@@ -80,6 +95,7 @@ namespace cicaudittrail.Models
         IQueryable<CicRequestResults> AllIncluding(params Expression<Func<CicRequestResults, object>>[] includeProperties);
         CicRequestResults Find(long id);
         DbSqlQuery<CicRequestResults> FindAllByRequest(long Cicrequestid);
+        DbSqlQuery<CicRequestResults> FindAllByRequestAndDate(long Cicrequestid, DateTime date);
         void InsertOrUpdate(CicRequestResults Cicrequestresults);
         void Delete(long id);
         void Save();

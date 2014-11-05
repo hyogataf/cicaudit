@@ -45,6 +45,7 @@ namespace cicaudittrail.Models
             }
         }
 
+
         public IQueryable<CicRequest> AllIncluding(params Expression<Func<CicRequest, object>>[] includeProperties)
         {
             IQueryable<CicRequest> query = context.CicRequest;
@@ -105,7 +106,7 @@ namespace cicaudittrail.Models
     public interface ICicRequestRepository : IDisposable
     {
         cicaudittrailContext GetContext { get; }
-        IQueryable<CicRequest> All { get; }
+        IQueryable<CicRequest> All { get; } 
         IQueryable<CicRequest> AllIncluding(params Expression<Func<CicRequest, object>>[] includeProperties);
         CicRequest Find(long id);
         IEnumerable<Object> ExecuteRequest(string request);

@@ -61,6 +61,15 @@ namespace cicaudittrail.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Modéle de message envoyé.
+        /// </summary>
+        public static string CicMessageMail_CicMessageTemplate {
+            get {
+                return ResourceManager.GetString("CicMessageMail_CicMessageTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Suivi.
         /// </summary>
         public static string CicMessageMail_CicRequestResultsFollowed {
@@ -102,6 +111,15 @@ namespace cicaudittrail.Resources {
         public static string CicMessageMail_MessageSent {
             get {
                 return ResourceManager.GetString("CicMessageMail_MessageSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Objet.
+        /// </summary>
+        public static string CicMessageMail_ObjetMessage {
+            get {
+                return ResourceManager.GetString("CicMessageMail_ObjetMessage", resourceCulture);
             }
         }
         
@@ -228,6 +246,15 @@ namespace cicaudittrail.Resources {
         public static string CicRequest {
             get {
                 return ResourceManager.GetString("CicRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Modéle de message envoyé.
+        /// </summary>
+        public static string CicRequest_CicMessageTemplate {
+            get {
+                return ResourceManager.GetString("CicRequest_CicMessageTemplate", resourceCulture);
             }
         }
         

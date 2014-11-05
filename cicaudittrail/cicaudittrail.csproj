@@ -196,6 +196,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CicMessageMailController.cs" />
     <Compile Include="Controllers\CicMessageTemplateController.cs" />
     <Compile Include="Controllers\CicRequestController.cs" />
     <Compile Include="Controllers\CicRequestExecutionController.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\CheckSqlAttribute.cs" />
     <Compile Include="Models\CicMessageMail.cs" />
+    <Compile Include="Models\CicMessageMailRepository.cs" />
     <Compile Include="Models\CicMessageTemplate.cs" />
     <Compile Include="Models\CicMessageTemplateRepository.cs" />
     <Compile Include="Models\CicRequest.cs" />
@@ -245,6 +247,7 @@
       <DependentUpon>Properties.resx</DependentUpon>
     </Compile>
     <Compile Include="Src\ExcelData.cs" />
+    <Compile Include="Src\MailingClass.cs" />
     <Compile Include="Src\ToolsClass.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -590,6 +593,12 @@
     <Content Include="Views\CicMessageTemplate\Index.cshtml" />
     <Content Include="Views\CicMessageTemplate\_CreateOrEdit.cshtml" />
     <Content Include="Views\CicRequestResultsFollowed\SendMailGestionnaire.cshtml" />
+    <Content Include="Views\CicMessageMail\Create.cshtml" />
+    <Content Include="Views\CicMessageMail\Edit.cshtml" />
+    <Content Include="Views\CicMessageMail\Delete.cshtml" />
+    <Content Include="Views\CicMessageMail\Details.cshtml" />
+    <Content Include="Views\CicMessageMail\Index.cshtml" />
+    <Content Include="Views\CicMessageMail\_CreateOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

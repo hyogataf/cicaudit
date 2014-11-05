@@ -1,0 +1,92 @@
+@model cicaudittrail.Models.CicMessageMail
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.MessageSent)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.MessageSent, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.MessageSent, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.ObjetMessage)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.ObjetMessage, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.ObjetMessage, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.DateMessageSent)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.DateMessageSent, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.DateMessageSent, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.UserMessageSent)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.UserMessageSent, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.UserMessageSent, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.MessageReceived)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.MessageReceived, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.MessageReceived, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.DateMessageReceived)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.DateMessageReceived, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.DateMessageReceived, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.UserResponseSent)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.UserResponseSent, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.UserResponseSent, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="editor-label">
+    CicRequestResultsFollowed
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.CicRequestResultsFollowedId, ((IEnumerable<cicaudittrail.Models.CicRequestResultsFollowed>)ViewBag.PossibleCicRequestResultsFollowed).Select(option => new SelectListItem {
+        Text = Html.DisplayTextFor(_ => option).ToString(), 
+        Value = option.CicRequestResultsFollowedId.ToString(),
+        Selected = (Model != null) && (option.CicRequestResultsFollowedId == Model.CicRequestResultsFollowedId)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.CicRequestResultsFollowedId)
+</div>

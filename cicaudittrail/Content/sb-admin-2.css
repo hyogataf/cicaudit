@@ -219,7 +219,7 @@ body {
     width: 100%;
     height: 100%;
 }
-
+/*
 table.dataTable thead .sorting,
 table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
@@ -240,12 +240,13 @@ table.dataTable thead .sorting_desc:after {
     font-family: fontawesome;
 }
 
+
 table.dataTable thead .sorting:after {
     content: "\f0dc";
     float: right;
     font-family: fontawesome;
     color: rgba(50,50,50,.5);
-}
+}*/
 
 .btn-circle {
     width: 30px;

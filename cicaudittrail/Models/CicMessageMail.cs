@@ -25,6 +25,9 @@ namespace cicaudittrail.Models
         [Display(Name = "CicMessageMail_MessageSent", ResourceType = typeof(Properties))]
         public string MessageSent { get; set; }
 
+        [Column("OBJETMESSAGE")]
+        [Display(Name = "CicMessageMail_ObjetMessage", ResourceType = typeof(Properties))]
+        public string ObjetMessage { get; set; }
 
         [Column("DATEMESSAGESENT")]
         [Display(Name = "CicMessageMail_DateMessageSent", ResourceType = typeof(Properties))]

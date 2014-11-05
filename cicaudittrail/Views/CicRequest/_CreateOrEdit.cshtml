@@ -20,6 +20,20 @@
 </div>
 <div class="form-group">
     <div class="editor-label">
+        @Html.LabelFor(model => model.CicMessageTemplate)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.CicMessageTemplateId, ((IEnumerable<cicaudittrail.Models.CicMessageTemplate>)ViewBag.PossibleCicMessageTemplate).Select(option => new SelectListItem
+  {
+      Text = option.Libelle.ToString(),
+      Value = option.CicMessageTemplateId.ToString(),
+      Selected = (Model != null) && (option.CicMessageTemplateId == Model.CicMessageTemplateId)
+  }), "Choose...", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Libelle, null, new { @class = "has-error" })
+    </div>
+</div>
+<div class="form-group">
+    <div class="editor-label">
         @Html.LabelFor(model => model.Request)
     </div>
     <div class="editor-field">

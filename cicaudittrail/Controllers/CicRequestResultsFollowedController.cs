@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using cicaudittrail.Models;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using cicaudittrail.Src;
+using System.Threading.Tasks;
 
 namespace cicaudittrail.Controllers
 {
@@ -33,7 +35,7 @@ namespace cicaudittrail.Controllers
         {
             return View(CicrequestresultsfollowedRepository.AllIncluding(Cicrequestresultsfollowed => Cicrequestresultsfollowed.CicRequest));
         }
-        
+
         //
         // GET: /CicRequestResultsFollowed/
 
@@ -311,6 +313,77 @@ namespace cicaudittrail.Controllers
                 CicrequestresultsfollowedRepository.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        /*
+         * Methode d'enregistrement des CicMessageMail.
+         * Elle reçoit des id de CicRequestResultsFollowed. Elle recupere le messageTemplate associé, afin d'avoir le contenu du message mail, fait un binding afin de remplacer les variables contenues dans le messageTemplate, puis crée un enregistrement de CicMessageMail.
+        */
+        // POST: /CicRequestResultsFollowed/PopulateBody
+
+        [HttpPost]
+        public ActionResult PopulateBody(CicRequestResultsFollowed Cicrequestresultsfollowed)
+        {
+            CicMessageMailRepository CicMessageMailRepository = new CicMessageMailRepository();
+            CicRequestExecutionRepository CicrequestExecutionRepository = new CicRequestExecutionRepository();
+            var nbre = 0;
+            HashSet<CicMessageMail> ListCicMessageMail = new HashSet<CicMessageMail>();
+            foreach (var k in Request.Form.AllKeys)
+            {
+                if (k.ToString().StartsWith("coche."))
+                {
+                    var resultId = k.Split('.')[1];
+                    //si case cochée <==> si on veut envoyer msg pour la ligne en cours
+                    if (Request.Form.GetValues(k.ToString())[0] == "true")
+                    {
+                        CicRequestResultsFollowed CicRequestFollowedInstance = CicrequestresultsfollowedRepository.Find(Convert.ToInt64(resultId));
+                        if (CicRequestFollowedInstance != null && CicRequestFollowedInstance.CicRequest.CicMessageTemplateId != null)
+                        {
+                            Dictionary<string, string> map = new Dictionary<string, string>();
+                            map.Add("#{NomGestionnaire}", "admin");
+                            ToolsClass toolsClass = new ToolsClass();
+                            var objet = "Suivi " + CicRequestFollowedInstance.CicRequestResultsFollowedId + ": " + CicRequestFollowedInstance.CicRequest.CicMessageTemplate.ObjetMail;
+                            var bodyMessage = CicRequestFollowedInstance.CicRequest.CicMessageTemplate.ContenuMail;
+                            var CicMessageMail = new CicMessageMail();
+                            CicMessageMail.CicRequestResultsFollowedId = CicRequestFollowedInstance.CicRequestResultsFollowedId;
+                            CicMessageMail.DateMessageSent = DateTime.Now;
+                            CicMessageMail.MessageSent = toolsClass.generateBodyMessage(map, bodyMessage);
+                            CicMessageMail.ObjetMessage = objet;
+                            CicMessageMail.UserMessageSent = "admin"; //TODO recuperer le user connecté
+                            CicMessageMailRepository.InsertOrUpdate(CicMessageMail);
+                            CicMessageMailRepository.Save();
+                            ListCicMessageMail.Add(CicMessageMail);
+
+
+                            //Enregistrement de CicRequestExecution
+                            var CicRequestExecutionInstance = new CicRequestExecution();
+                            CicRequestExecutionInstance.CicRequestId = CicRequestFollowedInstance.CicRequestId;
+                            CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+                            CicRequestExecutionInstance.DateAction = DateTime.Now;
+                            CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.MS.ToString();
+                            CicRequestExecutionInstance.DateCreated = DateTime.Now;
+                            CicRequestExecutionInstance.CicMessageMailId = CicMessageMail.CicMessageMailId;
+                            CicRequestExecutionInstance.CicRequestResultsFollowedId = CicRequestFollowedInstance.CicRequestResultsFollowedId;
+                            CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);
+                            CicrequestExecutionRepository.Save();
+                            nbre++;
+                        }
+                    }
+                }
+            }
+
+            //envoi du mail
+            Task.Factory.StartNew(() =>
+            {
+                MailingClass MailingClass = new MailingClass();
+                foreach (CicMessageMail mail in ListCicMessageMail)
+                {
+                    MailingClass.SendEmail("c.hyoga@hotmail.com", mail.ObjetMessage, mail.MessageSent);
+                }
+            });
+            TempData["message"] = nbre + " message(s) a (ont) été envoyé avec succés";
+            return RedirectToAction("Index");
         }
     }
 }

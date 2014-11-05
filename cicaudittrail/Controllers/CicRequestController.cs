@@ -48,7 +48,8 @@ namespace cicaudittrail.Controllers
 
         public ActionResult Create()
         {
-
+            CicMessageTemplateRepository CicMessageTemplateRepository = new CicMessageTemplateRepository();
+            ViewBag.PossibleCicMessageTemplate = CicMessageTemplateRepository.All;
             return View();
         }
 
@@ -75,6 +76,8 @@ namespace cicaudittrail.Controllers
 
         public ActionResult Edit(long id)
         {
+            CicMessageTemplateRepository CicMessageTemplateRepository = new CicMessageTemplateRepository();
+            ViewBag.PossibleCicMessageTemplate = CicMessageTemplateRepository.All;
             return View(CicrequestRepository.Find(id));
         }
 

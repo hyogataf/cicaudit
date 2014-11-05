@@ -49,6 +49,7 @@ namespace cicaudittrail.Controllers
             return View(CicrequestresultsRepository.Find(id));
         }
 
+
         //
         // GET: /CicRequestResults/DetailsByRequest/5
 
@@ -67,7 +68,9 @@ namespace cicaudittrail.Controllers
                 TempData["error"] = "Veuillez vérifier la requête à exécuter. Aucune requête SQL detectée";
                 return View(model);
             }
-            var listResults = CicrequestresultsRepository.FindAllByRequest(id).ToList<CicRequestResults>();
+
+            Debug.WriteLine("DateTime.Today = " + DateTime.Today);
+            var listResults = CicrequestresultsRepository.FindAllByRequestAndDate(id, DateTime.Today).ToList<CicRequestResults>();
             //var test = Read(listResults).ToList();
             if (listResults.Any())
             {
@@ -351,13 +354,15 @@ namespace cicaudittrail.Controllers
                     if (a == 0)
                     {
                         //Reuperation des titres
-                        int k = 1;
+                        int k = 2; // iteration sur les colonnes (titres). On start à 2 pour ajouter en dur "Id" et "Commentaires"
                         var line = listResults[0];
                         JToken outer = JToken.Parse(line.RowContent);
                         JObject inner = outer.Value<JObject>();
                         List<string> keys = inner.Properties().Select(p => p.Name).ToList();
-                        //Ajout d'une 1ère colonne pour afficher les id
-                        xlWorkSheet.Cells[1, 1] = "Id";
+                        //Ajout de 2 colonnes pour afficher les id et un champ Commentaires
+                        xlWorkSheet.Cells[1, 1] = "Id"; // ajout de "Id"
+                        xlWorkSheet.Cells[1, 2] = "Commentaires"; // ajout de "Commentaires"
+                        //Ajout des autres colonnes
                         foreach (string t in keys)
                         {
                             xlWorkSheet.Cells[1, k + 1] = t;
@@ -381,7 +386,7 @@ namespace cicaudittrail.Controllers
                             List<string> keys = inner.Properties().Select(p => p.Name).ToList();
                             //Renseignement de l'id
                             xlWorkSheet.Cells[countline + 2, 1] = line.CicRequestResultsId;
-                            var countinner = 1;
+                            var countinner = 2;
                             foreach (string k in keys)
                             {
                                 xlWorkSheet.Cells[countline + 2, countinner + 1] = inner.GetValue(k);
