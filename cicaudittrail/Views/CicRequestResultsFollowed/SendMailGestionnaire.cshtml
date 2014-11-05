@@ -17,8 +17,29 @@
             "oLanguage": {
                 "sUrl": "/Scripts/dataTables.french.txt"
             }
+        }); // fin datatable
+
+
+        $(".choix").each(function () {
+            $(this).attr('checked', false);
         });
-    });
+
+        $("#cocheTout").click(function () {
+         
+            if ($("#cocheTout:checked")) {
+                $(".choix").each(function () {
+                    $(this).attr('checked', true);
+                });
+            }
+            if (($("#cocheTout").is(":not(:checked)"))) {
+                $(".choix").each(function () {
+                    $(this).attr('checked', false);
+                });
+            }
+        }); // fin cocheTout
+
+
+    }); // jQuery.ready
   
 </script>
 <div class="row">
@@ -64,6 +85,7 @@
                                     <th>
                                     </th>
                                     <th>
+                                        @Html.CheckBox("cocheTout")
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.CicRequest)
@@ -89,8 +111,8 @@
                                         <td>
                                           @Ajax.ActionLink("Details", "AjaxDetails", new { id = item.CicRequestResultsFollowedId }, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "followedContent1" })
                                         </td>
-                                        <td>
-                                            @Html.CheckBox("coche." + item.CicRequestResultsFollowedId)
+                                        <td style="text-align: center">
+                                            @Html.CheckBox("coche." + item.CicRequestResultsFollowedId, new { @class = "choix" })
                                         </td>
                                       
                                         <td>
