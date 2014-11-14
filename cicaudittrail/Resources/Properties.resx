@@ -117,17 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CicMessageMailDocuments_CicMessageMail" xml:space="preserve">
+    <value>Mail</value>
+  </data>
+  <data name="CicMessageMailDocuments_DateCreated" xml:space="preserve">
+    <value>Date création</value>
+  </data>
+  <data name="CicMessageMailDocuments_DocumentName" xml:space="preserve">
+    <value>Pièce jointe</value>
+  </data>
+  <data name="CicMessageMailDocuments_DocumentType" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="CicMessageMail_CicMessageMailDocuments" xml:space="preserve">
+    <value>Pièces jointes</value>
+  </data>
   <data name="CicMessageMail_CicMessageTemplate" xml:space="preserve">
     <value>Modéle de message envoyé</value>
   </data>
   <data name="CicMessageMail_CicRequestResultsFollowed" xml:space="preserve">
     <value>Suivi</value>
   </data>
+  <data name="CicMessageMail_DateMessage" xml:space="preserve">
+    <value>Date message</value>
+  </data>
   <data name="CicMessageMail_DateMessageReceived" xml:space="preserve">
     <value>Message reçu le</value>
   </data>
   <data name="CicMessageMail_DateMessageSent" xml:space="preserve">
     <value>Message envoyé le</value>
+  </data>
+  <data name="CicMessageMail_Document" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="CicMessageMail_MessageContent" xml:space="preserve">
+    <value>Message</value>
   </data>
   <data name="CicMessageMail_MessageReceived" xml:space="preserve">
     <value>Message reçu</value>
@@ -137,6 +161,12 @@
   </data>
   <data name="CicMessageMail_ObjetMessage" xml:space="preserve">
     <value>Objet</value>
+  </data>
+  <data name="CicMessageMail_Sens" xml:space="preserve">
+    <value>Sens</value>
+  </data>
+  <data name="CicMessageMail_UserMessage" xml:space="preserve">
+    <value>Auteur</value>
   </data>
   <data name="CicMessageMail_UserMessageSent" xml:space="preserve">
     <value>Message envoyé par</value>
@@ -302,6 +332,9 @@
   </data>
   <data name="CicRequestResultsFollowed_C" xml:space="preserve">
     <value>Etat Centif tiré</value>
+  </data>
+  <data name="CicRequestResultsFollowed_CicMessageMails" xml:space="preserve">
+    <value>Mails échangés</value>
   </data>
   <data name="CicRequestResultsFollowed_E" xml:space="preserve">
     <value>En attente</value>

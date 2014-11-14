@@ -61,6 +61,15 @@ namespace cicaudittrail.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Pièces jointes.
+        /// </summary>
+        public static string CicMessageMail_CicMessageMailDocuments {
+            get {
+                return ResourceManager.GetString("CicMessageMail_CicMessageMailDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Modéle de message envoyé.
         /// </summary>
         public static string CicMessageMail_CicMessageTemplate {
@@ -79,6 +88,15 @@ namespace cicaudittrail.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Date message.
+        /// </summary>
+        public static string CicMessageMail_DateMessage {
+            get {
+                return ResourceManager.GetString("CicMessageMail_DateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Message reçu le.
         /// </summary>
         public static string CicMessageMail_DateMessageReceived {
@@ -93,6 +111,24 @@ namespace cicaudittrail.Resources {
         public static string CicMessageMail_DateMessageSent {
             get {
                 return ResourceManager.GetString("CicMessageMail_DateMessageSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Fichier.
+        /// </summary>
+        public static string CicMessageMail_Document {
+            get {
+                return ResourceManager.GetString("CicMessageMail_Document", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Message.
+        /// </summary>
+        public static string CicMessageMail_MessageContent {
+            get {
+                return ResourceManager.GetString("CicMessageMail_MessageContent", resourceCulture);
             }
         }
         
@@ -124,6 +160,24 @@ namespace cicaudittrail.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Sens.
+        /// </summary>
+        public static string CicMessageMail_Sens {
+            get {
+                return ResourceManager.GetString("CicMessageMail_Sens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Auteur.
+        /// </summary>
+        public static string CicMessageMail_UserMessage {
+            get {
+                return ResourceManager.GetString("CicMessageMail_UserMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Message envoyé par.
         /// </summary>
         public static string CicMessageMail_UserMessageSent {
@@ -138,6 +192,42 @@ namespace cicaudittrail.Resources {
         public static string CicMessageMail_UserResponseSent {
             get {
                 return ResourceManager.GetString("CicMessageMail_UserResponseSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Mail.
+        /// </summary>
+        public static string CicMessageMailDocuments_CicMessageMail {
+            get {
+                return ResourceManager.GetString("CicMessageMailDocuments_CicMessageMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Date création.
+        /// </summary>
+        public static string CicMessageMailDocuments_DateCreated {
+            get {
+                return ResourceManager.GetString("CicMessageMailDocuments_DateCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Pièce jointe.
+        /// </summary>
+        public static string CicMessageMailDocuments_DocumentName {
+            get {
+                return ResourceManager.GetString("CicMessageMailDocuments_DocumentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Format.
+        /// </summary>
+        public static string CicMessageMailDocuments_DocumentType {
+            get {
+                return ResourceManager.GetString("CicMessageMailDocuments_DocumentType", resourceCulture);
             }
         }
         
@@ -552,6 +642,15 @@ namespace cicaudittrail.Resources {
         public static string CicRequestResultsFollowed_C {
             get {
                 return ResourceManager.GetString("CicRequestResultsFollowed_C", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Mails échangés.
+        /// </summary>
+        public static string CicRequestResultsFollowed_CicMessageMails {
+            get {
+                return ResourceManager.GetString("CicRequestResultsFollowed_CicMessageMails", resourceCulture);
             }
         }
         

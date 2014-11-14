@@ -1,0 +1,48 @@
+@model cicaudittrail.Models.CicMessageMailDocuments
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.DocumentName)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.DocumentName, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.DocumentName, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.DocumentType)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.DocumentType, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.DocumentType, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.DateCreated)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.DateCreated, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.DateCreated, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="editor-label">
+    CicMessageMail
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.CicMessageMailId, ((IEnumerable<cicaudittrail.Models.CicMessageMail>)ViewBag.PossibleCicMessageMail).Select(option => new SelectListItem {
+        Text = Html.DisplayTextFor(_ => option).ToString(), 
+        Value = option.CicMessageMailId.ToString(),
+        Selected = (Model != null) && (option.CicMessageMailId == Model.CicMessageMailId)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.CicMessageMailId)
+</div>

@@ -69,7 +69,7 @@ namespace cicaudittrail.Controllers
                 return View(model);
             }
 
-            Debug.WriteLine("DateTime.Today = " + DateTime.Today);
+           // Debug.WriteLine("DateTime.Today = " + DateTime.Today);
             var listResults = CicrequestresultsRepository.FindAllByRequestAndDate(id, DateTime.Today).ToList<CicRequestResults>();
             //var test = Read(listResults).ToList();
             if (listResults.Any())

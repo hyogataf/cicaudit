@@ -39,6 +39,9 @@ namespace cicaudittrail.Models
         [Display(Name = "CicRequestResultsFollowedComments", ResourceType = typeof(Properties))]
         public string Comments { get; set; }
 
+        [Display(Name = "CicRequestResultsFollowed_CicMessageMails", ResourceType = typeof(Properties))]
+        public virtual ICollection<CicMessageMail> CicMessageMails { get; set; } // hasMany. Ne pas oublier de modifier le context
+
     }
 
     public enum Statut

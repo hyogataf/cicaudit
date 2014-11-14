@@ -17,40 +17,38 @@ namespace cicaudittrail.Models
 
          
         [Column("CICREQUESTRESULTSFOLLOWEDID")]
-        public long CicRequestResultsFollowedId { get; set; }
+        public long? CicRequestResultsFollowedId { get; set; }
         [Display(Name = "CicMessageMail_CicRequestResultsFollowed", ResourceType = typeof(Properties))]
         public virtual CicRequestResultsFollowed CicRequestResultsFollowed { get; set; }
 
-        [Column("MESSAGESENT")]
-        [Display(Name = "CicMessageMail_MessageSent", ResourceType = typeof(Properties))]
-        public string MessageSent { get; set; }
+        [Column("MESSAGECONTENT")]
+        [Display(Name = "CicMessageMail_MessageContent", ResourceType = typeof(Properties))]
+        public string MessageContent { get; set; }
 
         [Column("OBJETMESSAGE")]
         [Display(Name = "CicMessageMail_ObjetMessage", ResourceType = typeof(Properties))]
         public string ObjetMessage { get; set; }
 
-        [Column("DATEMESSAGESENT")]
-        [Display(Name = "CicMessageMail_DateMessageSent", ResourceType = typeof(Properties))]
-        public DateTime? DateMessageSent { get; set; }
+        [Column("DATEMESSAGE")]
+        [Display(Name = "CicMessageMail_DateMessage", ResourceType = typeof(Properties))]
+        public DateTime? DateMessage { get; set; }
 
 
-        [Column("USERMESSAGESENT")]
-        [Display(Name = "CicMessageMail_UserMessageSent", ResourceType = typeof(Properties))]
-        public string UserMessageSent { get; set; }
+        [Column("USERMESSAGE")]
+        [Display(Name = "CicMessageMail_UserMessage", ResourceType = typeof(Properties))]
+        public string UserMessage { get; set; }
 
-        [Column("MESSAGERECEIVED")]
-        [Display(Name = "CicMessageMail_MessageReceived", ResourceType = typeof(Properties))]
-        public string MessageReceived { get; set; }
+        [Column("SENS")]
+        [Display(Name = "CicMessageMail_Sens", ResourceType = typeof(Properties))]
+        public string Sens { get; set; }
 
-
-        [Column("DATEMESSAGERECEIVED")]
-        [Display(Name = "CicMessageMail_DateMessageReceived", ResourceType = typeof(Properties))]
-        public DateTime? DateMessageReceived { get; set; }
-
-
-        [Column("USERRESPONSESENT")]
-        [Display(Name = "CicMessageMail_UserResponseSent", ResourceType = typeof(Properties))]
-        public string UserResponseSent { get; set; }
-
+        [Display(Name = "CicMessageMail_CicMessageMailDocuments", ResourceType = typeof(Properties))]
+        public virtual ICollection<CicMessageMailDocuments> CicMessageMailDocuments { get; set; } // hasMany. Ne pas oublier de modifier le context
     }
-}
+
+     public enum Sens
+    {
+        I, O
+        //I: In (message reçu), O: Out (message envoyé)
+    }
+} 

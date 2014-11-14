@@ -40,6 +40,14 @@ namespace cicaudittrail.Models
             modelBuilder.Entity<CicRequestResultsFollowed>().ToTable("CICREQUESTRESULTSFOLLOWED", schemaName);
             modelBuilder.Entity<CicMessageTemplate>().ToTable("CICMESSAGETEMPLATE", schemaName);
             modelBuilder.Entity<CicMessageMail>().ToTable("CICMESSAGEMAIL", schemaName);
+            modelBuilder.Entity<CicMessageMailDocuments>().ToTable("CICMESSAGEMAILDOCUMENTS", schemaName);
+
+            //HasMany: CicRequestResultsFollowed hasMany CicMessageMails
+            modelBuilder.Entity<CicRequestResultsFollowed>().HasMany(e => e.CicMessageMails).WithOptional(a => a.CicRequestResultsFollowed).HasForeignKey(e => e.CicRequestResultsFollowedId);
+
+            //HasMany: CicMessageMails hasMany CicMessageMailDocuments
+            modelBuilder.Entity<CicMessageMail>().HasMany(e => e.CicMessageMailDocuments).WithOptional(a => a.CicMessageMail).HasForeignKey(e => e.CicMessageMailId);
+
             // modelBuilder.Conventions.Remove<ColumnTypeCasingConvention>();
 
         }
@@ -59,5 +67,7 @@ namespace cicaudittrail.Models
         public DbSet<cicaudittrail.Models.CicMessageTemplate> CicMessageTemplate { get; set; }
 
         public DbSet<cicaudittrail.Models.CicMessageMail> CicMessageMail { get; set; }
+
+        public DbSet<cicaudittrail.Models.CicMessageMailDocuments> CicMessageMailDocuments { get; set; }
     }
 }

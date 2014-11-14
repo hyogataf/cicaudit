@@ -70,6 +70,9 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="OpenPop">
+      <HintPath>..\packages\OpenPop.NET.2.0.6.1076\lib\net40\OpenPop.dll</HintPath>
+    </Reference>
     <Reference Include="Oracle.ManagedDataAccess">
       <HintPath>C:\Program Files\Oracle\ODP.NETManaged12010Beta2_Xcopy\odp.net\managed\common\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
@@ -197,6 +200,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CicMessageMailController.cs" />
+    <Compile Include="Controllers\CicMessageMailDocumentsController.cs" />
     <Compile Include="Controllers\CicMessageTemplateController.cs" />
     <Compile Include="Controllers\CicRequestController.cs" />
     <Compile Include="Controllers\CicRequestExecutionController.cs" />
@@ -218,6 +222,8 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\CheckSqlAttribute.cs" />
     <Compile Include="Models\CicMessageMail.cs" />
+    <Compile Include="Models\CicMessageMailDocuments.cs" />
+    <Compile Include="Models\CicMessageMailDocumentsRepository.cs" />
     <Compile Include="Models\CicMessageMailRepository.cs" />
     <Compile Include="Models\CicMessageTemplate.cs" />
     <Compile Include="Models\CicMessageTemplateRepository.cs" />
@@ -358,9 +364,6 @@
     <Content Include="Content\metisMenu.min.css" />
     <Content Include="Scripts\metisMenu.min.js" />
     <Content Include="Content\morris.css" />
-    <Content Include="ociw32.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -416,21 +419,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="oci.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="orannzsbb11.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="oraocci11.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="oraociicus12.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="OraOps11w.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\sb-admin-2.css" />
     <Content Include="Scripts\sb-admin-2.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -599,6 +587,12 @@
     <Content Include="Views\CicMessageMail\Details.cshtml" />
     <Content Include="Views\CicMessageMail\Index.cshtml" />
     <Content Include="Views\CicMessageMail\_CreateOrEdit.cshtml" />
+    <Content Include="Views\CicMessageMailDocuments\Create.cshtml" />
+    <Content Include="Views\CicMessageMailDocuments\Edit.cshtml" />
+    <Content Include="Views\CicMessageMailDocuments\Delete.cshtml" />
+    <Content Include="Views\CicMessageMailDocuments\Details.cshtml" />
+    <Content Include="Views\CicMessageMailDocuments\Index.cshtml" />
+    <Content Include="Views\CicMessageMailDocuments\_CreateOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

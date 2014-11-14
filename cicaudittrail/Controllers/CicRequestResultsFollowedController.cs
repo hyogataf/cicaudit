@@ -325,6 +325,7 @@ namespace cicaudittrail.Controllers
         [HttpPost]
         public ActionResult PopulateBody(CicRequestResultsFollowed Cicrequestresultsfollowed)
         {
+            //Debug.WriteLine("Request.Form = " + Request.Form);
             CicMessageMailRepository CicMessageMailRepository = new CicMessageMailRepository();
             CicRequestExecutionRepository CicrequestExecutionRepository = new CicRequestExecutionRepository();
             var nbre = 0;
@@ -337,9 +338,10 @@ namespace cicaudittrail.Controllers
                     //si case cochée <==> si on veut envoyer msg pour la ligne en cours
                     if (Request.Form.GetValues(k.ToString())[0] == "true")
                     {
-                        CicRequestResultsFollowed CicRequestFollowedInstance = CicrequestresultsfollowedRepository.Find(Convert.ToInt64(resultId));
+                        CicRequestResultsFollowed CicRequestFollowedInstance = CicrequestresultsfollowedRepository.Find(Convert.ToInt64(resultId)); 
+
                         if (CicRequestFollowedInstance != null && CicRequestFollowedInstance.CicRequest.CicMessageTemplateId != null)
-                        {
+                        { 
                             Dictionary<string, string> map = new Dictionary<string, string>();
                             map.Add("#{NomGestionnaire}", "admin");
                             ToolsClass toolsClass = new ToolsClass();
@@ -347,13 +349,21 @@ namespace cicaudittrail.Controllers
                             var bodyMessage = CicRequestFollowedInstance.CicRequest.CicMessageTemplate.ContenuMail;
                             var CicMessageMail = new CicMessageMail();
                             CicMessageMail.CicRequestResultsFollowedId = CicRequestFollowedInstance.CicRequestResultsFollowedId;
-                            CicMessageMail.DateMessageSent = DateTime.Now;
-                            CicMessageMail.MessageSent = toolsClass.generateBodyMessage(map, bodyMessage);
+                            CicMessageMail.DateMessage = DateTime.Now;
+                            CicMessageMail.MessageContent = toolsClass.generateBodyMessage(map, bodyMessage);
                             CicMessageMail.ObjetMessage = objet;
-                            CicMessageMail.UserMessageSent = "admin"; //TODO recuperer le user connecté
+                            CicMessageMail.UserMessage = "admin"; //TODO recuperer le user connecté
+                            CicMessageMail.Sens = Sens.O.ToString();
                             CicMessageMailRepository.InsertOrUpdate(CicMessageMail);
                             CicMessageMailRepository.Save();
                             ListCicMessageMail.Add(CicMessageMail);
+
+                            //TODO enregistrer la piece jointe: le json en xls
+
+                            //Update de CicRequestResultsFollowed
+                            CicRequestFollowedInstance.Statut = Statut.ME.ToString();
+                            CicrequestresultsfollowedRepository.InsertOrUpdate(CicRequestFollowedInstance);
+                            CicrequestresultsfollowedRepository.Save();
 
 
                             //Enregistrement de CicRequestExecution
@@ -379,7 +389,7 @@ namespace cicaudittrail.Controllers
                 MailingClass MailingClass = new MailingClass();
                 foreach (CicMessageMail mail in ListCicMessageMail)
                 {
-                    MailingClass.SendEmail("c.hyoga@hotmail.com", mail.ObjetMessage, mail.MessageSent);
+                    MailingClass.SendEmail("c.hyoga@gmail.com", mail.ObjetMessage, mail.MessageSent);
                 }
             });
             TempData["message"] = nbre + " message(s) a (ont) été envoyé avec succés";
