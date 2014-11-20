@@ -1,0 +1,48 @@
+@model cicaudittrail.Models.CicFollowedPropertiesValues
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.Property)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.Property, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Property, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.Value)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.Value, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Value, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.DateCreated)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.DateCreated, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.DateCreated, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="editor-label">
+    CicRequestResultsFollowed
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.CicRequestResultsFollowedId, ((IEnumerable<cicaudittrail.Models.CicRequestResultsFollowed>)ViewBag.PossibleCicRequestResultsFollowed).Select(option => new SelectListItem {
+        Text = Html.DisplayTextFor(_ => option).ToString(), 
+        Value = option.CicRequestResultsFollowedId.ToString(),
+        Selected = (Model != null) && (option.CicRequestResultsFollowedId == Model.CicRequestResultsFollowedId)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.CicRequestResultsFollowedId)
+</div>

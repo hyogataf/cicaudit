@@ -16,7 +16,7 @@
     } 
 }
 <script type="text/javascript" charset="utf-8">
-    $(document).ready(function () { 
+    $(document).ready(function () {
         $("#resultsTable").dataTable({
             "sDom": '<"H"TClfr>t<"F"ip>',
             bJQueryUI: false,
@@ -122,11 +122,12 @@
                                     <button type="button" class="btn btn-warning">
                                         @Html.ActionLink("Exporter vers excel", "ExportToExcel", "CicRequestResults", new { id = ViewData["CicRequest.Id"] }, null)
                                     </button> 
-                                    <button type="button" class="btn btn-success" id="upload-excel1" data-toggle="modal"
-                                        data-target="#upload-modal">
-                                        Remonter suivi manuel
-                                    </button>
+                                  
                                 }
+                                <button type="button" class="btn btn-success" id="upload-excel1" data-toggle="modal"
+                                    data-target="#upload-modal">
+                                    Remonter suivi manuel
+                                </button>
                                 <button type="button" class="btn btn-default">
                                     @Html.ActionLink("Retour", "Details", "CicRequest", new { id = ViewData["CicRequest.Id"] }, null)
                                 </button>
@@ -301,11 +302,12 @@
                                     <input class="btn btn-primary" type="submit" value="Enregistrer">
                                     <button type="button" class="btn btn-warning">
                                         @Html.ActionLink("Exporter vers excel", "ExportToExcel", "CicRequestResults", new { id = ViewData["CicRequest.Id"] }, null)
-                                    </button> 
-                                    <button type="button" class="btn btn-success" id="upload-excel2">
-                                        Remonter suivi manuel
-                                    </button>
+                                    </button>  
                                 }
+                                <button type="button" class="btn btn-success" id="upload-excel2" data-toggle="modal"
+                                    data-target="#upload-modal">
+                                    Remonter suivi manuel
+                                </button>
                                 <button type="button" class="btn btn-default">
                                     @Html.ActionLink("Retour", "Details", "CicRequest", new { id = ViewData["CicRequest.Id"] }, null)
                                 </button>

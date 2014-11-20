@@ -26,6 +26,7 @@ namespace cicaudittrail.Models
                ).AsQueryable();
         }
 
+
         public IQueryable<CicRequestResultsFollowed> AllIncluding(params Expression<Func<CicRequestResultsFollowed, object>>[] includeProperties)
         {
             IQueryable<CicRequestResultsFollowed> query = context.CicRequestResultsFollowed;
@@ -35,6 +36,20 @@ namespace cicaudittrail.Models
             }
             return query;
         }
+         
+        public IQueryable<CicRequestResultsFollowed> AllAnsweredIncluding(string[] status, params Expression<Func<CicRequestResultsFollowed, object>>[] includeProperties)
+        {
+            IQueryable<CicRequestResultsFollowed> query = context.CicRequestResultsFollowed.ToList().Where(
+               r => status.Contains(r.Statut)
+               ).AsQueryable();
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+            return query;
+        }
+
+
 
         public CicRequestResultsFollowed Find(long id)
         {
@@ -105,6 +120,9 @@ namespace cicaudittrail.Models
         IQueryable<CicRequestResultsFollowed> All { get; }
         IQueryable<CicRequestResultsFollowed> AllByRequest(long cicrequestid);
         IQueryable<CicRequestResultsFollowed> AllIncluding(params Expression<Func<CicRequestResultsFollowed, object>>[] includeProperties);
+
+        //Recupere tous les CicRequestResultsFollowed selon une liste de statuts
+        IQueryable<CicRequestResultsFollowed> AllAnsweredIncluding(string[] status, params Expression<Func<CicRequestResultsFollowed, object>>[] includeProperties);
         CicRequestResultsFollowed Find(long id);
         IQueryable<CicRequestResultsFollowed> ExecuteSearch(string cicrequestid, string dateCreated, string userCreated, string comments, string rowContent);
         void InsertOrUpdate(CicRequestResultsFollowed Cicrequestresultsfollowed);

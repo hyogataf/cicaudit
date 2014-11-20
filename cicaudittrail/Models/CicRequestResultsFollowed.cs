@@ -11,6 +11,8 @@ namespace cicaudittrail.Models
     public class CicRequestResultsFollowed
     {
         [Column("CICREQUESTRESULTSFOLLOWEDID")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //  champ autogeneré dans la bdd
+        [ScaffoldColumn(false)] // champ pas affiché dans les vues 
         public long CicRequestResultsFollowedId { get; set; }
 
         [Column("CICREQUESTID")] // Syntaxe du champ utilisé lors des requetes SQL. Obligatoire dans le cas d'une base Oracle

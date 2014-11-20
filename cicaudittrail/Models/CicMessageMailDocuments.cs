@@ -5,6 +5,8 @@ using System.Web;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using cicaudittrail.Resources;
+using cicaudittrail.Models.WsMapping;
+using cicaudittrail.Src;
 
 namespace cicaudittrail.Models
 {
@@ -36,5 +38,16 @@ namespace cicaudittrail.Models
         [Column("DATECREATED")]
         [Display(Name = "CicMessageMailDocuments_DateCreated", ResourceType = typeof(Properties))]
         public DateTime DateCreated { get; set; }
+
+
+        public MessageEntityPJ ConvertToMessageEntityPJ()
+        {
+            ToolsClass tools = new ToolsClass();
+            MessageEntityPJ entity = new MessageEntityPJ();
+            entity.file = tools.Base64Encode(this.Document);
+            entity.fileName = this.DocumentName;
+            entity.fileType = DocumentType;
+            return entity;
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace cicaudittrail.Jobs
         static int InternalPadRowNumber = 50;
 
 
-
+        //Not used, car le monothreaded prend beaucoup trop de temps
         public void OldExecuteMethodThatWorksButMonothread(IJobExecutionContext context)
         {
             try

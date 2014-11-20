@@ -14,7 +14,7 @@ namespace cicaudittrail.Src
         public bool CheckSql(string sqlRequest)
         {
             List<string> sqlToString = sqlRequest.Split(' ').ToList();
-           // Debug.WriteLine("sqlToString = " + sqlToString);
+            // Debug.WriteLine("sqlToString = " + sqlToString);
             var check = sqlToString.Any(v => forbiddenSql.Contains(v));
             return check;
         }
@@ -37,16 +37,35 @@ namespace cicaudittrail.Src
             try
             {
                 string msg = BodyMessageTemplate;
-                foreach (KeyValuePair<string, string> element in mapValues) {
-                    msg = msg.Replace(element.Key, element.Value);   
+                foreach (KeyValuePair<string, string> element in mapValues)
+                {
+                    msg = msg.Replace(element.Key, element.Value);
                 }
                 return msg;
             }
-            catch (Exception ex) {
-                Debug.WriteLine("ToolsClass generateBodyMessage error = "+ex.StackTrace);
+            catch (Exception ex)
+            {
+                Debug.WriteLine("ToolsClass generateBodyMessage error = " + ex.StackTrace);
                 return BodyMessageTemplate;
-            } 
+            }
         }
+
+
+
+        // decode from base64 des string
+        public byte[] Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return base64EncodedBytes;
+        }
+
+
+        //encodage en base64 des byte[]
+        public string Base64Encode(byte[] byteElement)
+        {
+            return System.Convert.ToBase64String(byteElement);
+        }
+
 
     }
 }

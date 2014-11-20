@@ -1,13 +1,13 @@
 @model IEnumerable<cicaudittrail.Models.CicRequestResultsFollowed>
 @{
-    ViewBag.Title = "Liste suivis effectués";
+    ViewBag.Title = "Traitement des réponses des gestionnaires";
 }
 @Scripts.Render("~/bundles/datatablejs")
 @Styles.Render("~/Content/datatablecss")
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
-        $("#suiviTable").dataTable({
-            bJQueryUI: false,
+        $("#suiviTable").dataTable(
+        { bJQueryUI: false,
             sPaginationType: "full_numbers", 
             "oLanguage": {
                 "sUrl": "/Scripts/dataTables.french.txt"
@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            Liste suivis effectués</h1>
+            Traitement des réponses des gestionnaires</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -44,9 +44,9 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-heading">
+           @* <div class="panel-heading">
                 Basic Form Elements
-            </div>
+            </div>*@
             <div class="panel-body">
                 <div class="row" style="margin-left: -15px">
                     <div class="col-lg-12">
@@ -77,7 +77,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.ActionLink("Details", "Details", new { id = item.CicRequestResultsFollowedId })
+                                            @Html.ActionLink("Details", "DetailsPrintMessages", new { id = item.CicRequestResultsFollowedId })
                                         </td>
                                         <td>
                                             @(item.CicRequest == null ? "None" : item.CicRequest.Libelle)

@@ -61,6 +61,24 @@ namespace cicaudittrail.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Suivi.
+        /// </summary>
+        public static string CicFollowedPropertiesValues_CicRequestResultsFollowed {
+            get {
+                return ResourceManager.GetString("CicFollowedPropertiesValues_CicRequestResultsFollowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Créé le.
+        /// </summary>
+        public static string CicFollowedPropertiesValues_DateCreated {
+            get {
+                return ResourceManager.GetString("CicFollowedPropertiesValues_DateCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Pièces jointes.
         /// </summary>
         public static string CicMessageMail_CicMessageMailDocuments {
@@ -345,6 +363,15 @@ namespace cicaudittrail.Resources {
         public static string CicRequest_CicMessageTemplate {
             get {
                 return ResourceManager.GetString("CicRequest_CicMessageTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Propriétés.
+        /// </summary>
+        public static string CicRequest_Properties {
+            get {
+                return ResourceManager.GetString("CicRequest_Properties", resourceCulture);
             }
         }
         

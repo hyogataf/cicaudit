@@ -12,6 +12,8 @@ namespace cicaudittrail.Models.WsMapping
 
         public string From { get; set; } // envoyé par
 
+        public string To { get; set; } 
+
         public DateTime DateMessage { get; set; }
 
         public string Message { get; set; }

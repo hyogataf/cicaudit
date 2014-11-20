@@ -312,6 +312,12 @@
   <data name="CicRequestResultsFollowedDateCreated" xml:space="preserve">
     <value>Effectué le</value>
   </data>
+  <data name="CicFollowedPropertiesValues_CicRequestResultsFollowed" xml:space="preserve">
+    <value>Suivi</value>
+  </data>
+  <data name="CicFollowedPropertiesValues_DateCreated" xml:space="preserve">
+    <value>Créé le</value>
+  </data>
   <data name="CicRequestResultsFollowedRowCCicRequestResultsFollowedRowContent" xml:space="preserve">
     <value>Contenu</value>
   </data>
@@ -356,6 +362,9 @@
   </data>
   <data name="CicRequest_CicMessageTemplate" xml:space="preserve">
     <value>Modéle de message envoyé</value>
+  </data>
+  <data name="CicRequest_Properties" xml:space="preserve">
+    <value>Propriétés</value>
   </data>
   <data name="RoleName" xml:space="preserve">
     <value>Rôle</value>

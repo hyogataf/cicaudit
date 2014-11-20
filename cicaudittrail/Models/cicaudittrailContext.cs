@@ -24,7 +24,9 @@ namespace cicaudittrail.Models
         public cicaudittrailContext()
             : base(new OracleConnection(ConfigurationManager.ConnectionStrings["cicaudittrailContext"].ConnectionString), true)
         {
-
+            Database.SetInitializer<cicaudittrailContext>(null);
+            Configuration.ProxyCreationEnabled = true;
+            Configuration.LazyLoadingEnabled = true;
         }
 
 
@@ -41,6 +43,7 @@ namespace cicaudittrail.Models
             modelBuilder.Entity<CicMessageTemplate>().ToTable("CICMESSAGETEMPLATE", schemaName);
             modelBuilder.Entity<CicMessageMail>().ToTable("CICMESSAGEMAIL", schemaName);
             modelBuilder.Entity<CicMessageMailDocuments>().ToTable("CICMESSAGEMAILDOCUMENTS", schemaName);
+            modelBuilder.Entity<CicFollowedPropertiesValues>().ToTable("CICFOLLOWEDPROPERTIESVALUES", schemaName);
 
             //HasMany: CicRequestResultsFollowed hasMany CicMessageMails
             modelBuilder.Entity<CicRequestResultsFollowed>().HasMany(e => e.CicMessageMails).WithOptional(a => a.CicRequestResultsFollowed).HasForeignKey(e => e.CicRequestResultsFollowedId);
@@ -69,5 +72,7 @@ namespace cicaudittrail.Models
         public DbSet<cicaudittrail.Models.CicMessageMail> CicMessageMail { get; set; }
 
         public DbSet<cicaudittrail.Models.CicMessageMailDocuments> CicMessageMailDocuments { get; set; }
+
+        public DbSet<cicaudittrail.Models.CicFollowedPropertiesValues> CicFollowedPropertiesValues { get; set; }
     }
 }

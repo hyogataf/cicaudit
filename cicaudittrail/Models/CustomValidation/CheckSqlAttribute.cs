@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using cicaudittrail.Src;
 
-namespace cicaudittrail.Models
+namespace cicaudittrail.Models.CustomValidation
 {
     // class qui interdit l'insertion d'une liste de mot
     public class CheckSqlAttribute : ValidationAttribute

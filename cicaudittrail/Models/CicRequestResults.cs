@@ -13,10 +13,11 @@ namespace cicaudittrail.Models
 
         [Column("CICREQUESTID")] // Syntaxe du champ utilisé lors des requetes SQL. Obligatoire dans le cas d'une base Oracle
         public long CicRequestId { get; set; }
+        public virtual CicRequest CicRequest { get; set; }
 
         [Column("ROWCONTENT")]
         public string RowContent { get; set; }
-         
+
         [Column("DATECREATED")]
         public DateTime DateCreated { get; set; }
     }

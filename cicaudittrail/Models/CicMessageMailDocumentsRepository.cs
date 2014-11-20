@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Web;
 
 namespace cicaudittrail.Models
-{ 
+{
     public class CicMessageMailDocumentsRepository : ICicMessageMailDocumentsRepository
     {
         cicaudittrailContext context = new cicaudittrailContext();
@@ -20,10 +20,18 @@ namespace cicaudittrail.Models
         public IQueryable<CicMessageMailDocuments> AllIncluding(params Expression<Func<CicMessageMailDocuments, object>>[] includeProperties)
         {
             IQueryable<CicMessageMailDocuments> query = context.CicMessageMailDocuments;
-            foreach (var includeProperty in includeProperties) {
+            foreach (var includeProperty in includeProperties)
+            {
                 query = query.Include(includeProperty);
             }
             return query;
+        }
+
+        public IQueryable<CicMessageMailDocuments> FindAllByCicMessageMail(long MessageMailId)
+        {
+            return context.CicMessageMailDocuments.ToList().Where(
+                    r => r.CicMessageMailId == MessageMailId
+                    ).AsQueryable();
         }
 
         public CicMessageMailDocuments Find(long id)
@@ -33,10 +41,13 @@ namespace cicaudittrail.Models
 
         public void InsertOrUpdate(CicMessageMailDocuments cicmessagemaildocuments)
         {
-            if (cicmessagemaildocuments.CicMessageMailDocumentsId == default(long)) {
+            if (cicmessagemaildocuments.CicMessageMailDocumentsId == default(long))
+            {
                 // New entity
                 context.CicMessageMailDocuments.Add(cicmessagemaildocuments);
-            } else {
+            }
+            else
+            {
                 // Existing entity
                 context.Entry(cicmessagemaildocuments).State = EntityState.Modified;
             }
@@ -53,7 +64,7 @@ namespace cicaudittrail.Models
             context.SaveChanges();
         }
 
-        public void Dispose() 
+        public void Dispose()
         {
             context.Dispose();
         }
@@ -64,6 +75,7 @@ namespace cicaudittrail.Models
         IQueryable<CicMessageMailDocuments> All { get; }
         IQueryable<CicMessageMailDocuments> AllIncluding(params Expression<Func<CicMessageMailDocuments, object>>[] includeProperties);
         CicMessageMailDocuments Find(long id);
+        IQueryable<CicMessageMailDocuments> FindAllByCicMessageMail(long MessageMailId);
         void InsertOrUpdate(CicMessageMailDocuments cicmessagemaildocuments);
         void Delete(long id);
         void Save();

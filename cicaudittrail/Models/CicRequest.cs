@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using cicaudittrail.Resources;
+using cicaudittrail.Models.CustomValidation;
 
 namespace cicaudittrail.Models
 {
@@ -30,7 +31,7 @@ namespace cicaudittrail.Models
         [Display(Name = "CicRequestRequest", ResourceType = typeof(Properties))] //label affiché [géré par le fichier Properties.resx]
         [Column("REQUEST")]
         [DataType(DataType.MultilineText)] // longtext
-        [CheckSql]
+        [CheckSql] // custom validation. Verifie si la requete ne contient pas des cmds pouvant updater la bdd
         public String Request { get; set; }
 
         [Column("CICMESSAGETEMPLATEID")]
@@ -38,6 +39,9 @@ namespace cicaudittrail.Models
         [Display(Name = "CicRequest_CicMessageTemplate", ResourceType = typeof(Properties))]
         public virtual CicMessageTemplate CicMessageTemplate { get; set; }
 
+        [Display(Name = "CicRequest_Properties", ResourceType = typeof(Properties))] //label affiché [géré par le fichier Properties.resx]
+        [Column("PROPERTIES")]
+        public String Properties { get; set; }
 
         public virtual ICollection<CicRequestExecution> CicRequestExecution { get; set; }
 

@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using cicaudittrail.Models;
-using System.Diagnostics;
 using System.Data.Common;
-using Newtonsoft.Json;
 
 namespace cicaudittrail.Controllers
 {

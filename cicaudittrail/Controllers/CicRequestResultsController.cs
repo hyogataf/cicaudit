@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System.IO;
 using cicaudittrail.Src;
+using Newtonsoft.Json;
 
 namespace cicaudittrail.Controllers
 {
@@ -69,7 +70,7 @@ namespace cicaudittrail.Controllers
                 return View(model);
             }
 
-           // Debug.WriteLine("DateTime.Today = " + DateTime.Today);
+            // Debug.WriteLine("DateTime.Today = " + DateTime.Today);
             var listResults = CicrequestresultsRepository.FindAllByRequestAndDate(id, DateTime.Today).ToList<CicRequestResults>();
             //var test = Read(listResults).ToList();
             if (listResults.Any())
@@ -216,7 +217,41 @@ namespace cicaudittrail.Controllers
                             CicrequestResultsFollowedRepository.InsertOrUpdate(CicRequestResultsFollowed);
                             CicrequestResultsFollowedRepository.Save();
 
+                            //Recuperation des properties de CicRequest 
 
+                            if (CicRequestResultsInstance.CicRequest.Properties != null && CicRequestResultsInstance.CicRequest.Properties != "")
+                            {
+                                var listProperties = CicRequestResultsInstance.CicRequest.Properties.Split(',');
+                                 
+                                Dictionary<string, string> dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                                var dictionaryIgnoreCase = JsonConvert.DeserializeObject<Dictionary<string, string>>(CicRequestResultsInstance.RowContent);
+                                foreach (var el in dictionaryIgnoreCase)
+                                {
+                                    dictionary.Add(el.Key, el.Value);
+                                }
+
+                                foreach (var proplocal in listProperties)
+                                {
+                                    var prop = proplocal.Trim();
+                                   
+                                    if (prop != null)
+                                    {
+                                        if (dictionary.ContainsKey(prop))
+                                        {
+                                           // Debug.WriteLine("prop = " + prop + ", value = " + dictionary[prop].Trim());
+                                            CicFollowedPropertiesValuesRepository CicRequestPropValueRepository = new CicFollowedPropertiesValuesRepository();
+                                            CicFollowedPropertiesValues CicRequestPropValue = new CicFollowedPropertiesValues();
+                                            CicRequestPropValue.CicRequestResultsFollowedId = CicRequestResultsFollowed.CicRequestResultsFollowedId;
+                                            CicRequestPropValue.Property = prop;
+                                            CicRequestPropValue.Value = dictionary[prop].Trim();
+                                            CicRequestPropValue.DateCreated = DateTime.Now;
+                                            CicRequestPropValueRepository.InsertOrUpdate(CicRequestPropValue);
+                                            CicRequestPropValueRepository.Save();
+                                        } 
+                                    }
+                                } 
+                            }
+                             
                             //Enregistrement de CicRequestExecution
                             var CicRequestExecutionInstance = new CicRequestExecution();
                             CicRequestExecutionInstance.CicRequestId = CicRequestResultsInstance.CicRequestId;
@@ -481,6 +516,38 @@ namespace cicaudittrail.Controllers
                             CicrequestResultsFollowedRepository.InsertOrUpdate(CicRequestResultsFollowed);
                             CicrequestResultsFollowedRepository.Save();
 
+                            //Recuperation des properties de CicRequest 
+
+                            if (CicRequestResultsInstance.CicRequest.Properties != null && CicRequestResultsInstance.CicRequest.Properties != "")
+                            {
+                                Dictionary<string, string> dictionary  = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                                var dictionaryIgnoreCase = JsonConvert.DeserializeObject<Dictionary<string, string>>(CicRequestResultsInstance.RowContent);
+                                foreach (var el in dictionaryIgnoreCase) {
+                                    dictionary.Add(el.Key, el.Value);
+                                } 
+                                var listProperties = CicRequestResultsInstance.CicRequest.Properties.Split(',');
+                                foreach (var proplocal in listProperties)
+                                {
+                                    var prop = proplocal.Trim();
+                                     
+                                    if (prop != null)
+                                    {
+                                           if (dictionary.ContainsKey(prop))
+                                      //  if (listProps.Contains(prop, StringComparer.OrdinalIgnoreCase))
+                                        { 
+                                            CicFollowedPropertiesValuesRepository CicRequestPropValueRepository = new CicFollowedPropertiesValuesRepository();
+                                            CicFollowedPropertiesValues CicRequestPropValue = new CicFollowedPropertiesValues();
+                                            CicRequestPropValue.CicRequestResultsFollowedId = CicRequestResultsFollowed.CicRequestResultsFollowedId;
+                                            CicRequestPropValue.Property = prop;
+                                            CicRequestPropValue.Value = dictionary[prop].Trim();
+                                            CicRequestPropValue.DateCreated = DateTime.Now;
+                                            CicRequestPropValueRepository.InsertOrUpdate(CicRequestPropValue);
+                                            CicRequestPropValueRepository.Save();
+                                        }
+                                    }
+                                } 
+                            }
+                             
                             //Enregistrement de CicRequestExecution
                             var CicRequestExecutionInstance = new CicRequestExecution();
                             CicRequestExecutionInstance.CicRequestId = CicRequestResultsInstance.CicRequestId;
