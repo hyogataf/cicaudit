@@ -529,12 +529,25 @@ namespace cicaudittrail.Controllers
 
 
         [HttpPost]
-        public ActionResult UpdateFollow(long id, string statut)
+        public ActionResult UpdateFollow()
         {
-            Debug.WriteLine("id = " + id + ", statut = " + statut);
-            var Cicrequestresultsfollowed = CicrequestresultsfollowedRepository.Find(id);
+            var Cicrequestresultsfollowed = CicrequestresultsfollowedRepository.Find(Convert.ToInt64(Request.Form["CicRequestResultsFollowedId"]));
+            if (Cicrequestresultsfollowed == null)
+            {
+                TempData["error"] = "Aucun suivi avec l'id " + Request.Form["CicRequestResultsFollowedId"] + " n'a été trouvé.";
+                return RedirectToAction("IndexForMailResponses");
+            }
+
             //  var StatutInstance = (Statut)System.Enum.Parse(typeof(Statut), statut);
-            Cicrequestresultsfollowed.Statut = statut;
+            if (string.IsNullOrEmpty(Request.Form["confirm"])) //action == Cancel
+            {
+                Cicrequestresultsfollowed.Statut = Statut.A.ToString();
+            }
+            else if (string.IsNullOrEmpty(Request.Form["cancel"])) //action == confirm
+            {
+                Cicrequestresultsfollowed.Statut = Statut.S.ToString();
+            }
+
             CicrequestresultsfollowedRepository.InsertOrUpdate(Cicrequestresultsfollowed);
             CicrequestresultsfollowedRepository.Save();
 
@@ -544,15 +557,14 @@ namespace cicaudittrail.Controllers
             CicRequestExecutionInstance.CicRequestId = Cicrequestresultsfollowed.CicRequestId;
             CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
             CicRequestExecutionInstance.DateAction = DateTime.Now;
-            if (statut == "A")
+            if (string.IsNullOrEmpty(Request.Form["confirm"])) //action == Cancel
             {
                 CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.FA.ToString();
             }
-            else if (statut == "S")
+            else if (string.IsNullOrEmpty(Request.Form["cancel"])) //action == confirm
             {
                 CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.FC.ToString();
             }
-
             CicRequestExecutionInstance.DateCreated = DateTime.Now;
             CicRequestExecutionInstance.CicRequestResultsFollowedId = Cicrequestresultsfollowed.CicRequestResultsFollowedId;
             CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);

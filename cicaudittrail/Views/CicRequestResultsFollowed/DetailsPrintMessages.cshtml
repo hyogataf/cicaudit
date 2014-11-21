@@ -29,7 +29,7 @@
         @TempData["warning"]
     </div>
 }
-@using (Html.BeginForm("ConfirmFollow", "CicRequestResultsFollowed", FormMethod.Post))
+@using (Html.BeginForm("UpdateFollow", "CicRequestResultsFollowed", FormMethod.Post))
 {
     <div class="row">
         <div class="col-lg-12">
@@ -83,16 +83,14 @@
     </div>
     <p>
         <button type="button" class="btn btn-default">
-            @Html.ActionLink("Retour", "Index")
+            @Html.ActionLink("Retour", "IndexForMailResponses")
         </button>
         @if (Model.CicMessageMails.Count > 0)
         {
-            <button type="button" class="btn btn-success">
-                @Html.ActionLink("Annuler suivi", "UpdateFollow", new { id = Model.CicRequestResultsFollowedId, Statut = "A" })
-            </button>
-            <button type="button" class="btn btn-danger">
-                @Html.ActionLink("Confirmer suivi", "UpdateFollow", new { id = Model.CicRequestResultsFollowedId, Statut = "S" })
-            </button>
+            @Html.HiddenFor(model => model.CicRequestResultsFollowedId)
+            <input class="btn btn-success" type="submit" value="Annuler suivi" name="cancel" />
+            
+            <input class="btn btn-danger" type="submit" value="Confirmer suivi" name="confirm" /> 
         }
     </p>
         if (Model.CicMessageMails.Count > 0)
@@ -166,7 +164,7 @@
 
     <p>
         <button type="button" class="btn btn-default">
-            @Html.ActionLink("Retour", "Index")
+            @Html.ActionLink("Retour", "IndexForMailResponses")
         </button>
         @if (Model.CicMessageMails.Count > 0)
         {

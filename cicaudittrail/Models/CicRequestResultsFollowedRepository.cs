@@ -23,25 +23,25 @@ namespace cicaudittrail.Models
         {
             return context.CicRequestResultsFollowed.ToList().Where(
                r => r.CicRequestId == cicrequestid
-               ).AsQueryable();
+               ).OrderByDescending(c => c.DateCreated).AsQueryable();
         }
 
 
         public IQueryable<CicRequestResultsFollowed> AllIncluding(params Expression<Func<CicRequestResultsFollowed, object>>[] includeProperties)
         {
-            IQueryable<CicRequestResultsFollowed> query = context.CicRequestResultsFollowed;
+            IQueryable<CicRequestResultsFollowed> query = context.CicRequestResultsFollowed.OrderByDescending(c => c.DateCreated);
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
             }
             return query;
         }
-         
+
         public IQueryable<CicRequestResultsFollowed> AllAnsweredIncluding(string[] status, params Expression<Func<CicRequestResultsFollowed, object>>[] includeProperties)
         {
             IQueryable<CicRequestResultsFollowed> query = context.CicRequestResultsFollowed.ToList().Where(
                r => status.Contains(r.Statut)
-               ).AsQueryable();
+               ).OrderByDescending(c => c.DateCreated).AsQueryable();
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
@@ -110,7 +110,7 @@ namespace cicaudittrail.Models
                              (string.IsNullOrEmpty(dateCreated) ? true : m.DateCreated >= date)
                             )
                             select m;
-            return baseQuery.AsQueryable();
+            return baseQuery.OrderByDescending(c => c.DateCreated).AsQueryable();
         }
 
     }
