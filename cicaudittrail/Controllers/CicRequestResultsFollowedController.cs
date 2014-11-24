@@ -15,6 +15,9 @@ using Newtonsoft.Json;
 using System.Data;
 using System.Text;
 using System.Collections;
+using Oracle.ManagedDataAccess.Client;
+using System.Configuration;
+using Novacode;
 
 namespace cicaudittrail.Controllers
 {
@@ -538,6 +541,9 @@ namespace cicaudittrail.Controllers
                 return RedirectToAction("IndexForMailResponses");
             }
 
+            Debug.WriteLine("action confirm = " + Request.Form["confirm"]);
+            Debug.WriteLine("action cancel = " + Request.Form["cancel"]);
+
             //  var StatutInstance = (Statut)System.Enum.Parse(typeof(Statut), statut);
             if (string.IsNullOrEmpty(Request.Form["confirm"])) //action == Cancel
             {
@@ -545,7 +551,22 @@ namespace cicaudittrail.Controllers
             }
             else if (string.IsNullOrEmpty(Request.Form["cancel"])) //action == confirm
             {
+                //l'operation est bien suspecte
                 Cicrequestresultsfollowed.Statut = Statut.S.ToString();
+                // on lance une requete afin de creer les elements pour pouvoir tirer l'etat Centif
+                Task.Factory.StartNew(() =>
+            {
+                Debug.WriteLine("StartNew confirm");
+                CicFollowedPropertiesValuesRepository CicFollowedPropertiesValuesRepository = new CicFollowedPropertiesValuesRepository();
+                var NumCompte = "";
+                var propNumCmpteInstance = CicFollowedPropertiesValuesRepository.FindByRequestFollowedAndProperty(Cicrequestresultsfollowed.CicRequestResultsFollowedId, "NumCompte");
+
+                Debug.WriteLine("StartNew propNumCmpteInstance = " + propNumCmpteInstance);
+
+                if (propNumCmpteInstance != null) NumCompte = propNumCmpteInstance.Value;
+                Debug.WriteLine("StartNew NumCompte = " + NumCompte);
+                runSql(NumCompte);
+            });
             }
 
             CicrequestresultsfollowedRepository.InsertOrUpdate(Cicrequestresultsfollowed);
@@ -591,6 +612,116 @@ namespace cicaudittrail.Controllers
                 Debug.WriteLine("CicRequestResultsFollowedController Download = " + e.StackTrace);
                 Response.StatusCode = 404;
             }
+        }
+
+
+        private void runSql(string ribCompte)
+        {
+            ICicDiversRequestResultsRepository CicDiversRequestResultsRepository = new CicDiversRequestResultsRepository();
+            string scriptDirectory = Path.Combine(HttpRuntime.AppDomainAppPath, "Content/sql");
+            Debug.WriteLine("scriptDirectory = " + scriptDirectory);
+            DirectoryInfo di = new DirectoryInfo(scriptDirectory);
+            FileInfo[] rgFiles = di.GetFiles("*.sql");
+            foreach (FileInfo fi in rgFiles)
+            {
+                Debug.WriteLine("fi.FullName = " + fi.FullName);
+                FileInfo fileInfo = new FileInfo(fi.FullName);
+                string script = fileInfo.OpenText().ReadToEnd();
+
+                OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings["cicaudittrailContext"].ConnectionString);
+                var cmd = conn.CreateCommand();
+                conn.Open();
+                cmd.CommandText = script;
+                cmd.Parameters.Add("RIB_COMPTE", ribCompte);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        //Si on a des resultats, on supprime d'abord les anciens avant de les enregistrer
+                        truncateTable(fi.FullName, ribCompte);
+
+                        //on récupere les resultats de la requete, puis on la garde dans une liste 
+                        var model = ToolsClass.ReadToJSON(reader).ToList();
+                        Debug.WriteLine("model result  = " + model.Count);
+                        foreach (var line in model)
+                        {
+                            //chaque element de la liste (qui est une ligne de l'ensemble des resultats de la requete executée) est transformée en string, avec ',' comme séparateur, puis stockée dans la table CicRequestResults 
+                            //Debug.WriteLine("actual line = " + line);
+
+                            //Insert command
+                            string insertsql = "insert into CicDiversRequestResults(Code, Criteria, RowContent, DateCreated) values(:P0,:P1,:P2,:P3)";
+                            List<object> parameterList = new List<object>();
+                            parameterList.Add(fi.FullName);
+                            parameterList.Add(ribCompte);
+                            parameterList.Add(line);
+                            parameterList.Add(DateTime.Now);
+                            object[] parameters = parameterList.ToArray();
+
+                            int result = CicDiversRequestResultsRepository.GetContext.Database.ExecuteSqlCommand(insertsql, parameters);
+                            // int result = conn.Database.ExecuteSqlCommand(insertsql, parameters); 
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // methode de suppression de la table CicRequestResults, selon le champ CicRequestId
+        private static int truncateTable(string Code, string Criteria)
+        {
+            try
+            {
+                ICicDiversRequestResultsRepository CicDiversRequestResultsRepository = new CicDiversRequestResultsRepository();
+                using (var ctx = CicDiversRequestResultsRepository.GetContext)
+                {
+                    string deletesql = "delete from CicDiversRequestResults where Code=:P0 and Criteria=:P1";
+                    List<object> parameterList = new List<object>();
+                    //   parameterList.Add(CicRequestId);
+                    // object[] parameters = parameterList.ToArray();
+
+                    int result = ctx.Database.ExecuteSqlCommand(deletesql, new OracleParameter("P0", Code), new OracleParameter("P1", Criteria));
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("truncateTable StackTrace = " + ex.StackTrace);
+                return 0;
+            }
+        }
+
+
+
+        private DocX FillTemplate(DocX template, String jsonStringCentif, String jsonStringOperation)
+        {
+            JToken tokenCentif = JObject.Parse(jsonStringCentif);
+            JToken tokenOperation = JObject.Parse(jsonStringOperation);
+            //Recup des infos du déclarant (user connecté)
+            //TODO recuperer les infos de session
+            template.AddCustomProperty(new CustomProperty("DeclarantNom", "DIONE"));
+            template.AddCustomProperty(new CustomProperty("DeclarantPrenom", "BATHELEMY  SINK"));
+            template.AddCustomProperty(new CustomProperty("DeclarantFonction", "Responsable conformité"));
+            template.AddCustomProperty(new CustomProperty("DeclarantTel", "33849 94 33"));
+            template.AddCustomProperty(new CustomProperty("DeclarantFax", "33 823 20 05"));
+            template.AddCustomProperty(new CustomProperty("DeclarantMail", "BDIONE@cbao.sn"));
+
+            //recup infos declarations
+            template.AddCustomProperty(new CustomProperty("DeclarationDate", DateTime.Now));
+            template.AddCustomProperty(new CustomProperty("DeclarationDateOperation", (string)tokenOperation.SelectToken("DateComptable")));
+            template.AddCustomProperty(new CustomProperty("DeclarationTypeOperation", (string)tokenOperation.SelectToken("Libelle")));
+            template.AddCustomProperty(new CustomProperty("DeclarationMontantTotal", (string)tokenOperation.SelectToken("Montant")));
+            template.AddCustomProperty(new CustomProperty("DeclarationDevise", "XOF"));
+            template.AddCustomProperty(new CustomProperty("DeclarationLieuOperation", (string)tokenOperation.SelectToken("AGENCE")));
+            template.AddCustomProperty(new CustomProperty("DeclarationMontantTotal", (string)tokenOperation.SelectToken("Montant")));
+            template.AddCustomProperty(new CustomProperty("DeclarationMontantTotal", (string)tokenOperation.SelectToken("Montant")));
+            template.AddCustomProperty(new CustomProperty("DeclarationMontantTotal", (string)tokenOperation.SelectToken("Montant"))); 
+
+
+            template.AddCustomProperty(new CustomProperty("First_Name", "Andrea"));
+            template.AddCustomProperty(new CustomProperty("Last_Name", "Regoli"));
+            template.AddCustomProperty(new CustomProperty("site", "http://www.andrearegoli.it"));
+
+            return template;
         }
 
 

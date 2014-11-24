@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Diagnostics;
+using System.Data.Common;
+using System.Text;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace cicaudittrail.Src
 {
@@ -66,6 +70,42 @@ namespace cicaudittrail.Src
             return System.Convert.ToBase64String(byteElement);
         }
 
+
+
+        //methode qui recupere des resultats d'une requete sql et les range sous forme de json. Chaque enregistrements des resultats trouvés devient une ligne d'une liste de json
+        //methode reprise dans RequestExecutionJob, en cas de modif
+        public static List<string> ReadToJSON(DbDataReader reader)
+        {
+            List<string> concateneList = new List<string>();
+
+            while (reader.Read())
+            {
+                StringBuilder sb = new StringBuilder();
+                StringWriter sw = new StringWriter(sb);
+                //var values = new List<object>();
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    writer.Formatting = Formatting.Indented;
+                    writer.WriteStartObject();
+                    /* i est initialisé à 1 du fait de PaginateSql.
+                     * Cette methode ajoute un champ au select, necessaire pour le programme, mais qui ne devrait pas s'afficher pour l'utilisateur.
+                     * i demarrant à 1 permet de sauter ce champ
+                     * */
+                    for (int i = 1; i < reader.FieldCount; i++)
+                    {
+                        writer.WritePropertyName(reader.GetName(i));
+                        //Debug.WriteLine("reader.GetValue(i)= " + reader.GetValue(i));
+                        writer.WriteValue(reader.GetValue(i));
+                    }
+                    writer.WriteEnd();
+                    writer.Close();
+                    sw.Close();
+                    //writer.WriteEndObject();
+                }
+                concateneList.Add(sb.ToString());
+            }
+            return concateneList;
+        }
 
     }
 }

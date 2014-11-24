@@ -40,7 +40,7 @@ namespace cicaudittrail.Models
                     );
             if (CicFollowedPropertiesValues.Count<CicFollowedPropertiesValues>() > 0)
             {
-                return CicFollowedPropertiesValues.Single<CicFollowedPropertiesValues>();
+                return CicFollowedPropertiesValues.First<CicFollowedPropertiesValues>();
             }
             else
             {

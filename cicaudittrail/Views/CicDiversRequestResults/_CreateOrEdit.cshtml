@@ -1,0 +1,48 @@
+@model cicaudittrail.Models.CicDiversRequestResults
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.Code)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Code, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.Criteria)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.Criteria, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Criteria, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.RowContent)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.RowContent, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.RowContent, null, new { @class = "has-error" })  
+</div>
+</div>
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.DateCreated)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.DateCreated, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.DateCreated, null, new { @class = "has-error" })  
+</div>
+</div>
+

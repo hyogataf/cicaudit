@@ -160,20 +160,17 @@
             </div>
         </div>
     </div>
-        }
-
+        } 
+    
     <p>
         <button type="button" class="btn btn-default">
             @Html.ActionLink("Retour", "IndexForMailResponses")
         </button>
         @if (Model.CicMessageMails.Count > 0)
-        {
-            <button type="button" class="btn btn-success">
-                @Html.ActionLink("Annuler suivi", "Edit", new { id = Model.CicRequestId })
-            </button>
-            <button type="button" class="btn btn-danger">
-                @Html.ActionLink("Confirmer suivi", "DetailsByRequest", "CicRequestResults", new { id = Model.CicRequestId }, null)
-            </button>
+        { 
+            <input class="btn btn-success" type="submit" value="Annuler suivi" name="cancel" />
+            
+            <input class="btn btn-danger" type="submit" value="Confirmer suivi" name="confirm" /> 
         }
     </p>
 }

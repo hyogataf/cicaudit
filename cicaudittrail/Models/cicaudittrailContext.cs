@@ -74,5 +74,7 @@ namespace cicaudittrail.Models
         public DbSet<cicaudittrail.Models.CicMessageMailDocuments> CicMessageMailDocuments { get; set; }
 
         public DbSet<cicaudittrail.Models.CicFollowedPropertiesValues> CicFollowedPropertiesValues { get; set; }
+
+        public DbSet<cicaudittrail.Models.CicDiversRequestResults> CicDiversRequestResults { get; set; }
     }
 }
