@@ -44,6 +44,7 @@ namespace cicaudittrail.Models
             modelBuilder.Entity<CicMessageMail>().ToTable("CICMESSAGEMAIL", schemaName);
             modelBuilder.Entity<CicMessageMailDocuments>().ToTable("CICMESSAGEMAILDOCUMENTS", schemaName);
             modelBuilder.Entity<CicFollowedPropertiesValues>().ToTable("CICFOLLOWEDPROPERTIESVALUES", schemaName);
+            modelBuilder.Entity<CicDiversRequestResults>().ToTable("CICDIVERSREQUESTRESULTS", schemaName);
 
             //HasMany: CicRequestResultsFollowed hasMany CicMessageMails
             modelBuilder.Entity<CicRequestResultsFollowed>().HasMany(e => e.CicMessageMails).WithOptional(a => a.CicRequestResultsFollowed).HasForeignKey(e => e.CicRequestResultsFollowedId);

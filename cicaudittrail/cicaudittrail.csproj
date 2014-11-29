@@ -36,12 +36,46 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ActiveUp.Net.Common">
+      <HintPath>..\packages\MailSystem.NET.2.0.1\lib\ActiveUp.Net.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Dns">
+      <HintPath>..\packages\MailSystem.NET.2.0.1\lib\ActiveUp.Net.Dns.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Groupware">
+      <HintPath>..\packages\MailSystem.NET.2.0.1\lib\ActiveUp.Net.Groupware.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Imap4">
+      <HintPath>..\packages\MailSystem.NET.2.0.1\lib\ActiveUp.Net.Imap4.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Mail">
+      <HintPath>..\packages\MailSystem.NET.2.0.1\lib\ActiveUp.Net.Mail.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Nntp">
+      <HintPath>..\packages\MailSystem.NET.2.0.1\lib\ActiveUp.Net.Nntp.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.OpenPGP">
+      <HintPath>..\packages\MailSystem.NET.2.0.1\lib\ActiveUp.Net.OpenPGP.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Pop3">
+      <HintPath>..\packages\MailSystem.NET.2.0.1\lib\ActiveUp.Net.Pop3.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Smtp">
+      <HintPath>..\packages\MailSystem.NET.2.0.1\lib\ActiveUp.Net.Smtp.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.WhoIs">
+      <HintPath>..\packages\MailSystem.NET.2.0.1\lib\ActiveUp.Net.WhoIs.dll</HintPath>
+    </Reference>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging">
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="DocX, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DocX.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -64,8 +98,7 @@
       <HintPath>..\packages\Mvc4Futures.4.0.20710.0\lib\net40\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -199,6 +232,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CicDiversRequestResultsController.cs" />
     <Compile Include="Controllers\CicMessageMailController.cs" />
     <Compile Include="Controllers\CicMessageMailDocumentsController.cs" />
     <Compile Include="Controllers\CicMessageTemplateController.cs" />
@@ -206,6 +240,7 @@
     <Compile Include="Controllers\CicRequestExecutionController.cs" />
     <Compile Include="Controllers\CicRequestResultsController.cs" />
     <Compile Include="Controllers\CicRequestResultsFollowedController.cs" />
+    <Compile Include="Controllers\CicFollowedPropertiesValuesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -214,13 +249,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Jobs\JobScheduler.cs" />
+    <Compile Include="Jobs\SyncMailJob.cs" />
     <Compile Include="Migrations\201409301712301_initial.cs" />
     <Compile Include="Migrations\201409301712301_initial.Designer.cs">
       <DependentUpon>201409301712301_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\CheckSqlAttribute.cs" />
+    <Compile Include="Models\CicDiversRequestResults.cs" />
+    <Compile Include="Models\CicDiversRequestResultsRepository.cs" />
+    <Compile Include="Models\CicFollowedPropertiesValues.cs" />
+    <Compile Include="Models\CicFollowedPropertiesValuesRepository.cs" />
+    <Compile Include="Models\CustomValidation\CheckSqlAttribute.cs" />
     <Compile Include="Models\CicMessageMail.cs" />
     <Compile Include="Models\CicMessageMailDocuments.cs" />
     <Compile Include="Models\CicMessageMailDocumentsRepository.cs" />
@@ -240,6 +280,7 @@
     <Compile Include="Models\RoleRepository.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRepository.cs" />
+    <Compile Include="Models\WsMapping\MessageEntity.cs" />
     <Compile Include="NavigationRoutes\INavigationRouteFilter.cs" />
     <Compile Include="NavigationRoutes\NamedRoute.cs" />
     <Compile Include="NavigationRoutes\NavigationExtensions.cs" />
@@ -253,6 +294,7 @@
       <DependentUpon>Properties.resx</DependentUpon>
     </Compile>
     <Compile Include="Src\ExcelData.cs" />
+    <Compile Include="Src\Extensions.cs" />
     <Compile Include="Src\MailingClass.cs" />
     <Compile Include="Src\ToolsClass.cs" />
   </ItemGroup>
@@ -336,6 +378,7 @@
     <Content Include="Content\jquery.dataTables_themeroller.css" />
     <Content Include="Content\main.css" />
     <Content Include="Content\metisMenu.css" />
+    <Content Include="Content\sql\clientinfos.sql" />
     <Content Include="Content\summernote-bs3.css" />
     <Content Include="Content\themes\base\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Content\themes\base\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
@@ -533,6 +576,7 @@
     <None Include="CodeTemplates\Scaffolders\MvcScaffolding.RazorView\_CreateOrEdit.cs.t4" />
     <None Include="Content\DataTables-1.10.2\css\dataTables.jqueryui.scss" />
     <None Include="Content\DataTables-1.10.2\css\dataTables.responsive.scss" />
+    <None Include="Content\declaration_soupcon_new_version_exemple.docx" />
     <None Include="Content\fonts\fontawesome-webfont.eot" />
     <None Include="Content\fonts\fontawesome-webfont.ttf" />
     <None Include="Content\fonts\fontawesome-webfont.woff" />
@@ -593,6 +637,20 @@
     <Content Include="Views\CicMessageMailDocuments\Details.cshtml" />
     <Content Include="Views\CicMessageMailDocuments\Index.cshtml" />
     <Content Include="Views\CicMessageMailDocuments\_CreateOrEdit.cshtml" />
+    <Content Include="Views\CicFollowedPropertiesValues\Create.cshtml" />
+    <Content Include="Views\CicFollowedPropertiesValues\Edit.cshtml" />
+    <Content Include="Views\CicFollowedPropertiesValues\Delete.cshtml" />
+    <Content Include="Views\CicFollowedPropertiesValues\Details.cshtml" />
+    <Content Include="Views\CicFollowedPropertiesValues\Index.cshtml" />
+    <Content Include="Views\CicFollowedPropertiesValues\_CreateOrEdit.cshtml" />
+    <Content Include="Views\CicRequestResultsFollowed\IndexForMailResponses.cshtml" />
+    <Content Include="Views\CicRequestResultsFollowed\DetailsPrintMessages.cshtml" />
+    <Content Include="Views\CicDiversRequestResults\Create.cshtml" />
+    <Content Include="Views\CicDiversRequestResults\Edit.cshtml" />
+    <Content Include="Views\CicDiversRequestResults\Delete.cshtml" />
+    <Content Include="Views\CicDiversRequestResults\Details.cshtml" />
+    <Content Include="Views\CicDiversRequestResults\Index.cshtml" />
+    <Content Include="Views\CicDiversRequestResults\_CreateOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -600,10 +658,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409301712301_initial.resx">
       <DependentUpon>201409301712301_initial.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Properties.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Properties.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -517,7 +517,7 @@ namespace cicaudittrail.Controllers
         private string generateCSV(string RowContent)
         {
             XmlNode xml = JsonConvert.DeserializeXmlNode(RowContent, "records");
-            XmlDocument xmldoc = new XmlDocument();
+            System.Xml.XmlDocument xmldoc = new System.Xml.XmlDocument();
             //Create XmlDoc Object
             xmldoc.LoadXml(xml.InnerXml);
             //Create XML Steam 
@@ -625,6 +625,8 @@ namespace cicaudittrail.Controllers
             foreach (FileInfo fi in rgFiles)
             {
                 Debug.WriteLine("fi.FullName = " + fi.FullName);
+                Debug.WriteLine("fi.Name = " + fi.Name);
+                Debug.WriteLine("fi.Extension = " + fi.Extension);
                 FileInfo fileInfo = new FileInfo(fi.FullName);
                 string script = fileInfo.OpenText().ReadToEnd();
 
@@ -651,7 +653,8 @@ namespace cicaudittrail.Controllers
                             //Insert command
                             string insertsql = "insert into CicDiversRequestResults(Code, Criteria, RowContent, DateCreated) values(:P0,:P1,:P2,:P3)";
                             List<object> parameterList = new List<object>();
-                            parameterList.Add(fi.FullName);
+                            var filename = fi.Name + "." + fi.Extension;
+                            parameterList.Add(filename);
                             parameterList.Add(ribCompte);
                             parameterList.Add(line);
                             parameterList.Add(DateTime.Now);
@@ -691,11 +694,72 @@ namespace cicaudittrail.Controllers
         }
 
 
+        public void GenerateCentifFile(long id)
+        {
+            try
+            {
+                ICicRequestResultsFollowedRepository CicrequestresultsfollowedRepository = new CicRequestResultsFollowedRepository();
+                var CicrequestresultsfollowedInstance = CicrequestresultsfollowedRepository.Find(id);
+                if (CicrequestresultsfollowedInstance == null)
+                {
+                    // Debug.WriteLine("CicrequestresultsfollowedInstance null");
+                    TempData["error"] = "Veuillez vérifier vos suivis. Aucun enregistrement avec l'id " + id + " n'a été trouvée.";
+                    Response.StatusCode = 404;
+                }
+                CicFollowedPropertiesValuesRepository CicFollowedPropertiesValuesRepository = new CicFollowedPropertiesValuesRepository();
+                var propNumCmpteInstance = CicFollowedPropertiesValuesRepository.FindByRequestFollowedAndProperty(CicrequestresultsfollowedInstance.CicRequestResultsFollowedId, "NumCompte");
+                //  Debug.WriteLine("propNumCmpteInstance = " + propNumCmpteInstance);
 
-        private DocX FillTemplate(DocX template, String jsonStringCentif, String jsonStringOperation)
+                //Debug.WriteLine("StartNew propNumCmpteInstance = " + propNumCmpteInstance);
+                var NumCompte = "";
+                if (propNumCmpteInstance != null) NumCompte = propNumCmpteInstance.Value;
+                Debug.WriteLine("NumCompte = " + NumCompte);
+                ICicDiversRequestResultsRepository CicdiversrequestresultsRepository = new CicDiversRequestResultsRepository();
+                //on recherche les données devant etre populées dans le fichier centif
+                //clientinfos.sql: le fichier sql executé pour recuperer les infos du client
+                CicDiversRequestResults centifData = CicdiversrequestresultsRepository.FindByCodeAndCriteria("clientinfos.sql", NumCompte);
+                Debug.WriteLine("centifData = " + centifData);
+                string jsonStringCentif = "";
+                if (centifData != null) jsonStringCentif = centifData.RowContent;
+                string jsonStringOperation = "";
+                jsonStringOperation = CicrequestresultsfollowedInstance.RowContent;
+
+
+                DocX g_document;
+                var path = Path.Combine(HttpRuntime.AppDomainAppPath, "Content/centif/declaration_soupcon_new_version_exemple.docx");
+                Debug.WriteLine("path = " + path);
+
+                FileInfo file = new FileInfo(path);
+                //g_document = FillTemplate(DocX.Load(@path), jsonStringCentif, jsonStringOperation);
+                g_document = FillTemplate(DocX.Load(path), jsonStringCentif, jsonStringOperation);
+
+                var destinationFile = Path.Combine(HttpRuntime.AppDomainAppPath, "Content/centif/generated.docx");
+                // Save all changes made to this template as Invoice_The_Happy_Builder.docx (We don't want to replace InvoiceTemplate.docx).
+                g_document.SaveAs(destinationFile);
+                Process.Start(destinationFile);
+
+
+                /* 
+                Response.ContentType = "docx";
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + "generated.docx");
+                Response.OutputStream.Write(document.Document, 0, document.Document.Length);
+                Response.Flush();*/
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("CicRequestResultsFollowedController Download = " + e.StackTrace);
+                Response.StatusCode = 404;
+            }
+        }
+
+
+
+        private DocX FillTemplate(DocX template, string jsonStringCentif, string jsonStringOperation)
         {
             JToken tokenCentif = JObject.Parse(jsonStringCentif);
             JToken tokenOperation = JObject.Parse(jsonStringOperation);
+            Debug.WriteLine("type_personne = " +(string)tokenCentif.SelectToken("type_personne"));
+            // verifier si null ou vide avant de faire un trim    
             //Recup des infos du déclarant (user connecté)
             //TODO recuperer les infos de session
             template.AddCustomProperty(new CustomProperty("DeclarantNom", "DIONE"));
@@ -712,14 +776,48 @@ namespace cicaudittrail.Controllers
             template.AddCustomProperty(new CustomProperty("DeclarationMontantTotal", (string)tokenOperation.SelectToken("Montant")));
             template.AddCustomProperty(new CustomProperty("DeclarationDevise", "XOF"));
             template.AddCustomProperty(new CustomProperty("DeclarationLieuOperation", (string)tokenOperation.SelectToken("AGENCE")));
-            template.AddCustomProperty(new CustomProperty("DeclarationMontantTotal", (string)tokenOperation.SelectToken("Montant")));
-            template.AddCustomProperty(new CustomProperty("DeclarationMontantTotal", (string)tokenOperation.SelectToken("Montant")));
-            template.AddCustomProperty(new CustomProperty("DeclarationMontantTotal", (string)tokenOperation.SelectToken("Montant"))); 
+
+            if ((string)tokenCentif.SelectToken("type_personne") == "ENTREPRISE")
+            {
+                template.AddCustomProperty(new CustomProperty("DeclarationTypePersonne", "PERSONNE MORALE"));
+            }
+            else
+            {
+                template.AddCustomProperty(new CustomProperty("DeclarationTypePersonne", "PERSONNE PHYSIQUE"));
+            }
+
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueNom", (string)tokenCentif.SelectToken("Nom")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiquePrenom", (string)tokenCentif.SelectToken("Prenom")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateNaissance", (string)tokenCentif.SelectToken("Date_Naissance")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueLieuNaissance", (string)tokenCentif.SelectToken("Lieu_Naissance")));//TODO diouf ask lieu naissance
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueNationalite", (string)tokenCentif.SelectToken("NATIONALITE")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueSitFam", (string)tokenCentif.SelectToken("SITUATION_FAMILLE")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueNomConjoint", (string)tokenCentif.SelectToken("NOM_CONJOINT")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueActPro", (string)tokenCentif.SelectToken("PROFESSION")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueEmployeur", (string)tokenCentif.SelectToken("EMPLOYEUR")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueTypePiece", (string)tokenCentif.SelectToken("TYPE_DE_PIECE")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiquePieceNum", (string)tokenCentif.SelectToken("NUM_PIECE")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiquePieceDate", (string)tokenCentif.SelectToken("DATE_DELIVRANCE")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueBp", (string)tokenCentif.SelectToken("Date_Naissance"))); //TODO diouf ask bp
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueLocalite", (string)tokenCentif.SelectToken("ADRESSE_COURRIER")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueTel", (string)tokenCentif.SelectToken("TELEPHONE")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueFax", (string)tokenCentif.SelectToken("FAX")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueEmail", (string)tokenCentif.SelectToken("EMAIL")));
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("DATE_EMBAUCHE"))); //TODO
+            template.AddCustomProperty(new CustomProperty("PersonnePhysiqueNumCompte", (string)tokenOperation.SelectToken("NumCompte")));
+            /* template.AddCustomProperty(new CustomProperty("PersonnePhysiqueTypePieceOperation", (string)tokenCentif.SelectToken("Date_Naissance")));//TODO diouf ask
+             template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("Date_Naissance")));
+             template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("Date_Naissance")));
+             template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("Date_Naissance")));
+             template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("Date_Naissance")));
+             template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("Date_Naissance")));
+             template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("Date_Naissance")));
+             template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("Date_Naissance")));
+             template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("Date_Naissance")));
+             template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("Date_Naissance")));
+             template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", (string)tokenCentif.SelectToken("Date_Naissance"))); */
 
 
-            template.AddCustomProperty(new CustomProperty("First_Name", "Andrea"));
-            template.AddCustomProperty(new CustomProperty("Last_Name", "Regoli"));
-            template.AddCustomProperty(new CustomProperty("site", "http://www.andrearegoli.it"));
 
             return template;
         }

@@ -40,6 +40,21 @@ namespace cicaudittrail.Models
             return context.CicDiversRequestResults.Find(id);
         }
 
+        public CicDiversRequestResults FindByCodeAndCriteria(string code, string criteria)
+        {
+            var Cicdiversrequestresults = context.CicDiversRequestResults.ToList().Where(
+                r => r.Code == code && r.Criteria == criteria
+                );
+            if (Cicdiversrequestresults.Count<CicDiversRequestResults>() > 0)
+            {
+                return Cicdiversrequestresults.First<CicDiversRequestResults>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public void InsertOrUpdate(CicDiversRequestResults cicdiversrequestresults)
         {
             if (cicdiversrequestresults.CicDiversRequestResultsId == default(long))
@@ -77,6 +92,7 @@ namespace cicaudittrail.Models
         IQueryable<CicDiversRequestResults> All { get; }
         IQueryable<CicDiversRequestResults> AllIncluding(params Expression<Func<CicDiversRequestResults, object>>[] includeProperties);
         CicDiversRequestResults Find(long id);
+        CicDiversRequestResults FindByCodeAndCriteria(string code, string criteria);
         void InsertOrUpdate(CicDiversRequestResults cicdiversrequestresults);
         void Delete(long id);
         void Save();
