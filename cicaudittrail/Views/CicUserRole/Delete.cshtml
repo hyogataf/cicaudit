@@ -1,0 +1,45 @@
+@model cicaudittrail.Models.CicUserRole
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+
+@if (TempData["error"] != null) {
+<div class="alert alert-danger" role="alert">
+    @TempData["error"]
+</div>
+}
+
+@if (TempData["message"] != null) {
+<div class="alert alert-success" role="alert">
+    @TempData["message"]
+</div>
+}
+
+@if (TempData["warning"] != null) {
+<div class="alert alert-warning" role="alert">
+    @TempData["warning"]
+</div>
+}
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>CicUserRole</legend>
+
+    <div class="display-label">CicRole</div>
+    <div class="display-field">@(Model.CicRole == null ? "None" : Model.CicRole.Name)</div>
+
+    <div class="display-label">Username</div>
+    <div class="display-field">@Model.Username</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

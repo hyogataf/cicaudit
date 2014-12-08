@@ -142,6 +142,15 @@ namespace cicaudittrail.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Message envoyé ?.
+        /// </summary>
+        public static string CicMessageMail_IsSent {
+            get {
+                return ResourceManager.GetString("CicMessageMail_IsSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Message.
         /// </summary>
         public static string CicMessageMail_MessageContent {
@@ -426,6 +435,15 @@ namespace cicaudittrail.Resources {
         public static string CicRequestExecution_CicMessageMail {
             get {
                 return ResourceManager.GetString("CicRequestExecution_CicMessageMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Etat Centif tiré.
+        /// </summary>
+        public static string CicRequestExecution_CT {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_CT", resourceCulture);
             }
         }
         
@@ -804,6 +822,159 @@ namespace cicaudittrail.Resources {
         public static string CicRequestUserUpdated {
             get {
                 return ResourceManager.GetString("CicRequestUserUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Création rôle.
+        /// </summary>
+        public static string CicRole_create {
+            get {
+                return ResourceManager.GetString("CicRole_create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Date création.
+        /// </summary>
+        public static string CicRole_DateCreated {
+            get {
+                return ResourceManager.GetString("CicRole_DateCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Modifié le.
+        /// </summary>
+        public static string CicRole_DateUpdated {
+            get {
+                return ResourceManager.GetString("CicRole_DateUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Modification rôle.
+        /// </summary>
+        public static string CicRole_edit {
+            get {
+                return ResourceManager.GetString("CicRole_edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Liste rôles.
+        /// </summary>
+        public static string CicRole_list {
+            get {
+                return ResourceManager.GetString("CicRole_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Créé par.
+        /// </summary>
+        public static string CicRole_UserCreated {
+            get {
+                return ResourceManager.GetString("CicRole_UserCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Modifié par.
+        /// </summary>
+        public static string CicRole_UserUpdated {
+            get {
+                return ResourceManager.GetString("CicRole_UserUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Veuillez choisir un role.
+        /// </summary>
+        public static string CicUserRole_CicRoleId_Required {
+            get {
+                return ResourceManager.GetString("CicUserRole_CicRoleId_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Création attribution de rôle.
+        /// </summary>
+        public static string CicUserRole_create {
+            get {
+                return ResourceManager.GetString("CicUserRole_create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Date création.
+        /// </summary>
+        public static string CicUserRole_DateCreated {
+            get {
+                return ResourceManager.GetString("CicUserRole_DateCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Modifié le.
+        /// </summary>
+        public static string CicUserRole_DateUpdated {
+            get {
+                return ResourceManager.GetString("CicUserRole_DateUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Modification attribution de rôle.
+        /// </summary>
+        public static string CicUserRole_edit {
+            get {
+                return ResourceManager.GetString("CicUserRole_edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Role.
+        /// </summary>
+        public static string CicUserRole_Role {
+            get {
+                return ResourceManager.GetString("CicUserRole_Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Créé par.
+        /// </summary>
+        public static string CicUserRole_UserCreated {
+            get {
+                return ResourceManager.GetString("CicUserRole_UserCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Username.
+        /// </summary>
+        public static string CicUserRole_Username {
+            get {
+                return ResourceManager.GetString("CicUserRole_Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Veuillez saisir un username.
+        /// </summary>
+        public static string CicUserRole_Username_Required {
+            get {
+                return ResourceManager.GetString("CicUserRole_Username_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Modifié par.
+        /// </summary>
+        public static string CicUserRole_UserUpdated {
+            get {
+                return ResourceManager.GetString("CicUserRole_UserUpdated", resourceCulture);
             }
         }
         

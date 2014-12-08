@@ -6,7 +6,8 @@ using System.Web.Mvc;
 using cicaudittrail.Models;
 
 namespace cicaudittrail.Controllers
-{   
+{
+    [Authorize(Roles = "Administrateur")]
     public class CicRequestExecutionController : Controller
     {
 		private readonly ICicRequestRepository CicrequestRepository;

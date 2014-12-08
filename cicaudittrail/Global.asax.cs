@@ -9,6 +9,7 @@ using System.Web.Routing;
 using System.Data.Entity;
 using cicaudittrail.Models;
 using cicaudittrail.Jobs;
+using cicaudittrail.Filters;
 
 namespace cicaudittrail
 {
@@ -37,6 +38,12 @@ namespace cicaudittrail
             //  performance improvement
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
+        }
+
+        //Gestion automatic filter
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        {
+            filters.Add(new LogonAuthorize());
         }
     }
 }

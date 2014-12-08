@@ -1,0 +1,15 @@
+@model cicaudittrail.Models.CicRole
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="form-group">
+<div class="editor-label">
+    @Html.LabelFor(model => model.Name)
+</div>
+<div class="editor-field">
+   
+    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Name, null, new { @class = "has-error" })  
+</div>
+</div>
+

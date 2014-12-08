@@ -7,6 +7,8 @@ using System.Configuration;
 using cicaudittrail.Models;
 using System.Collections;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
+using System.IO;
 //using OpenPop.Pop3;
 
 namespace cicaudittrail.Src
@@ -17,35 +19,52 @@ namespace cicaudittrail.Src
          * Methode d'envoi de mails.
          * Les credentials de l'adresse mail sont stockés au niveau du fichier Web.config
          * */
-        public long SendEmail(ArrayList paramsList)
+        public bool SendEmail(ArrayList paramsList)
         {
             using (var client = new HttpClient())
             {
                 //    client.BaseAddress = new Uri();
-                var uri = ConfigurationManager.AppSettings["SendMailSmtp"] + ConfigurationManager.AppSettings["Appname"];
+                var uri = ConfigurationManager.AppSettings["SendMailSmtp"]/* + ConfigurationManager.AppSettings["Appname"]*/;
                 client.BaseAddress = new Uri(uri);
 
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //  client.DefaultRequestHeaders.Accept.Clear();
+                //   client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                long SMTPProviderMessageId = 0;
+                // long SMTPProviderMessageId = 0;
+                bool etat = false;
                 Task task = Task.Factory.StartNew(() =>
             {
-                Debug.WriteLine("inside task ");
-                HttpResponseMessage response = client.PostAsJsonAsync("sendmail/" + ConfigurationManager.AppSettings["Appname"], paramsList).Result;
-                Debug.WriteLine("inside task response = " + response);
-                Debug.WriteLine("inside task response StatusCode = " + response.StatusCode);
-                Debug.WriteLine("inside task response IsSuccessStatusCode= " + response.Content.ToString());
-                //On recupere l'id du message renvoyé par le provider dans response.Content.ToString() 
-                int ignoreMe;
-                bool successfullyParsed = int.TryParse(response.Content.ToString(), out ignoreMe);
-                if (successfullyParsed)
+                //  Debug.WriteLine("inside task ");
+                var tailUri = "sendmail/" + ConfigurationManager.AppSettings["Appname"];
+                //   Debug.WriteLine("inside task tailUri = " + tailUri);
+
+                HttpResponseMessage response = client.PostAsJsonAsync(tailUri, paramsList).Result;
+
+                var objectTask = response.Content.ReadAsAsync<bool>().ContinueWith(u =>
                 {
-                    SMTPProviderMessageId = Convert.ToInt64(response.Content.ToString());
-                }
+                    var myobject = u.Result;
+                    Debug.WriteLine("myobject = " + myobject);
+
+                    bool ignoreMe;
+
+                    bool successfullyParsed = Boolean.TryParse(myobject.ToString(), out ignoreMe);
+                    Debug.WriteLine("successfullyParsed = " + successfullyParsed);
+
+                    if (successfullyParsed)
+                    {
+                        etat = Convert.ToBoolean(myobject.ToString());
+                    }
+                    //do stuff 
+                });
+                objectTask.Wait();
+                //    Debug.WriteLine("inside task response = " + response);
+                // Debug.WriteLine("inside task response StatusCode = " + response.StatusCode);
+                //  Debug.WriteLine("inside task response IsSuccessStatusCode= " + response.Content.ToString());
+                //On recupere l'id du message renvoyé par le provider dans response.Content.ToString() 
+
             });
                 task.Wait();
-                return SMTPProviderMessageId;
+                return etat;
             }
 
 

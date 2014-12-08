@@ -11,6 +11,7 @@ namespace cicaudittrail.Controllers
     public class CicMessageTemplateController : Controller
     {
         private readonly ICicMessageTemplateRepository cicmessagetemplateRepository;
+        public System.Web.Security.MembershipUser CurrentUser = System.Web.Security.Membership.GetUser();
 
         // If you are using Dependency Injection, you can delete the following constructor
         public CicMessageTemplateController()
@@ -57,7 +58,7 @@ namespace cicaudittrail.Controllers
             if (ModelState.IsValid)
             {
                 cicmessagetemplate.DateCreated = DateTime.Now;
-                cicmessagetemplate.UserCreated = "admin"; //TODO recuperer le userEnCours
+                cicmessagetemplate.UserCreated = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
                 cicmessagetemplateRepository.InsertOrUpdate(cicmessagetemplate);
                 cicmessagetemplateRepository.Save();
 

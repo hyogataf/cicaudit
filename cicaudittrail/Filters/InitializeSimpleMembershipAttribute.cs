@@ -18,14 +18,14 @@ namespace cicaudittrail.Filters
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             // Ensure ASP.NET Simple Membership is initialized only once per app start
-            LazyInitializer.EnsureInitialized(ref _initializer, ref _isInitialized, ref _initializerLock);
+          //  LazyInitializer.EnsureInitialized(ref _initializer, ref _isInitialized, ref _initializerLock);
         }
 
         private class SimpleMembershipInitializer
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
+              /*  Database.SetInitializer<UsersContext>(null);
 
                 try
                 {
@@ -43,7 +43,7 @@ namespace cicaudittrail.Filters
                 catch (Exception ex)
                 {
                     throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
-                }
+                }*/
             }
         }
     }

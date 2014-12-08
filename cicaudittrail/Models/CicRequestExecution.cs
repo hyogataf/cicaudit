@@ -61,7 +61,7 @@ namespace cicaudittrail.Models
 
     public enum Action
     {
-        U, E, D, F, FC, FA, MS
-        //U: UPDATE, EXECUTION, D:DELETE, F:FOLLOW (suivi), FC: FOLLOW CONFIRMED (suivi confirmé), FA: FOLLOW ABORTED (suivi annulé), MS: MAIL SENT (justificatis demandés)
+        U, E, D, F, FC, FA, MS, CT
+        //U: UPDATE, EXECUTION, D:DELETE, F:FOLLOW (suivi), FC: FOLLOW CONFIRMED (suivi confirmé), FA: FOLLOW ABORTED (suivi annulé), MS: MAIL SENT (justificatis demandés), CENTIF TIRÉ
     }
 }

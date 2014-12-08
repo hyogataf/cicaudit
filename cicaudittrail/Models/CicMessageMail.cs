@@ -50,6 +50,10 @@ namespace cicaudittrail.Models
         [Display(Name = "CicMessageMail_Sens", ResourceType = typeof(Properties))]
         public string Sens { get; set; }
 
+        [Column("ISSENT")]
+        [Display(Name = "CicMessageMail_IsSent", ResourceType = typeof(Properties))]
+        public string IsSent { get; set; }
+
         [Display(Name = "CicMessageMail_CicMessageMailDocuments", ResourceType = typeof(Properties))]
         public virtual ICollection<CicMessageMailDocuments> CicMessageMailDocuments { get; set; } // hasMany. Ne pas oublier de modifier le context
 
@@ -69,5 +73,11 @@ namespace cicaudittrail.Models
     {
         I, O
         //I: In (message reçu), O: Out (message envoyé)
+    }
+
+    public enum IsSent
+    {
+       OK, KO
+        //OK: message envoyé, KO: message non envoyé
     }
 }

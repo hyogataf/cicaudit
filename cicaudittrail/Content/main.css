@@ -73,6 +73,21 @@ h3.subtitle {
 }
 
 
+.navbar-static-top {
+	background-image: url("/Content/images/FondCbao.jpg");
+	background-repeat: repeat;
+}
+
+.sidebar {
+margin-top: 78px !important;
+}
+
+a.dropdown-toggle{
+	color: #ffffff;
+}
+
+
+
 /********* Affichage des messages ***/
 /* Bit of normalisation */
 
@@ -99,7 +114,7 @@ body {
 /* .bubble */
 
 .bubble {
-	background-image: linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+/*	background-image: linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
 background-image: -o-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
 background-image: -moz-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
 background-image: -webkit-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
@@ -110,8 +125,10 @@ background-image: -webkit-gradient(
 	left top,
 	color-stop(0.25, rgb(210,244,254)),
 	color-stop(1, rgb(149,194,253))
-);
-	border: solid 1px rgba(0, 0, 0, 0.5);
+);*/
+background-color: #E6E6FA;
+	/*border: solid 1px rgba(0, 0, 0, 0.5);*/
+	border: 1px solid #ccc;
 	/* vendor rules */
 	/*border-radius: 20px;*/
 border-radius: 5px;
@@ -126,8 +143,10 @@ border-radius: 5px;
 	position: relative;
 	/*text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);*/
 	width: auto;
-	max-width: 100%;
+	/* max-width: 100%; */
+	max-width: 50%;
 	word-wrap: break-word;
+	color: #555;
 }
 
 .bubble:before, .bubble:after {
@@ -145,15 +164,16 @@ border-radius: 5px;
 	z-index: -2;
 }
 
+/*
 .bubble:after {
 	border: 8px solid transparent;
 	border-bottom-color: #d2f4fe;
 	bottom: 1px;
 	left: -5px;
-}
+}*/
 
 .bubble--alt {
-	background-image: linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+/*	background-image: linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
 background-image: -o-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
 background-image: -moz-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
 background-image: -webkit-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
@@ -164,7 +184,8 @@ background-image: -webkit-gradient(
 	left top,
 	color-stop(0.25, rgb(172,228,75)),
 	color-stop(1, rgb(122,205,71))
-);
+);*/
+background-color: #E0FFFF;
 	float: right;
 }
 

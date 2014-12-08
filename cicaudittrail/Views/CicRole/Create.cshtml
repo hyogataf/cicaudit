@@ -1,0 +1,43 @@
+@model cicaudittrail.Models.CicRole
+@{var action = "CicRole_create";}
+@{
+    ViewBag.Title = Html.Raw(cicaudittrail.Src.ToolsClass.GetResourceValueForVariable(action));
+}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            @Html.Raw(cicaudittrail.Src.ToolsClass.GetResourceValueForVariable(action))
+        </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["error"]
+    </div>
+}
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["message"]
+    </div>
+}
+@if (TempData["warning"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @TempData["warning"]
+    </div>
+}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        @Html.Partial("_CreateOrEdit", Model)
+        <p>
+            <input class="btn btn-primary" type="submit" value="Enregistrer">
+            <button type="button" class="btn btn-default">
+                @Html.ActionLink("Retour", "Index")</button>
+        </p>
+    </fieldset>
+}

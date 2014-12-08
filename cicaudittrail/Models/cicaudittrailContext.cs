@@ -45,6 +45,8 @@ namespace cicaudittrail.Models
             modelBuilder.Entity<CicMessageMailDocuments>().ToTable("CICMESSAGEMAILDOCUMENTS", schemaName);
             modelBuilder.Entity<CicFollowedPropertiesValues>().ToTable("CICFOLLOWEDPROPERTIESVALUES", schemaName);
             modelBuilder.Entity<CicDiversRequestResults>().ToTable("CICDIVERSREQUESTRESULTS", schemaName);
+            modelBuilder.Entity<CicRole>().ToTable("CICROLE", schemaName);
+            modelBuilder.Entity<CicUserRole>().ToTable("CICUSERROLE", schemaName);
 
             //HasMany: CicRequestResultsFollowed hasMany CicMessageMails
             modelBuilder.Entity<CicRequestResultsFollowed>().HasMany(e => e.CicMessageMails).WithOptional(a => a.CicRequestResultsFollowed).HasForeignKey(e => e.CicRequestResultsFollowedId);
@@ -77,5 +79,9 @@ namespace cicaudittrail.Models
         public DbSet<cicaudittrail.Models.CicFollowedPropertiesValues> CicFollowedPropertiesValues { get; set; }
 
         public DbSet<cicaudittrail.Models.CicDiversRequestResults> CicDiversRequestResults { get; set; }
+
+        public DbSet<cicaudittrail.Models.CicRole> CicRole { get; set; }
+
+        public DbSet<cicaudittrail.Models.CicUserRole> CicUserRole { get; set; }
     }
 }

@@ -49,12 +49,27 @@ namespace cicaudittrail.Models
             return query;
         }
 
-
-
         public CicRequestResultsFollowed Find(long id)
         {
             return context.CicRequestResultsFollowed.Find(id);
         }
+
+
+        public CicRequestResultsFollowed FindByIdAndStatus(long id, string[] status)
+        {
+            var Cicrequestesultsfollowed = context.CicRequestResultsFollowed.ToList().Where(
+                r => r.CicRequestResultsFollowedId == id && status.Contains(r.Statut)
+                );
+            if (Cicrequestesultsfollowed.Count<CicRequestResultsFollowed>() > 0)
+            {
+                return Cicrequestesultsfollowed.First<CicRequestResultsFollowed>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         public void InsertOrUpdate(CicRequestResultsFollowed Cicrequestresultsfollowed)
         {
@@ -69,6 +84,7 @@ namespace cicaudittrail.Models
                 context.Entry(Cicrequestresultsfollowed).State = EntityState.Modified;
             }
         }
+
 
         public void Delete(long id)
         {
@@ -124,6 +140,7 @@ namespace cicaudittrail.Models
         //Recupere tous les CicRequestResultsFollowed selon une liste de statuts
         IQueryable<CicRequestResultsFollowed> AllAnsweredIncluding(string[] status, params Expression<Func<CicRequestResultsFollowed, object>>[] includeProperties);
         CicRequestResultsFollowed Find(long id);
+        CicRequestResultsFollowed FindByIdAndStatus(long id, string[] status);
         IQueryable<CicRequestResultsFollowed> ExecuteSearch(string cicrequestid, string dateCreated, string userCreated, string comments, string rowContent);
         void InsertOrUpdate(CicRequestResultsFollowed Cicrequestresultsfollowed);
         void Delete(long id);

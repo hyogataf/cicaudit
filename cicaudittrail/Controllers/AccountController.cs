@@ -10,6 +10,7 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using cicaudittrail.Filters;
 using cicaudittrail.Models;
+using System.Diagnostics;
 
 namespace cicaudittrail.Controllers
 {
@@ -27,32 +28,74 @@ namespace cicaudittrail.Controllers
             return View();
         }
 
+
+        //
+        // GET: /Account/Login
+
+        [AllowAnonymous]
+        public ActionResult Index(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
         //
         // POST: /Account/Login
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+
+            /*   if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+               {
+                   return RedirectToLocal(returnUrl);
+               } 
+
+               // Si nous sommes arrivés là, quelque chose a échoué, réafficher le formulaire
+               ModelState.AddModelError("", "Le nom d'utilisateur ou mot de passe fourni est incorrect.");
+               return View(model);*/
+
+
+            // ################################################ New version
+            //Debug.WriteLine("model = " + model.UserName + ", pass = " + model.Password);
+
+            if (!ModelState.IsValid)
             {
-                return RedirectToLocal(returnUrl);
+                return View(model);
             }
 
-            // Si nous sommes arrivés là, quelque chose a échoué, réafficher le formulaire
-            ModelState.AddModelError("", "Le nom d'utilisateur ou mot de passe fourni est incorrect.");
-            return View(model);
+
+            if (Membership.ValidateUser(model.UserName, model.Password))
+            {
+                FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                
+            /*    if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                {
+                    return this.Redirect(returnUrl);
+                }*/
+
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            //  this.ModelState.AddModelError(string.Empty, "The user name or password provided is incorrect.");
+            TempData["error"] = "Nom d'utilisateur ou mot de passe érroné";
+
+            return this.View(model);
+
         }
 
         //
         // POST: /Account/LogOff
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [HttpPost]
+        // [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            WebSecurity.Logout();
+            //  WebSecurity.Logout();
+            FormsAuthentication.SignOut();
 
             return RedirectToAction("Index", "Home");
         }

@@ -29,7 +29,7 @@ namespace cicaudittrail.Jobs
                 Debug.WriteLine("job executed at= " + DateTime.Now);
                 ICicRequestRepository CicrequestRepository = new CicRequestRepository();
 
-                OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings["cicaudittrailContext"].ConnectionString);
+                OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings["cicaudittrailsupdsi"].ConnectionString);
                 var cmd = conn.CreateCommand();
                 conn.Open();
 
@@ -156,7 +156,7 @@ namespace cicaudittrail.Jobs
                     if (string.IsNullOrEmpty(requestInstance.Request) == false && tools.CheckSql(requestInstance.Request) == false)
                     {
                         CicRequest requestCopy = requestInstance;
-                        Debug.WriteLine("Before ExecuteTrigger = " + requestCopy.CicRequestId);
+                        //   Debug.WriteLine("Before ExecuteTrigger = " + requestCopy.CicRequestId);
                         //On declenche une tache d'execution de l'action en parallele
                         Task.Factory.StartNew(() => { ExecuteTrigger(requestCopy); });
 
@@ -194,7 +194,7 @@ namespace cicaudittrail.Jobs
             var executionNumber = 0;
             do
             {
-                Debug.WriteLine(" executionNumber = " + requestInstance.CicRequestId+" // " + executionNumber);
+                Debug.WriteLine(" executionNumber = " + requestInstance.CicRequestId + " // " + executionNumber);
                 executionNumber = executeSql(executionNumber, cmd, requestInstance);
                 OracleConnection.ClearAllPools();
             } while (executionNumber > 0);
@@ -238,6 +238,7 @@ namespace cicaudittrail.Jobs
         private static List<string> ReadToJSON(DbDataReader reader)
         {
             List<string> concateneList = new List<string>();
+            ToolsClass tools = new ToolsClass();
 
             while (reader.Read())
             {
@@ -254,9 +255,18 @@ namespace cicaudittrail.Jobs
                      * */
                     for (int i = 1; i < reader.FieldCount; i++)
                     {
-                        writer.WritePropertyName(reader.GetName(i));
+                        writer.WritePropertyName(tools.SanitizeXmlString(reader.GetName(i)));
                         //Debug.WriteLine("reader.GetValue(i)= " + reader.GetValue(i));
-                        writer.WriteValue(reader.GetValue(i));
+                        var valueRead = reader.GetValue(i);
+                        var typeOfValue = valueRead.GetType();
+                        if (typeOfValue.IsPrimitive || typeOfValue == typeof(Decimal) || typeOfValue == typeof(String) || typeOfValue == typeof(DateTime))
+                        {
+                            writer.WriteValue(tools.SanitizeXmlString(reader.GetValue(i).ToString()));
+                        }
+                        else
+                        {
+                            writer.WriteValue(reader.GetValue(i));
+                        }
                     }
                     writer.WriteEnd();
                     writer.Close();
@@ -425,4 +435,3 @@ A 7h (ex), le job se relance. Il verifie la table CicRequestsJob avec un enregis
 	- Si statut='ok', il fait rien
 	- Si statut='error', il supprime les enregistrements de CicRequestResults du jour et se relance
 */
- 

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@{var isAuthorized = false;}
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -8,10 +9,13 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
+    @{
+        var CurrentUser = System.Web.Security.Membership.GetUser();
+    }
     <div id="wrapper">
         <!-- Barre haut + Barre navigation gauche  -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-
+         
           <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -19,16 +23,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+              @*  <a class="navbar-brand" href="index.html">SB Admin v2.0</a>*@
+              <img class="headerImg" src="~/Content/images/LongLogoCbao.jpg" />
+             
             </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                   @*   <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-messages">
+                  <ul class="dropdown-menu dropdown-messages">
                         <li>
                             <a href="#">
                                 <div>
@@ -73,9 +79,9 @@
                         </li>
                     </ul>
                     <!-- /.dropdown-messages -->
-                </li>
+                </li>*@
                 <!-- /.dropdown -->
-                <li class="dropdown">
+             @*   <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
@@ -152,9 +158,9 @@
                         </li>
                     </ul>
                     <!-- /.dropdown-tasks -->
-                </li>
+                </li>*@
                 <!-- /.dropdown -->
-                <li class="dropdown">
+               @* <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
@@ -212,19 +218,21 @@
                         </li>
                     </ul>
                     <!-- /.dropdown-alerts -->
-                </li>
+                </li>*@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i>  
+                         @CurrentUser.Email  <i class="fa fa-caret-down"></i>
+                       
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                      @*  <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li class="divider"></li> *@
+                        <li> <a href='@(Url.Action("LogOff", "Account"))'><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -268,7 +276,7 @@
                           Traitement des réponses </a> 
                                 </li>
                                 <li>
-                                    <a href='@(Url.Action("Search", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
+                                    <a href='@(Url.Action("IndexForCentif", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
                           Génerer etats Centif </a> 
                                 </li>
                             </ul>
@@ -279,23 +287,38 @@
                            <a href='@(Url.Action("Search", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
                           Recherche de suivis </a> 
                         </li>
+                        @{  isAuthorized = cicaudittrail.Src.CustomRoleProvider.IsUserInRole("Administrateur");}
+                        @if (isAuthorized == true)
+                        {
                           <li> 
                            <a href='@(Url.Action("Index", "CicRequestExecution"))'> <i class="fa fa-dashboard fa-fw"></i>
                           Audit </a> 
                         </li>
+                        }
                         <li> 
                           <a href='@(Url.Action("Index", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
                           Paramétrage<span class="fa arrow"> </span></a> 
                         
                             <ul class="nav nav-second-level">
+                              @{  isAuthorized = cicaudittrail.Src.CustomRoleProvider.IsUserInRole("Administrateur");}
+                        @if (isAuthorized == true)
+                        {
+                              <li>
+                              <a href='@(Url.Action("Index", "CicRole"))'> <i class="fa fa-dashboard fa-fw"></i> Roles  </a>
+                              </li>
+                        }
+                          @{ isAuthorized = cicaudittrail.Src.CustomRoleProvider.IsUserInRole("Administrateur");}
+                        @if (isAuthorized == true)
+                        {
+                               <li>
+                              <a href='@(Url.Action("Index", "CicUserRole"))'> <i class="fa fa-dashboard fa-fw"></i> Attribution roles</a>
+                              </li>
+                        }
                                 <li>
-                                    <a href='@(Url.Action("Index", "CicMessageTemplate"))'> <i class="fa fa-dashboard fa-fw"></i>
+                                <a href='@(Url.Action("Index", "CicMessageTemplate"))'> <i class="fa fa-dashboard fa-fw"></i>
                           Modèle messages </a> 
                                 </li>
-                                <li>
-                                    <a href='@(Url.Action("Search", "CicRequestResultsFollowed"))'> <i class="fa fa-dashboard fa-fw"></i>
-                          Recherche de suivis </a> 
-                                </li>
+                              
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

@@ -384,4 +384,61 @@
   <data name="UserPrenom" xml:space="preserve">
     <value>Prénom</value>
   </data>
+  <data name="CicRequestExecution_CT" xml:space="preserve">
+    <value>Etat Centif tiré</value>
+  </data>
+  <data name="CicMessageMail_IsSent" xml:space="preserve">
+    <value>Message envoyé ?</value>
+  </data>
+  <data name="CicUserRole_CicRoleId_Required" xml:space="preserve">
+    <value>Veuillez choisir un role</value>
+  </data>
+  <data name="CicUserRole_Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="CicUserRole_Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="CicUserRole_Username_Required" xml:space="preserve">
+    <value>Veuillez saisir un username</value>
+  </data>
+  <data name="CicRole_create" xml:space="preserve">
+    <value>Création rôle</value>
+  </data>
+  <data name="CicRole_edit" xml:space="preserve">
+    <value>Modification rôle</value>
+  </data>
+  <data name="CicRole_list" xml:space="preserve">
+    <value>Liste rôles</value>
+  </data>
+  <data name="CicUserRole_create" xml:space="preserve">
+    <value>Création attribution de rôle</value>
+  </data>
+  <data name="CicUserRole_edit" xml:space="preserve">
+    <value>Modification attribution de rôle</value>
+  </data>
+  <data name="CicRole_DateCreated" xml:space="preserve">
+    <value>Date création</value>
+  </data>
+  <data name="CicRole_UserCreated" xml:space="preserve">
+    <value>Créé par</value>
+  </data>
+  <data name="CicUserRole_DateCreated" xml:space="preserve">
+    <value>Date création</value>
+  </data>
+  <data name="CicUserRole_UserCreated" xml:space="preserve">
+    <value>Créé par</value>
+  </data>
+  <data name="CicRole_DateUpdated" xml:space="preserve">
+    <value>Modifié le</value>
+  </data>
+  <data name="CicRole_UserUpdated" xml:space="preserve">
+    <value>Modifié par</value>
+  </data>
+  <data name="CicUserRole_DateUpdated" xml:space="preserve">
+    <value>Modifié le</value>
+  </data>
+  <data name="CicUserRole_UserUpdated" xml:space="preserve">
+    <value>Modifié par</value>
+  </data>
 </root>

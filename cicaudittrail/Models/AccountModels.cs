@@ -6,13 +6,14 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Configuration;
 
 namespace cicaudittrail.Models
 {
     public class UsersContext : DbContext
     {
         public UsersContext()
-            : base("DefaultConnection")
+            : base(ConfigurationManager.ConnectionStrings["ADConnectionString"].ConnectionString)
         {
         }
 

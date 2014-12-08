@@ -42,11 +42,11 @@ namespace cicaudittrail.Jobs
 
             // delenchement tâche execution requetes sql requestExecutiontrigger
             //TODO tache chaque matin à 5h
-            // scheduler.ScheduleJob(requestjob, requestExecutiontrigger);
+           //  scheduler.ScheduleJob(requestjob, requestExecutiontrigger);
 
             // delenchement tâche recupération mails syncmailtrigger
             //TODO tache toutes les 15 mn
-           // scheduler.ScheduleJob(syncmailjob, syncmailtrigger);
+         //   scheduler.ScheduleJob(syncmailjob, syncmailtrigger);
         }
     }
 }

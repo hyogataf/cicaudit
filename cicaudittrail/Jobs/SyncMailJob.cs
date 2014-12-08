@@ -23,6 +23,7 @@ namespace cicaudittrail.Jobs
             if (CommunicationWSUri != null && appname != null)
             {
                 CommunicationWSUri = CommunicationWSUri + appname; // ajout du parametre 'appname' de la methode GET
+                Debug.WriteLine("CommunicationWSUri= " + CommunicationWSUri);
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(CommunicationWSUri);
                 request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                 //  request.ProtocolVersion = HttpVersion.Version10;

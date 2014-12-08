@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Web;
 using System.Web.Mvc;
 using cicaudittrail.Models;
-using System.Data.Common;
+using System.Diagnostics;
 
 namespace cicaudittrail.Controllers
 {
@@ -10,6 +12,7 @@ namespace cicaudittrail.Controllers
     {
         private readonly ICicRequestRepository CicrequestRepository;
         private readonly ICicRequestExecutionRepository CicrequestExecutionRepository;
+        public System.Web.Security.MembershipUser CurrentUser = System.Web.Security.Membership.GetUser();
 
         // If you are using Dependency Injection, you can delete the following constructor
         public CicRequestController()
@@ -28,8 +31,20 @@ namespace cicaudittrail.Controllers
 
         public ViewResult Index()
         {
+            System.Web.Security.FormsIdentity identity = (System.Web.Security.FormsIdentity)System.Web.HttpContext.Current.User.Identity;
+
+            /*   Debug.WriteLine("identity = " + identity.Name);
+               Debug.WriteLine("identity = " + identity.IsAuthenticated);
+               var UserFromDb = System.Web.Security.Membership.GetUser();
+               Debug.WriteLine("UserFromDb = " + UserFromDb);
+               Debug.WriteLine("UserFromDb = " + UserFromDb.UserName);
+               Debug.WriteLine("UserFromDb = " + UserFromDb.Email);
+               Debug.WriteLine("Session = " + Session["CurrentUser"]);
+               Debug.WriteLine("Session type = " + Session["CurrentUser"].GetType());*/
+
             return View(CicrequestRepository.All);
         }
+
 
         //
         // GET: /CicRequest/Details/5
@@ -91,7 +106,8 @@ namespace cicaudittrail.Controllers
                 //Enregistrement de CicRequestExecution
                 var CicRequestExecutionInstance = new CicRequestExecution();
                 CicRequestExecutionInstance.CicRequestId = Cicrequest.CicRequestId;
-                CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+
+                CicRequestExecutionInstance.UserAction = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
                 CicRequestExecutionInstance.DateAction = DateTime.Now;
                 CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.U.ToString();
                 CicRequestExecutionInstance.DateCreated = DateTime.Now;
@@ -126,7 +142,7 @@ namespace cicaudittrail.Controllers
             //Enregistrement de CicRequestExecution
             var CicRequestExecutionInstance = new CicRequestExecution();
             CicRequestExecutionInstance.CicRequestId = id;
-            CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+            CicRequestExecutionInstance.UserAction = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString(); //TODO mettre le user connecté
             CicRequestExecutionInstance.DateAction = DateTime.Now;
             CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.D.ToString();
             CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);

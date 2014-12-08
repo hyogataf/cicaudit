@@ -1,0 +1,83 @@
+@model cicaudittrail.Models.CicUserRole
+
+@{
+    ViewBag.Title = "Consultation attribution rôle";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Consultation attribution rôle
+            </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>  
+
+@if (TempData["error"] != null) {
+<div class="alert alert-danger" role="alert">
+    @TempData["error"]
+</div>
+}
+
+@if (TempData["message"] != null) {
+<div class="alert alert-success" role="alert">
+    @TempData["message"]
+</div>
+}
+
+@if (TempData["warning"] != null) {
+<div class="alert alert-warning" role="alert">
+    @TempData["warning"]
+</div>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+         
+            </div>
+            <div class="panel-body">
+                <div class="row" style="margin-left: -15px">
+                    <div class="col-lg-12">
+                        <fieldset disabled>
+                             
+                             
+    
+      <div class="form-group">
+                            <label for="CicRole">
+                                Rôle
+                            </label>
+                            <input class="form-control" id="CicRole" type="text" placeholder="@(Model.CicRole == null ? "None" : Model.CicRole.Name)"
+            readonly>
+                        </div>
+
+    
+      <div class="form-group">
+                            <label for="Username">
+                                Username
+                            </label>
+                            <input class="form-control" id="Username" type="text" placeholder="@Model.Username"
+            readonly>
+                        </div>
+
+                        </fieldset> 
+                    <p>
+<button type="button" class="btn btn-primary">
+    @Html.ActionLink("Modifier", "Edit", new { id=Model.CicUserRoleId })
+     </button> 
+     <button type="button" class="btn btn-default">
+    @Html.ActionLink("Retour", "Index")
+     </button> 
+</p>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+
+

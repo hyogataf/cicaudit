@@ -19,6 +19,7 @@ namespace cicaudittrail.Controllers
         private readonly ICicRequestResultsRepository CicrequestresultsRepository;
         private readonly ICicRequestExecutionRepository CicrequestExecutionRepository;
         private readonly ICicRequestResultsFollowedRepository CicrequestResultsFollowedRepository;
+        public System.Web.Security.MembershipUser CurrentUser = System.Web.Security.Membership.GetUser();
 
         // If you are using Dependency Injection, you can delete the following constructor
         public CicRequestResultsController()
@@ -71,7 +72,8 @@ namespace cicaudittrail.Controllers
             }
 
             // Debug.WriteLine("DateTime.Today = " + DateTime.Today);
-            var listResults = CicrequestresultsRepository.FindAllByRequestAndDate(id, DateTime.Today).ToList<CicRequestResults>();
+            //  var listResults = CicrequestresultsRepository.FindAllByRequestAndDate(id, DateTime.Today).ToList<CicRequestResults>();// TODO remettre ça
+            var listResults = CicrequestresultsRepository.FindAllByRequest(id).ToList<CicRequestResults>();
             //var test = Read(listResults).ToList();
             if (listResults.Any())
             {
@@ -85,7 +87,7 @@ namespace cicaudittrail.Controllers
             //Enregistrement de CicRequestExecution
             var CicRequestExecutionInstance = new CicRequestExecution();
             CicRequestExecutionInstance.CicRequestId = id;
-            CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+            CicRequestExecutionInstance.UserAction = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
             CicRequestExecutionInstance.DateAction = DateTime.Now;
             CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.E.ToString();
             CicRequestExecutionInstance.DateCreated = DateTime.Now;
@@ -212,7 +214,7 @@ namespace cicaudittrail.Controllers
                             CicRequestResultsFollowed.RowContent = CicRequestResultsInstance.RowContent;
                             CicRequestResultsFollowed.DateCreated = DateTime.Now;
                             CicRequestResultsFollowed.Statut = Statut.E.ToString();
-                            CicRequestResultsFollowed.UserCreated = "admin"; //TODO remplacer admin par le userEnCours
+                            CicRequestResultsFollowed.UserCreated = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
                             CicRequestResultsFollowed.Comments = Request.Form["Comments" + resultId];
                             CicrequestResultsFollowedRepository.InsertOrUpdate(CicRequestResultsFollowed);
                             CicrequestResultsFollowedRepository.Save();
@@ -222,7 +224,7 @@ namespace cicaudittrail.Controllers
                             if (CicRequestResultsInstance.CicRequest.Properties != null && CicRequestResultsInstance.CicRequest.Properties != "")
                             {
                                 var listProperties = CicRequestResultsInstance.CicRequest.Properties.Split(',');
-                                 
+
                                 Dictionary<string, string> dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                                 var dictionaryIgnoreCase = JsonConvert.DeserializeObject<Dictionary<string, string>>(CicRequestResultsInstance.RowContent);
                                 foreach (var el in dictionaryIgnoreCase)
@@ -233,12 +235,12 @@ namespace cicaudittrail.Controllers
                                 foreach (var proplocal in listProperties)
                                 {
                                     var prop = proplocal.Trim();
-                                   
+
                                     if (prop != null)
                                     {
                                         if (dictionary.ContainsKey(prop))
                                         {
-                                           // Debug.WriteLine("prop = " + prop + ", value = " + dictionary[prop].Trim());
+                                            // Debug.WriteLine("prop = " + prop + ", value = " + dictionary[prop].Trim());
                                             CicFollowedPropertiesValuesRepository CicRequestPropValueRepository = new CicFollowedPropertiesValuesRepository();
                                             CicFollowedPropertiesValues CicRequestPropValue = new CicFollowedPropertiesValues();
                                             CicRequestPropValue.CicRequestResultsFollowedId = CicRequestResultsFollowed.CicRequestResultsFollowedId;
@@ -247,15 +249,15 @@ namespace cicaudittrail.Controllers
                                             CicRequestPropValue.DateCreated = DateTime.Now;
                                             CicRequestPropValueRepository.InsertOrUpdate(CicRequestPropValue);
                                             CicRequestPropValueRepository.Save();
-                                        } 
+                                        }
                                     }
-                                } 
+                                }
                             }
-                             
+
                             //Enregistrement de CicRequestExecution
                             var CicRequestExecutionInstance = new CicRequestExecution();
                             CicRequestExecutionInstance.CicRequestId = CicRequestResultsInstance.CicRequestId;
-                            CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+                            CicRequestExecutionInstance.UserAction = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
                             CicRequestExecutionInstance.DateAction = DateTime.Now;
                             CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.F.ToString();
                             CicRequestExecutionInstance.DateCreated = DateTime.Now;
@@ -511,7 +513,7 @@ namespace cicaudittrail.Controllers
                             CicRequestResultsFollowed.RowContent = CicRequestResultsInstance.RowContent;
                             CicRequestResultsFollowed.DateCreated = DateTime.Now;
                             CicRequestResultsFollowed.Statut = Statut.E.ToString();
-                            CicRequestResultsFollowed.UserCreated = "admin"; //TODO remplacer admin par le userEnCours
+                            CicRequestResultsFollowed.UserCreated = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
                             CicRequestResultsFollowed.Comments = line.Comments;
                             CicrequestResultsFollowedRepository.InsertOrUpdate(CicRequestResultsFollowed);
                             CicrequestResultsFollowedRepository.Save();
@@ -520,21 +522,22 @@ namespace cicaudittrail.Controllers
 
                             if (CicRequestResultsInstance.CicRequest.Properties != null && CicRequestResultsInstance.CicRequest.Properties != "")
                             {
-                                Dictionary<string, string> dictionary  = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                                Dictionary<string, string> dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                                 var dictionaryIgnoreCase = JsonConvert.DeserializeObject<Dictionary<string, string>>(CicRequestResultsInstance.RowContent);
-                                foreach (var el in dictionaryIgnoreCase) {
+                                foreach (var el in dictionaryIgnoreCase)
+                                {
                                     dictionary.Add(el.Key, el.Value);
-                                } 
+                                }
                                 var listProperties = CicRequestResultsInstance.CicRequest.Properties.Split(',');
                                 foreach (var proplocal in listProperties)
                                 {
                                     var prop = proplocal.Trim();
-                                     
+
                                     if (prop != null)
                                     {
-                                           if (dictionary.ContainsKey(prop))
-                                      //  if (listProps.Contains(prop, StringComparer.OrdinalIgnoreCase))
-                                        { 
+                                        if (dictionary.ContainsKey(prop))
+                                        //  if (listProps.Contains(prop, StringComparer.OrdinalIgnoreCase))
+                                        {
                                             CicFollowedPropertiesValuesRepository CicRequestPropValueRepository = new CicFollowedPropertiesValuesRepository();
                                             CicFollowedPropertiesValues CicRequestPropValue = new CicFollowedPropertiesValues();
                                             CicRequestPropValue.CicRequestResultsFollowedId = CicRequestResultsFollowed.CicRequestResultsFollowedId;
@@ -545,13 +548,13 @@ namespace cicaudittrail.Controllers
                                             CicRequestPropValueRepository.Save();
                                         }
                                     }
-                                } 
+                                }
                             }
-                             
+
                             //Enregistrement de CicRequestExecution
                             var CicRequestExecutionInstance = new CicRequestExecution();
                             CicRequestExecutionInstance.CicRequestId = CicRequestResultsInstance.CicRequestId;
-                            CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
+                            CicRequestExecutionInstance.UserAction = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
                             CicRequestExecutionInstance.DateAction = DateTime.Now;
                             CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.F.ToString();
                             CicRequestExecutionInstance.DateCreated = DateTime.Now;
