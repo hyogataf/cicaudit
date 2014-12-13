@@ -34,19 +34,24 @@ namespace cicaudittrail.Jobs
             ITrigger syncmailtrigger = TriggerBuilder.Create()
                  .WithIdentity("trigger2", "group1")
     .StartNow()
-    .WithSimpleSchedule(x => x
-        .WithIntervalInSeconds(5)
-        //.RepeatForever()
-        .WithRepeatCount(0))
-    .Build();
+                 .WithSimpleSchedule(x => x
+                    .WithIntervalInSeconds(5)
+                     //.RepeatForever()
+                    .WithRepeatCount(0))
+                    .Build();
+            /* .WithDailyTimeIntervalSchedule(
+                 x => x.StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(7, 0))
+                          .EndingDailyAt(TimeOfDay.HourAndMinuteOfDay(19, 0))
+                          .WithIntervalInMinutes(1))
+.Build();*/
 
             // delenchement tâche execution requetes sql requestExecutiontrigger
             //TODO tache chaque matin à 5h
-           //  scheduler.ScheduleJob(requestjob, requestExecutiontrigger);
+              scheduler.ScheduleJob(requestjob, requestExecutiontrigger);
 
             // delenchement tâche recupération mails syncmailtrigger
             //TODO tache toutes les 15 mn
-         //   scheduler.ScheduleJob(syncmailjob, syncmailtrigger);
+           // scheduler.ScheduleJob(syncmailjob, syncmailtrigger);
         }
     }
 }

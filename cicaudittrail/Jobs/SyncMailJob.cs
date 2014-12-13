@@ -18,6 +18,8 @@ namespace cicaudittrail.Jobs
     {
         public void Execute(IJobExecutionContext context)
         {
+            Debug.WriteLine(" Syncing mail fired= " + DateTime.Now);
+
             var CommunicationWSUri = ConfigurationManager.AppSettings["GetMailImap"];// recuperation de l'url de l'app de mail
             var appname = ConfigurationManager.AppSettings["Appname"];
             if (CommunicationWSUri != null && appname != null)
@@ -88,51 +90,52 @@ namespace cicaudittrail.Jobs
                             Debug.WriteLine("CicRequestResultsFollowedId = " + CicRequestResultsFollowedId);
 
                             CicMessageMail CicMessageMail = new CicMessageMail();
-                            if (checkCicRequestResultsFollowed(CicRequestResultsFollowedId) == true) CicMessageMail.CicRequestResultsFollowedId = CicRequestResultsFollowedId;
-                            CicMessageMail.DateMessage = DateTime.Now;
-                            CicMessageMail.MessageContent = msg.Message;
-                            CicMessageMail.ObjetMessage = msg.ObjetMessage;
-                            CicMessageMail.Sens = Sens.I.ToString();
-                            CicMessageMail.UserMessage = msg.From;
-
-                            //TODO recup CicRequestResultsFollowedId selon le msg.Subject
-                            CicMessageMailRepository.InsertOrUpdate(CicMessageMail);
-                            CicMessageMailRepository.Save();
-                            Debug.WriteLine("CicMessageMail saved ");
-
-                            //Gestion des pieces jointes
-                            if (CicMessageMail.CicMessageMailId > 0)
-                            {
-                                CicMessageMailDocumentsRepository CicMessageMailDocumentsRepository = new CicMessageMailDocumentsRepository();
-                                foreach (var attachment in msg.Attachements)
-                                {
-                                    CicMessageMailDocuments CicMessageMailDocuments = new CicMessageMailDocuments();
-                                    CicMessageMailDocuments.CicMessageMailId = CicMessageMail.CicMessageMailId;
-                                    CicMessageMailDocuments.DateCreated = DateTime.Now;
-                                    CicMessageMailDocuments.DocumentName = attachment.fileName;
-                                    CicMessageMailDocuments.DocumentType = attachment.fileType;
-                                    if (attachment.file != null)
-                                    {
-                                        CicMessageMailDocuments.Document = Base64Decode(attachment.file);
-                                    }
-
-                                    CicMessageMailDocumentsRepository.InsertOrUpdate(CicMessageMailDocuments);
-                                    CicMessageMailDocumentsRepository.Save();
-                                    Debug.WriteLine("CicMessageMailDocuments saved ");
-                                }
-                            }
-
-                            //Update de CicRequestResultsFollowed
-                            CicRequestResultsFollowedRepository CicrequestresultsfollowedRepository = new CicRequestResultsFollowedRepository();
                             if (checkCicRequestResultsFollowed(CicRequestResultsFollowedId) == true)
                             {
+                                Debug.WriteLine("CicRequestResultsFollowedId true = " + CicRequestResultsFollowedId);
+                                //on enregistre le mail reçu
+                                CicMessageMail.CicRequestResultsFollowedId = CicRequestResultsFollowedId;
+                                CicMessageMail.DateMessage = DateTime.Now;
+                                CicMessageMail.MessageContent = msg.Message;
+                                CicMessageMail.ObjetMessage = msg.ObjetMessage;
+                                CicMessageMail.Sens = Sens.I.ToString();
+                                CicMessageMail.UserMessage = msg.From;
+
+                                CicMessageMailRepository.InsertOrUpdate(CicMessageMail);
+                                CicMessageMailRepository.Save();
+                                Debug.WriteLine("CicMessageMail saved ");
+
+                                //Save des pieces jointes
+                                if (CicMessageMail.CicMessageMailId > 0)
+                                {
+                                    CicMessageMailDocumentsRepository CicMessageMailDocumentsRepository = new CicMessageMailDocumentsRepository();
+                                    foreach (var attachment in msg.Attachements)
+                                    {
+                                        CicMessageMailDocuments CicMessageMailDocuments = new CicMessageMailDocuments();
+                                        CicMessageMailDocuments.CicMessageMailId = CicMessageMail.CicMessageMailId;
+                                        CicMessageMailDocuments.DateCreated = DateTime.Now;
+                                        CicMessageMailDocuments.DocumentName = attachment.fileName;
+                                        CicMessageMailDocuments.DocumentType = attachment.fileType;
+                                        if (attachment.file != null)
+                                        {
+                                            CicMessageMailDocuments.Document = Base64Decode(attachment.file);
+                                        }
+
+                                        CicMessageMailDocumentsRepository.InsertOrUpdate(CicMessageMailDocuments);
+                                        CicMessageMailDocumentsRepository.Save();
+                                        Debug.WriteLine("CicMessageMailDocuments saved ");
+                                    }
+                                }
+
+                                //Update de CicRequestResultsFollowed: changement de statut
+                                CicRequestResultsFollowedRepository CicrequestresultsfollowedRepository = new CicRequestResultsFollowedRepository();
+
                                 var CicRequestFollowedInstance = CicrequestresultsfollowedRepository.Find(CicRequestResultsFollowedId);
                                 CicRequestFollowedInstance.Statut = Statut.MR.ToString();
                                 CicrequestresultsfollowedRepository.InsertOrUpdate(CicRequestFollowedInstance);
                                 CicrequestresultsfollowedRepository.Save();
                                 Debug.WriteLine("CicRequestFollowedInstance updated ");
                             }
-
                         }
                     }
                 }
@@ -145,11 +148,16 @@ namespace cicaudittrail.Jobs
             return base64EncodedBytes;
         }
 
+        /**
+         * Methode qui verifie si un suivi peut recevoir des mails de la part d'un gestionnaire.
+         * Pour cela, il doit avoir son statut entre ME: mail envoyé ou MS: mail reçu
+         * */
         public bool checkCicRequestResultsFollowed(long CicRequestResultsFollowedId)
         {
             CicRequestResultsFollowedRepository CicRequestResultsFollowedRepository = new CicRequestResultsFollowedRepository();
+            //On verifie d'abord que l'id reçu dans l'objet correspond bien à un suivi
             var CicRequestResultsFollowedInstance = CicRequestResultsFollowedRepository.Find(CicRequestResultsFollowedId);
-            if (CicRequestResultsFollowedInstance != null)
+            if (CicRequestResultsFollowedInstance != null && new List<String>() { "ME", "MR" }.Contains(CicRequestResultsFollowedInstance.Statut))
             {
                 return true;
             }

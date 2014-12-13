@@ -70,7 +70,38 @@
             readonly>
                                 </div>
                             </div>
-                            @if (Model.Action == "F")
+                            @if (Model.CicRequestResultsFollowedId != null)
+                            {
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="CicRequestUserExecuted">
+                                            Suivi concerné
+                                        </label>
+                                        <div class="form-control">
+                                            @Html.ActionLink("Suivi", "Details", "CicRequestResultsFollowed", new { id = Model.CicRequestResultsFollowedId }, null)
+                                        </div>
+                                        @*<input class="form-control" id="CicRequestUserExecuted" type="text" value=" @Html.ActionLink("Retour", "Index")"
+            readonly>*@
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.FileName != null)
+                            {
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="CicRequestUserExecuted">
+                                            Fichier centif
+                                        </label>
+                                        <div class="form-control">
+                                            <a href="@Url.Action("Download", "CicRequestExecution", new { id = Model.CicRequestExecutionId })" target="_blank">
+                                                <i class="fa fa-paperclip fa-fw"></i>Téléchargez le fichier tiré</a>
+                                        </div>
+                                        @*<input class="form-control" id="CicRequestUserExecuted" type="text" value=" @Html.ActionLink("Retour", "Index")"
+            readonly>*@
+                                    </div>
+                                </div>
+                            }
+                            @if (new List<String>() { "F", "FC", "FA", "MS", "CT" }.Contains(Model.Action))
                             {
                                 <div class="col-lg-12">
                                     <div class="form-group">

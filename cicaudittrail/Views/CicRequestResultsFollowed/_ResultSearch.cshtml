@@ -3,7 +3,7 @@
 @Styles.Render("~/Content/datatablecss")
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
-        $("#resultsTable").dataTable({ bJQueryUI: false, sPaginationType: "full_numbers" });  
+        $("#resultsTable").dataTable({ bJQueryUI: false, sPaginationType: "full_numbers" });
     });
   
 </script>
@@ -19,6 +19,8 @@
                         <table class="table table-striped table-bordered table-hover" id="resultsTable">
                             <thead>
                                 <tr>
+                                    <th>
+                                    </th>
                                     <th>
                                     </th>
                                     <th>
@@ -39,8 +41,11 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td> 
-                                            @Ajax.ActionLink("Details", "AjaxDetails", new { id = item.CicRequestResultsFollowedId }, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "followedContent1" })
+                                        <td>
+                                            @Html.ActionLink("Consulter", "Details", new { id = item.CicRequestResultsFollowedId }, new { target = "_blank" })
+                                        </td>
+                                        <td>
+                                            @Ajax.ActionLink("Aperçu", "AjaxDetails", new { id = item.CicRequestResultsFollowedId }, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "followedContent1" })
                                         </td>
                                         <td>
                                             @(item.CicRequest == null ? "None" : item.CicRequest.Libelle)

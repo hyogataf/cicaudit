@@ -45,12 +45,24 @@
                                 <input class="form-control" id="CicRequest" type="text" placeholder="@ViewData["Libelle"]"
             readonly>
                             </div>
-                            <div class="form-group">
-                                <label for="CicRequest">
-                                    Suivi
-                                </label>
-                                <input class="form-control" id="CicRequest" type="text" placeholder="Suivi effectué le @String.Format("{0:g}", ViewData["DateCreated"]), par @ViewData["UserCreated"]"
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="CicRequest">
+                                        Suivi
+                                    </label>
+                                    <input class="form-control" id="CicRequest" type="text" placeholder="Suivi effectué le @String.Format("{0:g}", ViewData["DateCreated"]), par @ViewData["UserCreated"]"
             readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="CicRequestUserUpdated">
+                                        Statut
+                                    </label>
+                                    @{var statut = "CicRequestResultsFollowed_" + @ViewData["Statut"];}
+                                    <input class="form-control" id="CicRequestUserUpdated" type="text" placeholder="@Html.Raw(cicaudittrail.Src.ToolsClass.GetResourceValueForVariable(statut))"
+            readonly>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="Comments">
@@ -74,7 +86,7 @@
         </div>
     </div>
 </div>
-<p>  
+<p>
     <button type="button" class="btn btn-default">
         @Html.ActionLink("Retour", "Index")
     </button>
@@ -133,3 +145,80 @@
         </div>
     </div>
 </div>
+@{ cicaudittrail.Models.CicRequestResultsFollowedRepository rep = new cicaudittrail.Models.CicRequestResultsFollowedRepository();
+   var CicFollowed = rep.Find(Convert.ToInt64(ViewData["Id"]));
+   var CicMessageMails = CicFollowed.CicMessageMails;  
+}
+@if (CicMessageMails.Count > 0)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Messages echangés
+                </div>
+                <div class="panel-body">
+                    <div class="row" style="margin-left: -15px">
+                        <div class="col-lg-12">
+                            <div class="containerbubble">
+                                @foreach (var message in CicMessageMails.OrderBy(b => b.DateMessage))
+                                {
+                                    if (message.Sens != null && message.Sens.ToString() == "O")
+                                    {
+                                    <div class="bubbleleft">
+                                        <label for="Comments">
+                                            CIC [@message.UserMessage] - @message.DateMessage
+                                        </label>
+                                        @if (message.CicMessageMailDocuments.Count > 0)
+                                        {
+                                            foreach (var doc in message.CicMessageMailDocuments)
+                                            {
+                                            <br />
+                                            <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="@Url.Action("Download", "CicRequestResultsFollowed", new { CicMessageMailDocumentsId = doc.CicMessageMailDocumentsId })" target="_blank">
+                                                <i class="fa fa-paperclip fa-fw"></i>@doc.DocumentName</a> </span>
+                                            }
+                                            <br />
+                                        }
+                                    </div>
+                                
+                                    <div class="bubble">
+                                        @{var text = @MvcHtmlString.Create(HttpUtility.HtmlDecode(@message.MessageContent));}
+                                        @text
+                                    </div>
+                                    }
+                                    else if (message.Sens != null && message.Sens.ToString() == "I")
+                                    {
+                                    <div class="bubbleright">
+                                        <label for="Comments">
+                                            Gestionnaire [@message.UserMessage] - @message.DateMessage
+                                        </label>
+                                        @if (message.CicMessageMailDocuments.Count > 0)
+                                        {
+                                            foreach (var doc in message.CicMessageMailDocuments)
+                                            {
+                                            <br />
+                                            <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="@Url.Action("Download", "CicRequestResultsFollowed", new { CicMessageMailDocumentsId = doc.CicMessageMailDocumentsId })" target="_blank">
+                                                <i class="fa fa-paperclip fa-fw"></i>@doc.DocumentName</a> </span>
+                                            }
+                                            <br />
+                                        }
+                                    </div>
+                                    <div class="bubble bubble--alt">
+                                        @{var text = @MvcHtmlString.Create(HttpUtility.HtmlDecode(@message.MessageContent));}
+                                        @text
+                                    </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<p>
+    <button type="button" class="btn btn-default">
+        @Html.ActionLink("Retour", "Index")
+    </button>
+</p>

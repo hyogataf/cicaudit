@@ -4,24 +4,26 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using cicaudittrail.Models;
+using System.Diagnostics;
 
 namespace cicaudittrail.Controllers
 {
     [Authorize(Roles = "Administrateur")]
     public class CicRequestExecutionController : Controller
     {
-		private readonly ICicRequestRepository CicrequestRepository;
-		private readonly ICicRequestExecutionRepository CicrequestexecutionRepository;
+        private readonly ICicRequestRepository CicrequestRepository;
+        private readonly ICicRequestExecutionRepository CicrequestexecutionRepository;
 
-		// If you are using Dependency Injection, you can delete the following constructor
-        public CicRequestExecutionController() : this(new CicRequestRepository(), new CicRequestExecutionRepository())
+        // If you are using Dependency Injection, you can delete the following constructor
+        public CicRequestExecutionController()
+            : this(new CicRequestRepository(), new CicRequestExecutionRepository())
         {
         }
 
         public CicRequestExecutionController(ICicRequestRepository CicrequestRepository, ICicRequestExecutionRepository CicrequestexecutionRepository)
         {
-			this.CicrequestRepository = CicrequestRepository;
-			this.CicrequestexecutionRepository = CicrequestexecutionRepository;
+            this.CicrequestRepository = CicrequestRepository;
+            this.CicrequestexecutionRepository = CicrequestexecutionRepository;
         }
 
         //
@@ -45,9 +47,9 @@ namespace cicaudittrail.Controllers
 
         public ActionResult Create()
         {
-			ViewBag.PossibleCicRequest = CicrequestRepository.All;
+            ViewBag.PossibleCicRequest = CicrequestRepository.All;
             return View();
-        } 
+        }
 
         //
         // POST: /CicRequestExecution/Create
@@ -55,23 +57,26 @@ namespace cicaudittrail.Controllers
         [HttpPost]
         public ActionResult Create(CicRequestExecution Cicrequestexecution)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 CicrequestexecutionRepository.InsertOrUpdate(Cicrequestexecution);
                 CicrequestexecutionRepository.Save();
                 return RedirectToAction("Index");
-            } else {
-				ViewBag.PossibleCicRequest = CicrequestRepository.All;
-				return View();
-			}
+            }
+            else
+            {
+                ViewBag.PossibleCicRequest = CicrequestRepository.All;
+                return View();
+            }
         }
-        
+
         //
         // GET: /CicRequestExecution/Edit/5
- 
+
         public ActionResult Edit(long id)
         {
-			ViewBag.PossibleCicRequest = CicrequestRepository.All;
-             return View(CicrequestexecutionRepository.Find(id));
+            ViewBag.PossibleCicRequest = CicrequestRepository.All;
+            return View(CicrequestexecutionRepository.Find(id));
         }
 
         //
@@ -80,19 +85,22 @@ namespace cicaudittrail.Controllers
         [HttpPost]
         public ActionResult Edit(CicRequestExecution Cicrequestexecution)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 CicrequestexecutionRepository.InsertOrUpdate(Cicrequestexecution);
                 CicrequestexecutionRepository.Save();
                 return RedirectToAction("Index");
-            } else {
-				ViewBag.PossibleCicRequest = CicrequestRepository.All;
-				return View();
-			}
+            }
+            else
+            {
+                ViewBag.PossibleCicRequest = CicrequestRepository.All;
+                return View();
+            }
         }
 
         //
         // GET: /CicRequestExecution/Delete/5
- 
+
         public ActionResult Delete(long id)
         {
             return View(CicrequestexecutionRepository.Find(id));
@@ -112,11 +120,30 @@ namespace cicaudittrail.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) {
+            if (disposing)
+            {
                 CicrequestRepository.Dispose();
                 CicrequestexecutionRepository.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public void Download(long id)
+        {
+            try
+            {
+                CicRequestExecution Cicrequestexecution = CicrequestexecutionRepository.Find(id);
+                Response.ContentType = Cicrequestexecution.FileType;
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + Cicrequestexecution.FileName);
+                Response.OutputStream.Write(Cicrequestexecution.CentifFile, 0, Cicrequestexecution.CentifFile.Length);
+                Response.Flush();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("CicRequestResultsFollowedController Download = " + e.StackTrace);
+                Response.StatusCode = 404;
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ using cicaudittrail.Models;
 
 namespace cicaudittrail.Controllers
 {
-   // [Authorize(Roles = "Administrateur")]
+    [Authorize(Roles = "Administrateur")]
     public class CicUserRoleController : Controller
     {
         private readonly ICicRoleRepository cicroleRepository;

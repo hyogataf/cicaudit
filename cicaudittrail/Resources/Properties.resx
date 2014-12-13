@@ -441,4 +441,7 @@
   <data name="CicUserRole_UserUpdated" xml:space="preserve">
     <value>Modifié par</value>
   </data>
+  <data name="CicRequestExecution_CentifFile" xml:space="preserve">
+    <value>Fichier centif</value>
+  </data>
 </root>

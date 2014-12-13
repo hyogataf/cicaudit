@@ -18,11 +18,12 @@ namespace cicaudittrail.Src
         public bool CheckSql(string sqlRequest)
         {
             List<string> sqlToString = sqlRequest.Split(' ').ToList();
-            foreach (var l in sqlToString) {
-                Debug.WriteLine("sqlToString = " + l);
-            }
+            //foreach (var l in sqlToString) {
+            //    Debug.WriteLine("sqlToString = " + l);
+            //}
            
-            var check = sqlToString.Any(v => forbiddenSql.Contains(v));
+            var check = sqlToString.Any(v => forbiddenSql.Contains(v.Trim()));
+            //Debug.WriteLine("check = " + check);
             return check;
         }
 

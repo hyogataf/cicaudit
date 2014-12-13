@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace cicaudittrail.Models
 {
@@ -119,9 +120,9 @@ namespace cicaudittrail.Models
             //Debug.WriteLine("requestid = " + requestid); 
 
             var baseQuery = from m in context.CicRequestResultsFollowed
-                            where ((string.IsNullOrEmpty(userCreated) ? true : m.UserCreated.Contains(userCreated)) &&
-                            ((string.IsNullOrEmpty(rowContent) ? true : m.RowContent.Contains(rowContent)) ||
-                             (string.IsNullOrEmpty(comments) ? true : m.Comments.Contains(rowContent))) &&
+                            where ((string.IsNullOrEmpty(userCreated) ? true : m.UserCreated.ToLower().Contains(userCreated.ToLower())) &&
+                            ((string.IsNullOrEmpty(rowContent) ? true : m.RowContent.ToLower().Contains(rowContent.ToLower())) ||
+                             (string.IsNullOrEmpty(comments) ? true : m.Comments.ToLower().Contains(rowContent.ToLower()))) &&
                             ((string.IsNullOrEmpty(cicrequestid) || requestid == 0) ? true : m.CicRequestId == requestid) &&
                              (string.IsNullOrEmpty(dateCreated) ? true : m.DateCreated >= date)
                             )

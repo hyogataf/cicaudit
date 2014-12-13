@@ -1,5 +1,6 @@
 @model cicaudittrail.Models.CicRequest
 @{
+    var isAuthorized = false;
     ViewBag.Title = "Consultation Requête";
 }
 @Scripts.Render("~/bundles/jqueryuijs")@*
@@ -84,9 +85,13 @@
                             </div>
                         </fieldset>
                         <p>
-                            <button type="button" class="btn btn-primary">
-                                @Html.ActionLink("Modifier", "Edit", new { id = Model.CicRequestId })
-                            </button>
+                            @{  isAuthorized = cicaudittrail.Src.CustomRoleProvider.IsUserInRole("Requeteur");}
+                            @if (isAuthorized == true)
+                            {
+                                <button type="button" class="btn btn-primary">
+                                    @Html.ActionLink("Modifier", "Edit", new { id = Model.CicRequestId })
+                                </button>
+                            }
                             <button type="button" class="btn btn-success">
                                 @Html.ActionLink("Exécuter", "DetailsByRequest", "CicRequestResults", new { id = Model.CicRequestId }, null)
                             </button>

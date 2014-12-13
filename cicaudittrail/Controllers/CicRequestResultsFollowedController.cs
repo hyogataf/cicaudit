@@ -123,6 +123,8 @@ namespace cicaudittrail.Controllers
             ViewData["Libelle"] = CicrequestresultsfollowedInstance.CicRequest.Libelle;
             ViewData["DateCreated"] = CicrequestresultsfollowedInstance.DateCreated;
             ViewData["UserCreated"] = CicrequestresultsfollowedInstance.UserCreated;
+            ViewData["Id"] = CicrequestresultsfollowedInstance.CicRequestResultsFollowedId;
+            ViewData["Statut"] = CicrequestresultsfollowedInstance.Statut;
 
             return View(model);
         }
@@ -419,9 +421,9 @@ namespace cicaudittrail.Controllers
                             var propGestInstance = CicFollowedPropertiesValuesRepository.FindByRequestFollowedAndProperty(CicRequestFollowedInstance.CicRequestResultsFollowedId, "Gestionnaire");
                             if (propGestInstance != null) NomGestionnaire = propGestInstance.Value;
 
-                            var propEmailInstance = CicFollowedPropertiesValuesRepository.FindByRequestFollowedAndProperty(CicRequestFollowedInstance.CicRequestResultsFollowedId, "Email"); // TODO verifier validité mail regex 
+                            var propEmailInstance = CicFollowedPropertiesValuesRepository.FindByRequestFollowedAndProperty(CicRequestFollowedInstance.CicRequestResultsFollowedId, "MailGestionnaire"); // TODO verifier validité mail regex 
                             if (propEmailInstance != null) email = propEmailInstance.Value;
-                            else email = "ahad.fall@cbao.sn";// TODO delete line
+                            //  else email = "ahad.fall@cbao.sn";// TODO delete line
 
                             //on remplit les variables du message template
                             map.Add("#{NomGestionnaire}", NomGestionnaire);
@@ -430,52 +432,42 @@ namespace cicaudittrail.Controllers
                             var bodyMessage = CicRequestFollowedInstance.CicRequest.CicMessageTemplate.ContenuMail;
 
                             //Enregistrement du mail dans la table CicMessageMail
-                            var CicMessageMail = new CicMessageMail();
-                            CicMessageMail.CicRequestResultsFollowedId = CicRequestFollowedInstance.CicRequestResultsFollowedId;
-                            CicMessageMail.DateMessage = DateTime.Now;
-                            CicMessageMail.MessageContent = toolsClass.generateBodyMessage(map, bodyMessage);
-                            CicMessageMail.ObjetMessage = objet;
-                            CicMessageMail.Email = email;
-                            CicMessageMail.UserMessage = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
-                            CicMessageMail.Sens = Sens.O.ToString();
-                            CicMessageMailRepository.InsertOrUpdate(CicMessageMail);
-                            CicMessageMailRepository.Save();
                             // on envoie le mail que si l'adresse mail du gestionnaire est renseignée
                             if (email != null && email != "")
+                            {
+                                var CicMessageMail = new CicMessageMail();
+                                CicMessageMail.CicRequestResultsFollowedId = CicRequestFollowedInstance.CicRequestResultsFollowedId;
+                                CicMessageMail.DateMessage = DateTime.Now;
+                                CicMessageMail.MessageContent = toolsClass.generateBodyMessage(map, bodyMessage);
+                                CicMessageMail.ObjetMessage = objet;
+                                CicMessageMail.Email = email;
+                                CicMessageMail.UserMessage = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
+                                CicMessageMail.Sens = Sens.O.ToString();
+                                CicMessageMailRepository.InsertOrUpdate(CicMessageMail);
+                                CicMessageMailRepository.Save();
+
                                 ListCicMessageMail.Add(CicMessageMail);
 
 
-                            //Generation fichier excel (csv) 
-                            var RowContentcsv = generateCSV(CicRequestFollowedInstance.RowContent);
-                            //  Debug.WriteLine("RowContentcsv = " + RowContentcsv);
-                            // transform en byte
-                            byte[] RowContentbytes = Encoding.Default.GetBytes(RowContentcsv);
 
-                            //Enregistrement de la piece jointe dans la table CicMessageMailDocuments
-                            CicMessageMailDocuments CicMessageMailDocuments = new CicMessageMailDocuments();
-                            CicMessageMailDocuments.CicMessageMailId = CicMessageMail.CicMessageMailId;
-                            CicMessageMailDocuments.DocumentName = "Operation_douteuse.csv";
-                            CicMessageMailDocuments.DocumentType = "application/csv";
-                            CicMessageMailDocuments.Document = RowContentbytes;
-                            CicMessageMailDocuments.DateCreated = DateTime.Now;
-                            CicMessageMailDocumentsRepository CicMessageMailDocumentsRepository = new CicMessageMailDocumentsRepository();
-                            CicMessageMailDocumentsRepository.InsertOrUpdate(CicMessageMailDocuments);
-                            CicMessageMailDocumentsRepository.Save();
+                                //Generation fichier excel (csv) 
+                                var RowContentcsv = generateCSV(CicRequestFollowedInstance.RowContent);
+                                //  Debug.WriteLine("RowContentcsv = " + RowContentcsv);
+                                // transform en byte
+                                byte[] RowContentbytes = Encoding.Default.GetBytes(RowContentcsv);
 
-                            //Update de CicRequestResultsFollowed
-                            // on ne flag le suivi que si le adresse mail du gestionnaire est renseignée
-                            // sinon on l'enregistre dans la liste des erreurs
-                            if (email != null && email != "")
-                            {
-                                CicRequestFollowedInstance.Statut = Statut.ME.ToString();
-                                CicrequestresultsfollowedRepository.InsertOrUpdate(CicRequestFollowedInstance);
-                                CicrequestresultsfollowedRepository.Save();
-                            }
-                            else ListErrorMail.Add(CicRequestFollowedInstance);
+                                //Enregistrement de la piece jointe dans la table CicMessageMailDocuments
+                                CicMessageMailDocuments CicMessageMailDocuments = new CicMessageMailDocuments();
+                                CicMessageMailDocuments.CicMessageMailId = CicMessageMail.CicMessageMailId;
+                                CicMessageMailDocuments.DocumentName = "Operation_douteuse.csv";
+                                CicMessageMailDocuments.DocumentType = "application/csv";
+                                CicMessageMailDocuments.Document = RowContentbytes;
+                                CicMessageMailDocuments.DateCreated = DateTime.Now;
+                                CicMessageMailDocumentsRepository CicMessageMailDocumentsRepository = new CicMessageMailDocumentsRepository();
+                                CicMessageMailDocumentsRepository.InsertOrUpdate(CicMessageMailDocuments);
+                                CicMessageMailDocumentsRepository.Save();
 
-                            //Enregistrement de CicRequestExecution (audit log)
-                            if (email != null && email != "")
-                            {
+                                //Enregistrement de CicRequestExecution (audit log)
                                 var CicRequestExecutionInstance = new CicRequestExecution();
                                 CicRequestExecutionInstance.CicRequestId = CicRequestFollowedInstance.CicRequestId;
                                 CicRequestExecutionInstance.UserAction = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
@@ -487,7 +479,17 @@ namespace cicaudittrail.Controllers
                                 CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);
                                 CicrequestExecutionRepository.Save();
                                 nbre++;
+
+                                //Update de CicRequestResultsFollowed
+                                // on ne flag le suivi que si le adresse mail du gestionnaire est renseignée
+                                // sinon on l'enregistre dans la liste des erreurs
+                                /* if (email != null && email != "")
+                                 {*/
+                                CicRequestFollowedInstance.Statut = Statut.ME.ToString();
+                                CicrequestresultsfollowedRepository.InsertOrUpdate(CicRequestFollowedInstance);
+                                CicrequestresultsfollowedRepository.Save();
                             }
+                            else ListErrorMail.Add(CicRequestFollowedInstance);
                         }
                     }
                 }
@@ -553,159 +555,165 @@ namespace cicaudittrail.Controllers
             foreach (var k in Request.Form.AllKeys)
             {
                 Debug.WriteLine(" k = " + k);
+                if (k.ToString().StartsWith("mail."))
+                {
+                    var resultId = k.Split('.')[1];
+                    Debug.WriteLine(" resultId = " + resultId);
+                    var te = Request.Form.GetValues(k.ToString())[0];
+                    Debug.WriteLine(" te = " + te);
+                }
+
+
             }
-            return RedirectToAction("Index");
 
-            /*     CicMessageMailRepository CicMessageMailRepository = new CicMessageMailRepository();
-                 CicRequestExecutionRepository CicrequestExecutionRepository = new CicRequestExecutionRepository();
-                 var nbre = 0;
-                 //Liste des mails à envoyer
-                 HashSet<CicMessageMail> ListCicMessageMail = new HashSet<CicMessageMail>();
-                 //Liste des erreurs d'envois
-                 HashSet<CicRequestResultsFollowed> ListErrorMail = new HashSet<CicRequestResultsFollowed>();
+            CicMessageMailRepository CicMessageMailRepository = new CicMessageMailRepository();
+            CicRequestExecutionRepository CicrequestExecutionRepository = new CicRequestExecutionRepository();
+            var nbre = 0;
+            //Liste des mails à envoyer
+            HashSet<CicMessageMail> ListCicMessageMail = new HashSet<CicMessageMail>();
+            //Liste des erreurs d'envois
+            HashSet<CicRequestResultsFollowed> ListErrorMail = new HashSet<CicRequestResultsFollowed>();
 
-                 foreach (var k in Request.Form.AllKeys)
-                 {
-                     if (k.ToString().StartsWith("mail."))
-                     {
-                         var resultId = k.Split('.')[1];
-                         //si case cochée <==> si on veut envoyer msg pour la ligne en cours
+            foreach (var k in Request.Form.AllKeys)
+            {
+                if (k.ToString().StartsWith("mail."))
+                {
+                    var resultId = k.Split('.')[1];
+                    //si case cochée <==> si on veut envoyer msg pour la ligne en cours
 
-                         if (Request.Form.GetValues(k.ToString())[0] == "true")
-                         {
-                             CicRequestResultsFollowed CicRequestFollowedInstance = CicrequestresultsfollowedRepository.Find(Convert.ToInt64(resultId));
+                    if (Request.Form.GetValues(k.ToString())[0].Contains("@"))
+                    {
+                        CicRequestResultsFollowed CicRequestFollowedInstance = CicrequestresultsfollowedRepository.Find(Convert.ToInt64(resultId));
 
-                             if (CicRequestFollowedInstance != null && CicRequestFollowedInstance.CicRequest.CicMessageTemplateId != null)
-                             {
-                                 Dictionary<string, string> map = new Dictionary<string, string>();
-                                 // recuperer dans la requete CicRequest le nom et le mail du gestionnaire
-                                 var NomGestionnaire = ""; var email = "";
-                                 CicFollowedPropertiesValuesRepository CicFollowedPropertiesValuesRepository = new CicFollowedPropertiesValuesRepository();
-                                 var propGestInstance = CicFollowedPropertiesValuesRepository.FindByRequestFollowedAndProperty(CicRequestFollowedInstance.CicRequestResultsFollowedId, "Gestionnaire");
-                                 if (propGestInstance != null) NomGestionnaire = propGestInstance.Value;
+                        if (CicRequestFollowedInstance != null && CicRequestFollowedInstance.CicRequest.CicMessageTemplateId != null)
+                        {
+                            Dictionary<string, string> map = new Dictionary<string, string>();
+                            // recuperer dans la requete CicRequest le nom et le mail du gestionnaire
+                            var NomGestionnaire = ""; var email = "";
+                            CicFollowedPropertiesValuesRepository CicFollowedPropertiesValuesRepository = new CicFollowedPropertiesValuesRepository();
+                            var propGestInstance = CicFollowedPropertiesValuesRepository.FindByRequestFollowedAndProperty(CicRequestFollowedInstance.CicRequestResultsFollowedId, "Gestionnaire");
+                            if (propGestInstance != null) NomGestionnaire = propGestInstance.Value;
 
-                                 var propEmailInstance = CicFollowedPropertiesValuesRepository.FindByRequestFollowedAndProperty(CicRequestFollowedInstance.CicRequestResultsFollowedId, "Email"); // TODO verifier validité mail regex 
-                                 if (propEmailInstance != null) email = propEmailInstance.Value;
-                                 //  else email = "ahad.fall@cbao.sn";// TODO delete line
+                            email = Request.Form.GetValues(k.ToString())[0];
+                            //  else email = "ahad.fall@cbao.sn";// TODO delete line
 
-                                 //on remplit les variables du message template
-                                 map.Add("#{NomGestionnaire}", NomGestionnaire);
-                                 ToolsClass toolsClass = new ToolsClass();
-                                 var objet = "Suivi " + CicRequestFollowedInstance.CicRequestResultsFollowedId + ": " + CicRequestFollowedInstance.CicRequest.CicMessageTemplate.ObjetMail;
-                                 var bodyMessage = CicRequestFollowedInstance.CicRequest.CicMessageTemplate.ContenuMail;
+                            //on remplit les variables du message template
+                            map.Add("#{NomGestionnaire}", NomGestionnaire);
+                            ToolsClass toolsClass = new ToolsClass();
+                            var objet = "Suivi " + CicRequestFollowedInstance.CicRequestResultsFollowedId + ": " + CicRequestFollowedInstance.CicRequest.CicMessageTemplate.ObjetMail;
+                            var bodyMessage = CicRequestFollowedInstance.CicRequest.CicMessageTemplate.ContenuMail;
 
-                                 //Enregistrement du mail dans la table CicMessageMail
-                                 var CicMessageMail = new CicMessageMail();
-                                 CicMessageMail.CicRequestResultsFollowedId = CicRequestFollowedInstance.CicRequestResultsFollowedId;
-                                 CicMessageMail.DateMessage = DateTime.Now;
-                                 CicMessageMail.MessageContent = toolsClass.generateBodyMessage(map, bodyMessage);
-                                 CicMessageMail.ObjetMessage = objet;
-                                 CicMessageMail.Email = email;
-                                 CicMessageMail.UserMessage = "admin"; //TODO recuperer le user connecté
-                                 CicMessageMail.Sens = Sens.O.ToString();
-                                 CicMessageMailRepository.InsertOrUpdate(CicMessageMail);
-                                 CicMessageMailRepository.Save();
-                                 // on envoie le mail que si l'adresse mail du gestionnaire est renseignée
-                                 if (email != null && email != "")
-                                     ListCicMessageMail.Add(CicMessageMail);
+                            if (email != null && email != "")
+                            {
+                                //Enregistrement du mail dans la table CicMessageMail
+                                var CicMessageMail = new CicMessageMail();
+                                CicMessageMail.CicRequestResultsFollowedId = CicRequestFollowedInstance.CicRequestResultsFollowedId;
+                                CicMessageMail.DateMessage = DateTime.Now;
+                                CicMessageMail.MessageContent = toolsClass.generateBodyMessage(map, bodyMessage);
+                                CicMessageMail.ObjetMessage = objet;
+                                CicMessageMail.Email = email;
+                                CicMessageMail.UserMessage = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
+                                CicMessageMail.Sens = Sens.O.ToString();
+                                CicMessageMailRepository.InsertOrUpdate(CicMessageMail);
+                                CicMessageMailRepository.Save();
+                                // on envoie le mail que si l'adresse mail du gestionnaire est renseignée
+
+                                ListCicMessageMail.Add(CicMessageMail);
 
 
-                                 //Generation fichier excel (csv) 
-                                 var RowContentcsv = generateCSV(CicRequestFollowedInstance.RowContent);
-                                 //  Debug.WriteLine("RowContentcsv = " + RowContentcsv);
-                                 // transform en byte
-                                 byte[] RowContentbytes = Encoding.Default.GetBytes(RowContentcsv);
+                                //Generation fichier excel (csv) 
+                                var RowContentcsv = generateCSV(CicRequestFollowedInstance.RowContent);
+                                //  Debug.WriteLine("RowContentcsv = " + RowContentcsv);
+                                // transform en byte
+                                byte[] RowContentbytes = Encoding.Default.GetBytes(RowContentcsv);
 
-                                 //Enregistrement de la piece jointe dans la table CicMessageMailDocuments
-                                 CicMessageMailDocuments CicMessageMailDocuments = new CicMessageMailDocuments();
-                                 CicMessageMailDocuments.CicMessageMailId = CicMessageMail.CicMessageMailId;
-                                 CicMessageMailDocuments.DocumentName = "Operation_douteuse.csv";
-                                 CicMessageMailDocuments.DocumentType = "application/csv";
-                                 CicMessageMailDocuments.Document = RowContentbytes;
-                                 CicMessageMailDocuments.DateCreated = DateTime.Now;
-                                 CicMessageMailDocumentsRepository CicMessageMailDocumentsRepository = new CicMessageMailDocumentsRepository();
-                                 CicMessageMailDocumentsRepository.InsertOrUpdate(CicMessageMailDocuments);
-                                 CicMessageMailDocumentsRepository.Save();
+                                //Enregistrement de la piece jointe dans la table CicMessageMailDocuments
+                                CicMessageMailDocuments CicMessageMailDocuments = new CicMessageMailDocuments();
+                                CicMessageMailDocuments.CicMessageMailId = CicMessageMail.CicMessageMailId;
+                                CicMessageMailDocuments.DocumentName = "Operation_douteuse.csv";
+                                CicMessageMailDocuments.DocumentType = "application/csv";
+                                CicMessageMailDocuments.Document = RowContentbytes;
+                                CicMessageMailDocuments.DateCreated = DateTime.Now;
+                                CicMessageMailDocumentsRepository CicMessageMailDocumentsRepository = new CicMessageMailDocumentsRepository();
+                                CicMessageMailDocumentsRepository.InsertOrUpdate(CicMessageMailDocuments);
+                                CicMessageMailDocumentsRepository.Save();
 
-                                 //Update de CicRequestResultsFollowed
-                                 // on ne flag le suivi que si le adresse mail du gestionnaire est renseignée
-                                 // sinon on l'enregistre dans la liste des erreurs
-                                 if (email != null && email != "")
-                                 {
-                                     CicRequestFollowedInstance.Statut = Statut.ME.ToString();
-                                     CicrequestresultsfollowedRepository.InsertOrUpdate(CicRequestFollowedInstance);
-                                     CicrequestresultsfollowedRepository.Save();
-                                 }
-                                 else ListErrorMail.Add(CicRequestFollowedInstance);
+                                //Update de CicRequestResultsFollowed
+                                // on ne flag le suivi que si le adresse mail du gestionnaire est renseignée
+                                // sinon on l'enregistre dans la liste des erreurs
+                                /* if (email != null && email != "")
+                                 {*/
+                                CicRequestFollowedInstance.Statut = Statut.ME.ToString();
+                                CicrequestresultsfollowedRepository.InsertOrUpdate(CicRequestFollowedInstance);
+                                CicrequestresultsfollowedRepository.Save();
 
-                                 //Enregistrement de CicRequestExecution (audit log)
-                                 if (email != null && email != "")
-                                 {
-                                     var CicRequestExecutionInstance = new CicRequestExecution();
-                                     CicRequestExecutionInstance.CicRequestId = CicRequestFollowedInstance.CicRequestId;
-                                     CicRequestExecutionInstance.UserAction = "admin"; //TODO mettre le user connecté
-                                     CicRequestExecutionInstance.DateAction = DateTime.Now;
-                                     CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.MS.ToString();
-                                     CicRequestExecutionInstance.DateCreated = DateTime.Now;
-                                     CicRequestExecutionInstance.CicMessageMailId = CicMessageMail.CicMessageMailId;
-                                     CicRequestExecutionInstance.CicRequestResultsFollowedId = CicRequestFollowedInstance.CicRequestResultsFollowedId;
-                                     CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);
-                                     CicrequestExecutionRepository.Save();
-                                     nbre++;
-                                 }
-                             }
-                         }
-                     }
-                 }
+                                //Enregistrement de CicRequestExecution (audit log)
+                                var CicRequestExecutionInstance = new CicRequestExecution();
+                                CicRequestExecutionInstance.CicRequestId = CicRequestFollowedInstance.CicRequestId;
+                                CicRequestExecutionInstance.UserAction = Session["CurrentUser"] == null ? CurrentUser.Email : Session["CurrentUser"].ToString();
+                                CicRequestExecutionInstance.DateAction = DateTime.Now;
+                                CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.MS.ToString();
+                                CicRequestExecutionInstance.DateCreated = DateTime.Now;
+                                CicRequestExecutionInstance.CicMessageMailId = CicMessageMail.CicMessageMailId;
+                                CicRequestExecutionInstance.CicRequestResultsFollowedId = CicRequestFollowedInstance.CicRequestResultsFollowedId;
+                                CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);
+                                CicrequestExecutionRepository.Save();
+                                nbre++;
+                            }
+                            else ListErrorMail.Add(CicRequestFollowedInstance);
+                        }
+                    }
+                }
+            }
 
-                 //envoi du mail
-                 Task.Factory.StartNew(() =>
-                 {
-                     MailingClass MailingClass = new MailingClass();
-                     foreach (CicMessageMail mail in ListCicMessageMail)
-                     {
-                         CicMessageMailDocumentsRepository CicMessageMailDocumentsRepository = new CicMessageMailDocumentsRepository();
+            //envoi du mail
+            Task.Factory.StartNew(() =>
+            {
+                MailingClass MailingClass = new MailingClass();
+                foreach (CicMessageMail mail in ListCicMessageMail)
+                {
+                    CicMessageMailDocumentsRepository CicMessageMailDocumentsRepository = new CicMessageMailDocumentsRepository();
 
-                         ArrayList mailArray = new ArrayList();
-                         //  JArray mailArray = new JArray();
-                         mailArray.Add(JsonConvert.SerializeObject(mail.ConvertToMessageEntity()));
-                         var MessageMailDocumentsList = CicMessageMailDocumentsRepository.FindAllByCicMessageMail(mail.CicMessageMailId);
-                         foreach (CicMessageMailDocuments msgdoc in MessageMailDocumentsList)
-                         {
-                             //mailArray.Add(JsonConvert.SerializeObject(msgdoc.ConvertToMessageEntityPJ()));
-                             mailArray.Add(JsonConvert.SerializeObject(msgdoc.ConvertToMessageEntityPJ()));
-                         }
+                    ArrayList mailArray = new ArrayList();
+                    //  JArray mailArray = new JArray();
+                    mailArray.Add(JsonConvert.SerializeObject(mail.ConvertToMessageEntity()));
+                    var MessageMailDocumentsList = CicMessageMailDocumentsRepository.FindAllByCicMessageMail(mail.CicMessageMailId);
+                    foreach (CicMessageMailDocuments msgdoc in MessageMailDocumentsList)
+                    {
+                        //mailArray.Add(JsonConvert.SerializeObject(msgdoc.ConvertToMessageEntityPJ()));
+                        mailArray.Add(JsonConvert.SerializeObject(msgdoc.ConvertToMessageEntityPJ()));
+                    }
 
-                         var rstl = MailingClass.SendEmail(mailArray);
-                         Debug.WriteLine("MailingClass rstl = " + rstl);
-                         if (rstl == true)
-                         {
-                             mail.IsSent = IsSent.OK.ToString();
-                             CicMessageMailRepository.InsertOrUpdate(mail);
-                             CicMessageMailRepository.Save();
-                         }
-                         else
-                         {
-                             mail.IsSent = IsSent.KO.ToString();
-                             CicMessageMailRepository.InsertOrUpdate(mail);
-                             CicMessageMailRepository.Save();
-                         }
-                     }
-                 });
-                 if (ListErrorMail.Count > 0)
-                 {
-                     Debug.WriteLine("ListErrorMail = " + ListErrorMail.Count);
+                    var rstl = MailingClass.SendEmail(mailArray);
+                    Debug.WriteLine("MailingClass rstl = " + rstl);
+                    if (rstl == true)
+                    {
+                        mail.IsSent = IsSent.OK.ToString();
+                        CicMessageMailRepository.InsertOrUpdate(mail);
+                        CicMessageMailRepository.Save();
+                    }
+                    else
+                    {
+                        mail.IsSent = IsSent.KO.ToString();
+                        CicMessageMailRepository.InsertOrUpdate(mail);
+                        CicMessageMailRepository.Save();
+                    }
+                }
+            });
+            if (ListErrorMail.Count > 0)
+            {
+                Debug.WriteLine("ListErrorMail = " + ListErrorMail.Count);
 
-                     // TODO return vue erreur liste erreurs
-                     TempData["error"] = ListErrorMail.Count + " adresses emails n'ont pas pu être detectées. Veuillez les saisir";
-                     ViewBag.ListErrors = ListErrorMail;
-                     return RedirectToAction("SendMailGestionnaireManuel", ListErrorMail);
-                 }
-                 else
-                 {
-                     TempData["message"] = nbre + " message(s) a (ont) été envoyé avec succés";
-                     return RedirectToAction("Index");
-                 }*/
+                // TODO return vue erreur liste erreurs
+                TempData["error"] = ListErrorMail.Count + " adresses emails n'ont pas pu être detectées. Veuillez les saisir";
+                ViewBag.ListErrors = ListErrorMail;
+                return RedirectToAction("SendMailGestionnaireManuel", ListErrorMail);
+            }
+            else
+            {
+                TempData["message"] = nbre + " message(s) a (ont) été envoyé avec succés";
+                return RedirectToAction("Index");
+            }
         }
 
 
@@ -740,8 +748,8 @@ namespace cicaudittrail.Controllers
                 return RedirectToAction("IndexForMailResponses");
             }
 
-          //  Debug.WriteLine("action confirm = " + Request.Form["confirm"]);
-           // Debug.WriteLine("action cancel = " + Request.Form["cancel"]);
+            //  Debug.WriteLine("action confirm = " + Request.Form["confirm"]);
+            // Debug.WriteLine("action cancel = " + Request.Form["cancel"]);
 
             //  var StatutInstance = (Statut)System.Enum.Parse(typeof(Statut), statut);
             if (string.IsNullOrEmpty(Request.Form["confirm"])) //action == Cancel
@@ -818,14 +826,14 @@ namespace cicaudittrail.Controllers
         {
             ICicDiversRequestResultsRepository CicDiversRequestResultsRepository = new CicDiversRequestResultsRepository();
             string scriptDirectory = Path.Combine(HttpRuntime.AppDomainAppPath, "Content/sql");
-         //   Debug.WriteLine("scriptDirectory = " + scriptDirectory);
+            //   Debug.WriteLine("scriptDirectory = " + scriptDirectory);
             DirectoryInfo di = new DirectoryInfo(scriptDirectory);
             FileInfo[] rgFiles = di.GetFiles("*.sql");
             foreach (FileInfo fi in rgFiles)
             {
-               /* Debug.WriteLine("fi.FullName = " + fi.FullName);
-                Debug.WriteLine("fi.Name = " + fi.Name);
-                Debug.WriteLine("fi.Extension = " + fi.Extension);*/
+                /* Debug.WriteLine("fi.FullName = " + fi.FullName);
+                 Debug.WriteLine("fi.Name = " + fi.Name);
+                 Debug.WriteLine("fi.Extension = " + fi.Extension);*/
                 FileInfo fileInfo = new FileInfo(fi.FullName);
                 string script = fileInfo.OpenText().ReadToEnd();
 
@@ -954,6 +962,9 @@ namespace cicaudittrail.Controllers
                 CicRequestExecutionInstance.Action = cicaudittrail.Models.Action.CT.ToString();
                 CicRequestExecutionInstance.DateCreated = DateTime.Now;
                 CicRequestExecutionInstance.CicRequestResultsFollowedId = CicrequestresultsfollowedInstance.CicRequestResultsFollowedId;
+                CicRequestExecutionInstance.FileName = "generated_" + CicrequestresultsfollowedInstance.CicRequestResultsFollowedId + ".docx";
+                CicRequestExecutionInstance.FileType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                CicRequestExecutionInstance.CentifFile = System.IO.File.ReadAllBytes(destinationFile);
                 CicRequestExecutionRepository CicrequestExecutionRepository = new CicRequestExecutionRepository();
                 CicrequestExecutionRepository.InsertOrUpdate(CicRequestExecutionInstance);
                 CicrequestExecutionRepository.Save();
@@ -1029,11 +1040,11 @@ namespace cicaudittrail.Controllers
                 template.AddCustomProperty(new CustomProperty("DeclarationTypePersonne", "PERSONNE MORALE"));
 
                 template.AddCustomProperty(new CustomProperty("PersonneMoraleRaisonSoc", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("NOM")) ? "" : ((string)tokenCentif.SelectToken("NOM")).Trim()));
-                template.AddCustomProperty(new CustomProperty("PersonneMoraleSigle", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("NOM")) ? "" : ((string)tokenCentif.SelectToken("NOM")).Trim())); //TODO ask
-                template.AddCustomProperty(new CustomProperty("PersonneMoraleImmatriculation", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("INDICE")) ? "" : ((string)tokenCentif.SelectToken("INDICE")).Trim())); // TODO ask
-                template.AddCustomProperty(new CustomProperty("PersonneMoraleSecteurAct", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("SECTEUR")) ? "" : ((string)tokenCentif.SelectToken("SECTEUR")).Trim()));
-                template.AddCustomProperty(new CustomProperty("PersonneMoraleBp", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("SECTEUR")) ? "" : ((string)tokenCentif.SelectToken("SECTEUR")).Trim()));//TODO ask
-                template.AddCustomProperty(new CustomProperty("PersonneMoraleVille", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("SECTEUR")) ? "" : ((string)tokenCentif.SelectToken("SECTEUR")).Trim()));//TODO ask
+                template.AddCustomProperty(new CustomProperty("PersonneMoraleSigle", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("SIGLE")) ? "" : ((string)tokenCentif.SelectToken("SIGLE")).Trim()));
+                template.AddCustomProperty(new CustomProperty("PersonneMoraleImmatriculation", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("IMMATRICULATION")) ? "" : ((string)tokenCentif.SelectToken("IMMATRICULATION")).Trim()));
+                template.AddCustomProperty(new CustomProperty("PersonneMoraleSecteurAct", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("SECTEUR_ACTIVITE")) ? "" : ((string)tokenCentif.SelectToken("SECTEUR_ACTIVITE")).Trim()));
+                template.AddCustomProperty(new CustomProperty("PersonneMoraleBp", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("BOITE_POSTALE")) ? "" : ((string)tokenCentif.SelectToken("BOITE_POSTALE")).Trim()));
+                template.AddCustomProperty(new CustomProperty("PersonneMoraleVille", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("VILLE")) ? "" : ((string)tokenCentif.SelectToken("VILLE")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonneMoraleTel", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("TELEPHONE")) ? "" : ((string)tokenCentif.SelectToken("TELEPHONE")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonneMoraleFax", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("FAX")) ? "" : ((string)tokenCentif.SelectToken("FAX")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonneMoraleEmail", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("EMAIL")) ? "" : ((string)tokenCentif.SelectToken("EMAIL")).Trim()));
@@ -1044,10 +1055,10 @@ namespace cicaudittrail.Controllers
                 Debug.WriteLine("PHYSIQUE ");
 
                 template.AddCustomProperty(new CustomProperty("DeclarationTypePersonne", "PERSONNE PHYSIQUE"));
-                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueNom", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("NOM")) ? "" : ((string)tokenCentif.SelectToken("NOM")).Trim()));
-                template.AddCustomProperty(new CustomProperty("PersonnePhysiquePrenom", (string)tokenCentif.SelectToken("PRENOM")));
-                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateNaissance", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("Prenom")) ? "" : ((string)tokenCentif.SelectToken("Prenom")).Trim()));
-                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueLieuNaissance", (string)tokenCentif.SelectToken("VILLE_NAISSANCE")));//TODO diouf ask lieu naissance
+                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueNom", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("NOM")) ? "" : ((string)tokenCentif.SelectToken("PRENOM")).Trim()));
+                template.AddCustomProperty(new CustomProperty("PersonnePhysiquePrenom", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("PRENOM")) ? "" : ((string)tokenCentif.SelectToken("NOM")).Trim()));
+                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateNaissance", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("DATE_NAISSANCE")) ? "" : ((string)tokenCentif.SelectToken("DATE_NAISSANCE")).Trim()));
+                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueLieuNaissance", (string)tokenCentif.SelectToken("VILLE_NAISSANCE")));
                 template.AddCustomProperty(new CustomProperty("PersonnePhysiqueNationalite", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("NATIONALITE")) ? "" : ((string)tokenCentif.SelectToken("NATIONALITE")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonnePhysiqueSitFam", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("SITUATION_FAMILLE")) ? "" : ((string)tokenCentif.SelectToken("SITUATION_FAMILLE")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonnePhysiqueNomConjoint", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("NOM_CONJOINT")) ? "" : ((string)tokenCentif.SelectToken("NOM_CONJOINT")).Trim()));
@@ -1056,15 +1067,12 @@ namespace cicaudittrail.Controllers
                 template.AddCustomProperty(new CustomProperty("PersonnePhysiqueTypePiece", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("TYPE_DE_PIECE")) ? "" : ((string)tokenCentif.SelectToken("TYPE_DE_PIECE")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonnePhysiquePieceNum", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("NUM_PIECE")) ? "" : ((string)tokenCentif.SelectToken("NUM_PIECE")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonnePhysiquePieceDate", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("DATE_DELIVRANCE")) ? "" : ((string)tokenCentif.SelectToken("DATE_DELIVRANCE")).Trim()));
-                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueBp", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("Date_Naissance")) ? "" : ((string)tokenCentif.SelectToken("Date_Naissance")).Trim())); //TODO diouf ask bp
+                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueBp", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("BOITE_POSTALE")) ? "" : ((string)tokenCentif.SelectToken("BOITE_POSTALE")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonnePhysiqueLocalite", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("ADRESSE_COURRIER")) ? "" : ((string)tokenCentif.SelectToken("ADRESSE_COURRIER")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonnePhysiqueTel", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("TELEPHONE")) ? "" : ((string)tokenCentif.SelectToken("TELEPHONE")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonnePhysiqueFax", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("FAX")) ? "" : ((string)tokenCentif.SelectToken("FAX")).Trim()));
                 template.AddCustomProperty(new CustomProperty("PersonnePhysiqueEmail", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("EMAIL")) ? "" : ((string)tokenCentif.SelectToken("EMAIL")).Trim()));
-                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("DATE_EMBAUCHE")) ? "" : ((string)tokenCentif.SelectToken("DATE_EMBAUCHE")).Trim())); //TODO ask
-            /*    template.AddCustomProperty(new CustomProperty("PersonnePhysiqueNumCompte", string.IsNullOrWhiteSpace((string)tokenOperation.SelectToken("NumCompte")) ? "" : ((string)tokenOperation.SelectToken("NumCompte")).Trim()));
-                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueTypePieceOperation", string.IsNullOrWhiteSpace((string)tokenOperation.SelectToken("NumCompte")) ? "" : ((string)tokenOperation.SelectToken("NumCompte")).Trim()));//TODO diouf ask 
-                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueNumPieceOperation", string.IsNullOrWhiteSpace((string)tokenOperation.SelectToken("NumCompte")) ? "" : ((string)tokenOperation.SelectToken("NumCompte")).Trim()));//TODO ask*/
+                template.AddCustomProperty(new CustomProperty("PersonnePhysiqueDateEntree", string.IsNullOrWhiteSpace((string)tokenCentif.SelectToken("DATE_EMBAUCHE")) ? "" : ((string)tokenCentif.SelectToken("DATE_EMBAUCHE")).Trim()));
             }
 
 

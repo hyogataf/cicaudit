@@ -72,8 +72,9 @@ namespace cicaudittrail.Controllers
             }
 
             // Debug.WriteLine("DateTime.Today = " + DateTime.Today);
-            //  var listResults = CicrequestresultsRepository.FindAllByRequestAndDate(id, DateTime.Today).ToList<CicRequestResults>();// TODO remettre ça
-            var listResults = CicrequestresultsRepository.FindAllByRequest(id).ToList<CicRequestResults>();
+            var listResults = CicrequestresultsRepository.FindAllByRequestAndDate(id, DateTime.Today).ToList<CicRequestResults>();// TODO remettre ça
+            // var listResults = CicrequestresultsRepository.FindAllByRequestAndDate(id, DateTime.Today.AddDays(-1)).ToList<CicRequestResults>();
+            //  var listResults = CicrequestresultsRepository.FindAllByRequest(id).ToList<CicRequestResults>();
             //var test = Read(listResults).ToList();
             if (listResults.Any())
             {
@@ -238,7 +239,7 @@ namespace cicaudittrail.Controllers
 
                                     if (prop != null)
                                     {
-                                        if (dictionary.ContainsKey(prop))
+                                        if (dictionary.ContainsKey(prop) && !string.IsNullOrWhiteSpace(dictionary[prop]))
                                         {
                                             // Debug.WriteLine("prop = " + prop + ", value = " + dictionary[prop].Trim());
                                             CicFollowedPropertiesValuesRepository CicRequestPropValueRepository = new CicFollowedPropertiesValuesRepository();
@@ -378,7 +379,7 @@ namespace cicaudittrail.Controllers
             xlWorkBook = (Microsoft.Office.Interop.Excel.Workbook)(xlApp.Workbooks.Add(Missing.Value));
             xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.ActiveSheet;
 
-            var listResults = CicrequestresultsRepository.FindAllByRequest(id).ToList<CicRequestResults>();
+            var listResults = CicrequestresultsRepository.FindAllByRequestAndDate(id, DateTime.Now).ToList<CicRequestResults>();
             if (listResults.Any())
             {
                 var countline = 0;

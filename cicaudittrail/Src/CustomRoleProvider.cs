@@ -19,11 +19,8 @@ namespace cicaudittrail.Src
 
         public override string[] GetRolesForUser(string username)
         {
-            Debug.WriteLine("GetRolesForUser username = " + username);
             System.Web.Security.MembershipUser CurrentUser = System.Web.Security.Membership.GetUser();
-            Debug.WriteLine("GetRolesForUser CurrentUser = " + CurrentUser);
             if (CurrentUser != null) username = CurrentUser.Email;
-            Debug.WriteLine("GetRolesForUser username final = " + username);
 
             var Cicuserrolerepository = new CicUserRoleRepository();
             return Cicuserrolerepository.FindRoleNamesByUser(username);

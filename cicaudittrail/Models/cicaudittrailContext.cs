@@ -54,6 +54,9 @@ namespace cicaudittrail.Models
             //HasMany: CicMessageMails hasMany CicMessageMailDocuments
             modelBuilder.Entity<CicMessageMail>().HasMany(e => e.CicMessageMailDocuments).WithOptional(a => a.CicMessageMail).HasForeignKey(e => e.CicMessageMailId);
 
+            //CicRequestExecution: CentifFile nullable
+            modelBuilder.Entity<CicRequestExecution>().Property(m => m.CentifFile).IsOptional();
+            base.OnModelCreating(modelBuilder);
             // modelBuilder.Conventions.Remove<ColumnTypeCasingConvention>();
 
         }

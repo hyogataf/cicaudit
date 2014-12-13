@@ -430,6 +430,15 @@ namespace cicaudittrail.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Fichier centif.
+        /// </summary>
+        public static string CicRequestExecution_CentifFile {
+            get {
+                return ResourceManager.GetString("CicRequestExecution_CentifFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Message envoyé.
         /// </summary>
         public static string CicRequestExecution_CicMessageMail {

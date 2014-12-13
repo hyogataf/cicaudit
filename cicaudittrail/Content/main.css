@@ -34,6 +34,19 @@
 	text-decoration: none;
 }
 
+
+.btn-login a {
+	color: White;
+	text-decoration: none;
+}
+
+
+
+.btn-login {
+	background-color: #F8B332;
+	border-color: #f2b907;
+}
+
 .createLink {
 	margin: 10px;
 	text-align: right;
@@ -84,6 +97,10 @@ margin-top: 78px !important;
 
 a.dropdown-toggle{
 	color: #ffffff;
+}
+
+.headerImgdiv {
+	margin: 20px 0px;
 }
 
 

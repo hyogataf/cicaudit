@@ -23,13 +23,11 @@ namespace cicaudittrail.Models
         public virtual CicRequest CicRequest { get; set; }
 
 
-
         [Display(Name = "CicRequestExecutionCicRequestResultsFollowedId", ResourceType = typeof(Properties))]
         [Column("CICREQUESTRESULTSFOLLOWEDID")]
         public long? CicRequestResultsFollowedId { get; set; }
         [Display(Name = "CicRequestExecutionCicRequestResultsFollowed", ResourceType = typeof(Properties))]
         public virtual CicRequestResultsFollowed CicRequestResultsFollowed { get; set; }
-
 
 
         [Column("CICMESSAGEMAILID")]
@@ -56,6 +54,25 @@ namespace cicaudittrail.Models
         [Column("DATEACTION")]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime? DateAction { get; set; }
+
+        [Column("CENTIFFILE")]
+        [Display(Name = "CicRequestExecution_CentifFile", ResourceType = typeof(Properties))]
+        public byte[] CentifFile { get; set; }
+
+
+        [Column("FILENAME")]
+        [Display(Name = "CicRequestExecution_FileName", ResourceType = typeof(Properties))]
+        public string FileName { get; set; }
+
+        [Column("FILETYPE")]
+        [Display(Name = "CicRequestExecution_FileType", ResourceType = typeof(Properties))]
+        public string FileType { get; set; }
+
+        public CicRequestExecution()
+        {
+            CentifFile = new byte[0];
+            DateCreated = DateTime.Now;
+        }
 
     }
 

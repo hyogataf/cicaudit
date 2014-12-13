@@ -78,13 +78,15 @@ namespace cicaudittrail.Controllers
             }
             else
             {
+                CicMessageTemplateRepository CicMessageTemplateRepository = new CicMessageTemplateRepository();
+                ViewBag.PossibleCicMessageTemplate = CicMessageTemplateRepository.All;
                 return View();
             }
         }
 
         //
         // GET: /CicRequest/Edit/5
-
+        [Authorize(Roles = "Requeteur")]
         public ActionResult Edit(long id)
         {
             CicMessageTemplateRepository CicMessageTemplateRepository = new CicMessageTemplateRepository();
@@ -95,6 +97,7 @@ namespace cicaudittrail.Controllers
         //
         // POST: /CicRequest/Edit/5
 
+        [Authorize(Roles = "Requeteur")]
         [HttpPost]
         public ActionResult Edit(CicRequest Cicrequest)
         {
@@ -118,13 +121,15 @@ namespace cicaudittrail.Controllers
             }
             else
             {
+                CicMessageTemplateRepository CicMessageTemplateRepository = new CicMessageTemplateRepository();
+                ViewBag.PossibleCicMessageTemplate = CicMessageTemplateRepository.All;
                 return View();
             }
         }
 
         //
         // GET: /CicRequest/Delete/5
-
+        [Authorize(Roles = "Requeteur")]
         public ActionResult Delete(long id)
         {
             return View(CicrequestRepository.Find(id));
@@ -132,7 +137,7 @@ namespace cicaudittrail.Controllers
 
         //
         // POST: /CicRequest/Delete/5
-
+        [Authorize(Roles = "Requeteur")]
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(long id)
         {

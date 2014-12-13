@@ -121,60 +121,72 @@ namespace cicaudittrail.Jobs
                 Debug.WriteLine("job executed at= " + DateTime.Now);
                 ICicRequestRepository CicrequestRepository = new CicRequestRepository();
 
-
-
-
-                var listRequests = CicrequestRepository.All;
-                /*   OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings["cicaudittrailContext"].ConnectionString);
-                   var cmd = conn.CreateCommand();
-                   conn.Open();
-                   */
-
-                //TODO controller le nombre de tasks créés. 
-                /*
-                 * Ne plus avoir 'autant de tasks que de cicRequests'. 
-                 * Ex: 2 cicRequests par tasks
-                 * int nbreRequests = 2;
-                 * var index = 0;
-                 * foreach (var requestInstance in listRequests){
-                 *      ToolsClass tools = new ToolsClass();
-                        if (string.IsNullOrEmpty(requestInstance.Request) == false && tools.CheckSql(requestInstance.Request) == false)
-                        {     
-                 *          if (index % 2 == 0) {
-                 *              Task.Factory.StartNew
-                 *              .
-                 *              .
-                 *              .
-                 *             
-                 *          }
-                 *           index++;
-                 * }
-                 * */
-                foreach (var requestInstance in listRequests)
+                //Cette methode se lance si le tfj fini, i.e DataTfjEtat !=0
+                var DataTfjEtat = CicrequestRepository.GetContext.Database.SqlQuery<long>("select mnt2 from bknom@rep_to_stby where ctab='001' and cacc='99000'  and ROWNUM <= 1");
+                Debug.WriteLine("DataTfjEtat = " + DataTfjEtat);
+                var start = false;
+                foreach (var TfjEtat in DataTfjEtat)
                 {
-                    ToolsClass tools = new ToolsClass();
-                    if (string.IsNullOrEmpty(requestInstance.Request) == false && tools.CheckSql(requestInstance.Request) == false)
+                    Debug.WriteLine("TfjEtat = " + TfjEtat);
+                   // if (TfjEtat != 0) start = true;
+                    if (TfjEtat == 0) start = true;
+                }
+
+                if (start == true)
+                {
+
+                    var listRequests = CicrequestRepository.All;
+                    /*   OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings["cicaudittrailContext"].ConnectionString);
+                       var cmd = conn.CreateCommand();
+                       conn.Open();
+                       */
+
+                    //TODO controller le nombre de tasks créés. 
+                    /*
+                     * Ne plus avoir 'autant de tasks que de cicRequests'. 
+                     * Ex: 2 cicRequests par tasks
+                     * int nbreRequests = 2;
+                     * var index = 0;
+                     * foreach (var requestInstance in listRequests){
+                     *      ToolsClass tools = new ToolsClass();
+                            if (string.IsNullOrEmpty(requestInstance.Request) == false && tools.CheckSql(requestInstance.Request) == false)
+                            {     
+                     *          if (index % 2 == 0) {
+                     *              Task.Factory.StartNew
+                     *              .
+                     *              .
+                     *              .
+                     *             
+                     *          }
+                     *           index++;
+                     * }
+                     * */
+                    foreach (var requestInstance in listRequests)
                     {
-                        CicRequest requestCopy = requestInstance;
-                        //   Debug.WriteLine("Before ExecuteTrigger = " + requestCopy.CicRequestId);
-                        //On declenche une tache d'execution de l'action en parallele
-                        Task.Factory.StartNew(() => { ExecuteTrigger(requestCopy); });
+                        ToolsClass tools = new ToolsClass();
+                        if (string.IsNullOrEmpty(requestInstance.Request) == false && tools.CheckSql(requestInstance.Request) == false)
+                        {
+                            CicRequest requestCopy = requestInstance;
+                            //   Debug.WriteLine("Before ExecuteTrigger = " + requestCopy.CicRequestId);
+                            //On declenche une tache d'execution de l'action en parallele
+                            Task.Factory.StartNew(() => { ExecuteTrigger(requestCopy); });
 
-                        /*    var sqlrequest = PaginateSql(requestInstance.Request);
+                            /*    var sqlrequest = PaginateSql(requestInstance.Request);
 
-                            cmd.CommandText = sqlrequest;
-                            var executionNumber = 0;
-                            do
-                            {
-                                Debug.WriteLine(" executionNumber = " + executionNumber);
-                                executionNumber = executeSql(executionNumber, cmd, requestInstance);
-                                OracleConnection.ClearAllPools();
-                            } while (executionNumber > 0);*/
+                                cmd.CommandText = sqlrequest;
+                                var executionNumber = 0;
+                                do
+                                {
+                                    Debug.WriteLine(" executionNumber = " + executionNumber);
+                                    executionNumber = executeSql(executionNumber, cmd, requestInstance);
+                                    OracleConnection.ClearAllPools();
+                                } while (executionNumber > 0);*/
 
-                    }
-                }// end foreach (var requestInstance in listRequests)
-                /*  cmd.Dispose();
-                  conn.Close();*/
+                        }
+                    }// end foreach (var requestInstance in listRequests)
+                    /*  cmd.Dispose();
+                      conn.Close();*/
+                }
             }
             catch (Exception ex)
             {
